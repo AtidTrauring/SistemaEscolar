@@ -28,7 +28,7 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
 
         JpnlLienzo = new javax.swing.JPanel();
         JSPTablaGrupo = new javax.swing.JScrollPane();
-        JtableKardex = new javax.swing.JTable();
+        JtableGrupo = new javax.swing.JTable();
         JbtnActualizaGrupo = new javax.swing.JButton();
         JbtnEliminaAlumno = new javax.swing.JButton();
         JlblGrupo = new javax.swing.JLabel();
@@ -42,7 +42,7 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
-        JtableKardex.setModel(new javax.swing.table.DefaultTableModel(
+        JtableGrupo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -50,12 +50,10 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
                 "Matricula", "Nombre del alumno"
             }
         ));
-        JSPTablaGrupo.setViewportView(JtableKardex);
+        JSPTablaGrupo.setViewportView(JtableGrupo);
 
-        JbtnActualizaGrupo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         JbtnActualizaGrupo.setText("Actualizar grupo");
 
-        JbtnEliminaAlumno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         JbtnEliminaAlumno.setText("Eliminar alumno");
 
         JlblGrupo.setText("Grupo");
@@ -164,6 +162,6 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
     private javax.swing.JLabel JlblCiclo;
     private javax.swing.JLabel JlblGrupo;
     private javax.swing.JPanel JpnlLienzo;
-    private javax.swing.JTable JtableKardex;
+    private javax.swing.JTable JtableGrupo;
     // End of variables declaration//GEN-END:variables
 }
