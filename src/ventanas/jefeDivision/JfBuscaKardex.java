@@ -67,6 +67,8 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         JtxtNombreAlumno = new javax.swing.JTextField();
         JlblMatriculaAlumno = new javax.swing.JLabel();
         JtxtMatriculaAlumno = new javax.swing.JTextField();
+        JbtnActualizaDato = new javax.swing.JButton();
+        JbtnEliminaAlumno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Kardex");
@@ -102,6 +104,12 @@ public class JfBuscaKardex extends javax.swing.JFrame {
             }
         });
 
+        JbtnActualizaDato.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        JbtnActualizaDato.setText("Actualizar datos");
+
+        JbtnEliminaAlumno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        JbtnEliminaAlumno.setText("Eliminar alumno");
+
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
         JpnlLienzoLayout.setHorizontalGroup(
@@ -112,7 +120,10 @@ public class JfBuscaKardex extends javax.swing.JFrame {
                     .addComponent(JlblNombreAlumno)
                     .addComponent(JtxtNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JlblMatriculaAlumno)
-                    .addComponent(JtxtMatriculaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JtxtMatriculaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(JbtnEliminaAlumno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JbtnActualizaDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JSPTablaKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -129,7 +140,11 @@ public class JfBuscaKardex extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JlblMatriculaAlumno)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JtxtMatriculaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JtxtMatriculaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JbtnActualizaDato)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JbtnEliminaAlumno))
                     .addComponent(JSPTablaKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -194,6 +209,8 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane JSPTablaKardex;
+    private javax.swing.JButton JbtnActualizaDato;
+    private javax.swing.JButton JbtnEliminaAlumno;
     private javax.swing.JLabel JlblMatriculaAlumno;
     private javax.swing.JLabel JlblNombreAlumno;
     private javax.swing.JPanel JpnlLienzo;

@@ -14,11 +14,6 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JlblFondoJefe = new javax.swing.JLabel();
         JmbListaOpciones = new javax.swing.JMenuBar();
         JmnAlumno = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         JmiBuscaKardex = new javax.swing.JMenuItem();
         JmiBuscaAlumno = new javax.swing.JMenuItem();
         JmiReprobado = new javax.swing.JMenuItem();
@@ -42,6 +37,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnDocentes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        JmnAgregar = new javax.swing.JMenu();
+        JmiAgregaDireccion = new javax.swing.JMenuItem();
+        JmiAgregaTelefono = new javax.swing.JMenuItem();
+        JmiAgregaCorreo = new javax.swing.JMenuItem();
+        JmiAgregaPersona = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Jefe de Division");
@@ -69,22 +69,6 @@ public class JfMenuJefe extends javax.swing.JFrame {
         );
 
         JmnAlumno.setText("Alumnos");
-
-        jMenu1.setText("Agregar datos de alumnos");
-
-        jMenuItem3.setText("Agregar dirección");
-        jMenu1.add(jMenuItem3);
-
-        jMenuItem4.setText("Agregar telefono");
-        jMenu1.add(jMenuItem4);
-
-        jMenuItem5.setText("Agregar correo");
-        jMenu1.add(jMenuItem5);
-
-        jMenuItem6.setText("Registrar alumno");
-        jMenu1.add(jMenuItem6);
-
-        JmnAlumno.add(jMenu1);
 
         JmiBuscaKardex.setText("Buscar kardex");
         JmnAlumno.add(JmiBuscaKardex);
@@ -163,6 +147,22 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
         JmbListaOpciones.add(JmnDocentes);
 
+        JmnAgregar.setText("Agregar docente/alumno");
+
+        JmiAgregaDireccion.setText("Agregar dirección");
+        JmnAgregar.add(JmiAgregaDireccion);
+
+        JmiAgregaTelefono.setText("Agregar telefono");
+        JmnAgregar.add(JmiAgregaTelefono);
+
+        JmiAgregaCorreo.setText("Agregar correo");
+        JmnAgregar.add(JmiAgregaCorreo);
+
+        JmiAgregaPersona.setText("Agregar persona");
+        JmnAgregar.add(JmiAgregaPersona);
+
+        JmbListaOpciones.add(JmnAgregar);
+
         setJMenuBar(JmbListaOpciones);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,7 +219,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private javax.swing.JLabel JlblFondoJefe;
     private javax.swing.JMenuBar JmbListaOpciones;
     private javax.swing.JMenuItem JmiAgregaAsignatura;
+    private javax.swing.JMenuItem JmiAgregaCorreo;
+    private javax.swing.JMenuItem JmiAgregaDireccion;
+    private javax.swing.JMenuItem JmiAgregaPersona;
     private javax.swing.JMenuItem JmiAgregaSubtema;
+    private javax.swing.JMenuItem JmiAgregaTelefono;
     private javax.swing.JMenuItem JmiAgregaUnidad;
     private javax.swing.JMenuItem JmiAsignaAlumno;
     private javax.swing.JMenuItem JmiAsignaAsignatura;
@@ -233,6 +237,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private javax.swing.JMenuItem JmiBuscaUnidad;
     private javax.swing.JMenuItem JmiCreaGrupo;
     private javax.swing.JMenuItem JmiReprobado;
+    private javax.swing.JMenu JmnAgregar;
     private javax.swing.JMenu JmnAlumno;
     private javax.swing.JMenu JmnAsignatura;
     private javax.swing.JMenu JmnDocentes;
@@ -241,12 +246,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private javax.swing.JMenu JmnTemario;
     private javax.swing.JMenu JmnUnidades;
     private javax.swing.JPanel JpnlLienzo;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }
