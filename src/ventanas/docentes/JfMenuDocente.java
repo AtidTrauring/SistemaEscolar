@@ -14,8 +14,6 @@ public class JfMenuDocente extends javax.swing.JFrame {
         JlblFondoDocente = new javax.swing.JLabel();
         JmbListaOpciones = new javax.swing.JMenuBar();
         JmnCalificacion = new javax.swing.JMenu();
-        JmiAsignaCalificacion = new javax.swing.JMenuItem();
-        JmiBuscaAlumno = new javax.swing.JMenuItem();
         JmnBuscaGrupo = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -44,13 +42,6 @@ public class JfMenuDocente extends javax.swing.JFrame {
         );
 
         JmnCalificacion.setText("Calificaciones");
-
-        JmiAsignaCalificacion.setText("Asignar calificaciones");
-        JmnCalificacion.add(JmiAsignaCalificacion);
-
-        JmiBuscaAlumno.setText("Buscar alumno");
-        JmnCalificacion.add(JmiBuscaAlumno);
-
         JmbListaOpciones.add(JmnCalificacion);
 
         JmnBuscaGrupo.setText("Mis grupos");
@@ -111,8 +102,6 @@ public class JfMenuDocente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JlblFondoDocente;
     private javax.swing.JMenuBar JmbListaOpciones;
-    private javax.swing.JMenuItem JmiAsignaCalificacion;
-    private javax.swing.JMenuItem JmiBuscaAlumno;
     private javax.swing.JMenu JmnBuscaGrupo;
     private javax.swing.JMenu JmnCalificacion;
     private javax.swing.JPanel JpnlLienzo;

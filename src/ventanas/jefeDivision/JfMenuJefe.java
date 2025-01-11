@@ -14,29 +14,29 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JlblFondoJefe = new javax.swing.JLabel();
         JmbListaOpciones = new javax.swing.JMenuBar();
         JmnAlumno = new javax.swing.JMenu();
+        JmiAgregaAlumno = new javax.swing.JMenuItem();
         JmiBuscaKardex = new javax.swing.JMenuItem();
         JmiBuscaAlumno = new javax.swing.JMenuItem();
         JmiReprobado = new javax.swing.JMenuItem();
+        JmiAlumnoInscrito = new javax.swing.JMenuItem();
+        JmiAlumnoPromedio = new javax.swing.JMenuItem();
         JmnGrupo = new javax.swing.JMenu();
         JmiCreaGrupo = new javax.swing.JMenuItem();
+        JmiBuscaGrupo = new javax.swing.JMenuItem();
         JmiAsignaAlumno = new javax.swing.JMenuItem();
         JmiAsignaAsignatura = new javax.swing.JMenuItem();
-        JmiAsignaDocente = new javax.swing.JMenuItem();
-        JmiBuscaGrupo = new javax.swing.JMenuItem();
         JmnAsignatura = new javax.swing.JMenu();
         JmiAgregaAsignatura = new javax.swing.JMenuItem();
-        JmiAsignaUnidad = new javax.swing.JMenuItem();
-        JmiAsignaSubtema = new javax.swing.JMenuItem();
         JmnTemario = new javax.swing.JMenu();
-        JmnUnidades = new javax.swing.JMenu();
         JmiAgregaUnidad = new javax.swing.JMenuItem();
-        JmiBuscaUnidad = new javax.swing.JMenuItem();
-        JmnSubtemas = new javax.swing.JMenu();
         JmiAgregaSubtema = new javax.swing.JMenuItem();
-        JmiBuscaSubtema = new javax.swing.JMenuItem();
+        JmiBuscaTemario = new javax.swing.JMenuItem();
+        JmiBuscaAsignatura = new javax.swing.JMenuItem();
+        JmiIndeReprobada = new javax.swing.JMenuItem();
         JmnDocentes = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        JmiAgregaDocente = new javax.swing.JMenuItem();
+        JmiBuscaDocente = new javax.swing.JMenuItem();
+        JmiGrupoDocente = new javax.swing.JMenuItem();
         JmnAgregar = new javax.swing.JMenu();
         JmiAgregaDireccion = new javax.swing.JMenuItem();
         JmiAgregaTelefono = new javax.swing.JMenuItem();
@@ -70,14 +70,23 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
         JmnAlumno.setText("Alumnos");
 
-        JmiBuscaKardex.setText("Buscar kardex");
+        JmiAgregaAlumno.setText("Agregar alumno");
+        JmnAlumno.add(JmiAgregaAlumno);
+
+        JmiBuscaKardex.setText("Kardex del alumno");
         JmnAlumno.add(JmiBuscaKardex);
 
         JmiBuscaAlumno.setText("Buscar alumnos");
         JmnAlumno.add(JmiBuscaAlumno);
 
-        JmiReprobado.setText("Reprobados");
+        JmiReprobado.setText("Alumnos reprobados");
         JmnAlumno.add(JmiReprobado);
+
+        JmiAlumnoInscrito.setText("Alumnos inscritos");
+        JmnAlumno.add(JmiAlumnoInscrito);
+
+        JmiAlumnoPromedio.setText("Alumnos por promedio");
+        JmnAlumno.add(JmiAlumnoPromedio);
 
         JmbListaOpciones.add(JmnAlumno);
 
@@ -86,17 +95,14 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmiCreaGrupo.setText("Crear grupo");
         JmnGrupo.add(JmiCreaGrupo);
 
+        JmiBuscaGrupo.setText("Buscar grupo");
+        JmnGrupo.add(JmiBuscaGrupo);
+
         JmiAsignaAlumno.setText("Asignar alumnos");
         JmnGrupo.add(JmiAsignaAlumno);
 
         JmiAsignaAsignatura.setText("Asignar asignaturas");
         JmnGrupo.add(JmiAsignaAsignatura);
-
-        JmiAsignaDocente.setText("Asignar docentes");
-        JmnGrupo.add(JmiAsignaDocente);
-
-        JmiBuscaGrupo.setText("Buscar grupo");
-        JmnGrupo.add(JmiBuscaGrupo);
 
         JmbListaOpciones.add(JmnGrupo);
 
@@ -105,45 +111,37 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmiAgregaAsignatura.setText("Agregar asignatura");
         JmnAsignatura.add(JmiAgregaAsignatura);
 
-        JmiAsignaUnidad.setText("Asignar unidad");
-        JmnAsignatura.add(JmiAsignaUnidad);
+        JmnTemario.setText("Temarios");
 
-        JmiAsignaSubtema.setText("Asignar subtema");
-        JmnAsignatura.add(JmiAsignaSubtema);
+        JmiAgregaUnidad.setText("Agregar unidad");
+        JmnTemario.add(JmiAgregaUnidad);
+
+        JmiAgregaSubtema.setText("Agregar subtema");
+        JmnTemario.add(JmiAgregaSubtema);
+
+        JmiBuscaTemario.setText("Consultar temarios");
+        JmnTemario.add(JmiBuscaTemario);
+
+        JmnAsignatura.add(JmnTemario);
+
+        JmiBuscaAsignatura.setText("Buscar asignatura");
+        JmnAsignatura.add(JmiBuscaAsignatura);
+
+        JmiIndeReprobada.setText("Indice de reprobadas");
+        JmnAsignatura.add(JmiIndeReprobada);
 
         JmbListaOpciones.add(JmnAsignatura);
 
-        JmnTemario.setText("Temarios");
-
-        JmnUnidades.setText("Unidades");
-
-        JmiAgregaUnidad.setText("Agregar unidad");
-        JmnUnidades.add(JmiAgregaUnidad);
-
-        JmiBuscaUnidad.setText("Buscar unidad");
-        JmnUnidades.add(JmiBuscaUnidad);
-
-        JmnTemario.add(JmnUnidades);
-
-        JmnSubtemas.setText("Subtemas");
-
-        JmiAgregaSubtema.setText("Agregar subtema");
-        JmnSubtemas.add(JmiAgregaSubtema);
-
-        JmiBuscaSubtema.setText("Buscar subtema");
-        JmnSubtemas.add(JmiBuscaSubtema);
-
-        JmnTemario.add(JmnSubtemas);
-
-        JmbListaOpciones.add(JmnTemario);
-
         JmnDocentes.setText("Docentes");
 
-        jMenuItem1.setText("Agregar docente");
-        JmnDocentes.add(jMenuItem1);
+        JmiAgregaDocente.setText("Agregar docente");
+        JmnDocentes.add(JmiAgregaDocente);
 
-        jMenuItem2.setText("Buscar docente");
-        JmnDocentes.add(jMenuItem2);
+        JmiBuscaDocente.setText("Buscar docente");
+        JmnDocentes.add(JmiBuscaDocente);
+
+        JmiGrupoDocente.setText("Grupos atendidos por docentes");
+        JmnDocentes.add(JmiGrupoDocente);
 
         JmbListaOpciones.add(JmnDocentes);
 
@@ -218,35 +216,35 @@ public class JfMenuJefe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JlblFondoJefe;
     private javax.swing.JMenuBar JmbListaOpciones;
+    private javax.swing.JMenuItem JmiAgregaAlumno;
     private javax.swing.JMenuItem JmiAgregaAsignatura;
     private javax.swing.JMenuItem JmiAgregaCorreo;
     private javax.swing.JMenuItem JmiAgregaDireccion;
+    private javax.swing.JMenuItem JmiAgregaDocente;
     private javax.swing.JMenuItem JmiAgregaPersona;
     private javax.swing.JMenuItem JmiAgregaSubtema;
     private javax.swing.JMenuItem JmiAgregaTelefono;
     private javax.swing.JMenuItem JmiAgregaUnidad;
+    private javax.swing.JMenuItem JmiAlumnoInscrito;
+    private javax.swing.JMenuItem JmiAlumnoPromedio;
     private javax.swing.JMenuItem JmiAsignaAlumno;
     private javax.swing.JMenuItem JmiAsignaAsignatura;
-    private javax.swing.JMenuItem JmiAsignaDocente;
-    private javax.swing.JMenuItem JmiAsignaSubtema;
-    private javax.swing.JMenuItem JmiAsignaUnidad;
     private javax.swing.JMenuItem JmiBuscaAlumno;
+    private javax.swing.JMenuItem JmiBuscaAsignatura;
+    private javax.swing.JMenuItem JmiBuscaDocente;
     private javax.swing.JMenuItem JmiBuscaGrupo;
     private javax.swing.JMenuItem JmiBuscaKardex;
-    private javax.swing.JMenuItem JmiBuscaSubtema;
-    private javax.swing.JMenuItem JmiBuscaUnidad;
+    private javax.swing.JMenuItem JmiBuscaTemario;
     private javax.swing.JMenuItem JmiCreaGrupo;
+    private javax.swing.JMenuItem JmiGrupoDocente;
+    private javax.swing.JMenuItem JmiIndeReprobada;
     private javax.swing.JMenuItem JmiReprobado;
     private javax.swing.JMenu JmnAgregar;
     private javax.swing.JMenu JmnAlumno;
     private javax.swing.JMenu JmnAsignatura;
     private javax.swing.JMenu JmnDocentes;
     private javax.swing.JMenu JmnGrupo;
-    private javax.swing.JMenu JmnSubtemas;
     private javax.swing.JMenu JmnTemario;
-    private javax.swing.JMenu JmnUnidades;
     private javax.swing.JPanel JpnlLienzo;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

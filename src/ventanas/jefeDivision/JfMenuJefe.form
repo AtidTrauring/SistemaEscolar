@@ -9,9 +9,14 @@
             <Property name="text" type="java.lang.String" value="Alumnos"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaAlumno">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Agregar alumno"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaKardex">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar kardex"/>
+                <Property name="text" type="java.lang.String" value="Kardex del alumno"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaAlumno">
@@ -21,7 +26,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiReprobado">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reprobados"/>
+                <Property name="text" type="java.lang.String" value="Alumnos reprobados"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiAlumnoInscrito">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Alumnos inscritos"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiAlumnoPromedio">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Alumnos por promedio"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -36,6 +51,11 @@
                 <Property name="text" type="java.lang.String" value="Crear grupo"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaGrupo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Buscar grupo"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaAlumno">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Asignar alumnos"/>
@@ -44,16 +64,6 @@
             <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaAsignatura">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Asignar asignaturas"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaDocente">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Asignar docentes"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaGrupo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar grupo"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -68,26 +78,9 @@
                 <Property name="text" type="java.lang.String" value="Agregar asignatura"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaUnidad">
+            <Menu class="javax.swing.JMenu" name="JmnTemario">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Asignar unidad"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaSubtema">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Asignar subtema"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="JmnTemario">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Temarios"/>
-          </Properties>
-          <SubComponents>
-            <Menu class="javax.swing.JMenu" name="JmnUnidades">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Unidades"/>
+                <Property name="text" type="java.lang.String" value="Temarios"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaUnidad">
@@ -95,30 +88,28 @@
                     <Property name="text" type="java.lang.String" value="Agregar unidad"/>
                   </Properties>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaUnidad">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Buscar unidad"/>
-                  </Properties>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="JmnSubtemas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Subtemas"/>
-              </Properties>
-              <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaSubtema">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Agregar subtema"/>
                   </Properties>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaSubtema">
+                <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaTemario">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Buscar subtema"/>
+                    <Property name="text" type="java.lang.String" value="Consultar temarios"/>
                   </Properties>
                 </MenuItem>
               </SubComponents>
             </Menu>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaAsignatura">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Buscar asignatura"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiIndeReprobada">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Indice de reprobadas"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="JmnDocentes">
@@ -126,14 +117,19 @@
             <Property name="text" type="java.lang.String" value="Docentes"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaDocente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar docente"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaDocente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar docente"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JmiGrupoDocente">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Grupos atendidos por docentes"/>
               </Properties>
             </MenuItem>
           </SubComponents>

@@ -41,11 +41,6 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         );
 
         JmnConsultaHistorial.setText("Historial Academico");
-        JmnConsultaHistorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JmnConsultaHistorialActionPerformed(evt);
-            }
-        });
         JmbListaOpciones.add(JmnConsultaHistorial);
 
         setJMenuBar(JmbListaOpciones);
@@ -64,11 +59,6 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void JmnConsultaHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmnConsultaHistorialActionPerformed
-        // Venta de Historial
-        
-    }//GEN-LAST:event_JmnConsultaHistorialActionPerformed
 
     /**
      * @param args the command line arguments
