@@ -8,11 +8,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Calificaciones"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JmnCalificacionMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="JmnBuscaGrupo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Mis grupos"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JmnBuscaGrupoMouseClicked"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>
@@ -28,7 +34,7 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>

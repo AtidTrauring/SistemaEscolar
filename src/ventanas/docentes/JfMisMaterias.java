@@ -1,11 +1,15 @@
 package ventanas.docentes;
 
+import utilitarios.CUtilitarios;
 import ventanas.jefeDivision.*;
 
 public class JfMisMaterias extends javax.swing.JFrame {
 
-    public JfMisMaterias() {
+    private static String[] datosDocente;
+
+    public JfMisMaterias(String[] datos) {
         initComponents();
+        datosDocente = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +31,11 @@ public class JfMisMaterias extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Grupos por docentes");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -123,9 +132,11 @@ public class JfMisMaterias extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        JfMenuDocente md = new JfMenuDocente(datosDocente);
+        CUtilitarios.creaFrame(md, datosDocente[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -149,12 +160,9 @@ public class JfMisMaterias extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfMisMaterias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfMisMaterias().setVisible(true);
+                new JfMisMaterias(datosDocente).setVisible(true);
             }
         });
     }

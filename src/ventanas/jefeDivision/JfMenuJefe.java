@@ -1,6 +1,6 @@
 package ventanas.jefeDivision;
 
-import javax.swing.JFrame;
+import utilitarios.CUtilitarios;
 import ventanas.JfInicionSesion;
 
 public class JfMenuJefe extends javax.swing.JFrame {
@@ -10,13 +10,6 @@ public class JfMenuJefe extends javax.swing.JFrame {
     public JfMenuJefe(String[] datos) {
         initComponents();
         datosJefe = datos;
-    }
-
-    public void creaFrame(JFrame frm, String titulo) {
-        frm.setVisible(true);
-        frm.setLocationRelativeTo(null);
-        frm.setResizable(false);
-        frm.setTitle(titulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -92,18 +85,43 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnAlumno.setText("Alumnos");
 
         JmiAgregaAlumno.setText("Agregar alumno");
+        JmiAgregaAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaAlumnoActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiAgregaAlumno);
 
         JmiBuscaKardex.setText("Kardex del alumno");
+        JmiBuscaKardex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaKardexActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiBuscaKardex);
 
         JmiBuscaAlumno.setText("Buscar alumnos");
+        JmiBuscaAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaAlumnoActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiBuscaAlumno);
 
         JmiReprobado.setText("Alumnos reprobados");
+        JmiReprobado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiReprobadoActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiReprobado);
 
         JmiAlumnoInscrito.setText("Alumnos inscritos");
+        JmiAlumnoInscrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAlumnoInscritoActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiAlumnoInscrito);
 
         JmiAlumnoPromedio.setText("Alumnos por promedio");
@@ -156,6 +174,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnDocentes.setText("Docentes");
 
         JmiAgregaDocente.setText("Agregar docente");
+        JmiAgregaDocente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaDocenteActionPerformed(evt);
+            }
+        });
         JmnDocentes.add(JmiAgregaDocente);
 
         JmiBuscaDocente.setText("Buscar docente");
@@ -205,12 +228,41 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         JfInicionSesion is = new JfInicionSesion();
-        creaFrame(is, "Inicio de sesion");
+        CUtilitarios.creaFrame(is, "Inicio de sesion");
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
+    private void JmiAgregaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaAlumnoActionPerformed
+        JfAPersona ap = new JfAPersona(datosJefe, "Alumno", "Enviar");
+        CUtilitarios.creaFrame(ap, "Agregar estudiante");
+        this.hide();
+    }//GEN-LAST:event_JmiAgregaAlumnoActionPerformed
+
+    private void JmiAgregaDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaDocenteActionPerformed
+        JfAPersona ap = new JfAPersona(datosJefe, "Docente", "Enviar");
+        CUtilitarios.creaFrame(ap, "Agregar docente");
+        this.hide();
+    }//GEN-LAST:event_JmiAgregaDocenteActionPerformed
+
+    private void JmiBuscaKardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaKardexActionPerformed
+        JfBuscaKardex bk = new JfBuscaKardex(datosJefe);
+        CUtilitarios.creaFrame(bk, "Buscar kardex");
+    }//GEN-LAST:event_JmiBuscaKardexActionPerformed
+
+    private void JmiBuscaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaAlumnoActionPerformed
+        JfBuscaAlumno ba = new JfBuscaAlumno(datosJefe);
+        CUtilitarios.creaFrame(ba, "Busca alumno");
+    }//GEN-LAST:event_JmiBuscaAlumnoActionPerformed
+
+    private void JmiReprobadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiReprobadoActionPerformed
+        JfReprobado r = new JfReprobado(datosJefe);
+        CUtilitarios.creaFrame(r, "Alumnos reprobados");
+    }//GEN-LAST:event_JmiReprobadoActionPerformed
+
+    private void JmiAlumnoInscritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAlumnoInscritoActionPerformed
+        // TODO add your handling code here:
+        JfPromedioGrupo pg = new JfPromedioGrupo(datosJefe);
+        CUtilitarios.creaFrame(pg, "Alumnos inscritos");
+    }//GEN-LAST:event_JmiAlumnoInscritoActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -234,8 +286,6 @@ public class JfMenuJefe extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfMenuJefe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new JfMenuJefe(datosJefe).setVisible(true);

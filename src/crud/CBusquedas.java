@@ -59,6 +59,7 @@ public class CBusquedas {
         return cnslt.buscarValoresLista(consulta, 3);
     }
 
+    // --------------------- Busquedas JfMenuAlumnos ---------------------
     public ArrayList<String[]> buscaHistorialEstudiante(String idEstudiante) throws SQLException {
         consulta = "SELECT a.nombre_asignatura, a.creditos, "
                 + "ev.calificacion, c.ciclo "

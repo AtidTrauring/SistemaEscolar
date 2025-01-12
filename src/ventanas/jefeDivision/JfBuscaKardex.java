@@ -15,9 +15,11 @@ public class JfBuscaKardex extends javax.swing.JFrame {
     private TableRowSorter tr;
     private final CBusquedas queryBusca = new CBusquedas();
     private ArrayList<String[]> datosKardex = new ArrayList<>();
+    private static String[] datosJefe;
 
-    public JfBuscaKardex() {
+    public JfBuscaKardex(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     private void limpiarTabla() {
@@ -40,7 +42,6 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 //            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
 //        }
 //    }
-
     public void aplicaFiltros() {
         modelo = (DefaultTableModel) JtableKardex.getModel();
         tr = new TableRowSorter<>(modelo);
@@ -73,6 +74,11 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Kardex");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -104,10 +110,8 @@ public class JfBuscaKardex extends javax.swing.JFrame {
             }
         });
 
-        JbtnActualizaDato.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         JbtnActualizaDato.setText("Actualizar datos");
 
-        JbtnEliminaAlumno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         JbtnEliminaAlumno.setText("Eliminar alumno");
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
@@ -172,9 +176,10 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         aplicaFiltros();
     }//GEN-LAST:event_JtxtMatriculaAlumnoKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -198,11 +203,9 @@ public class JfBuscaKardex extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfBuscaKardex.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfBuscaKardex().setVisible(true);
+                new JfBuscaKardex(datosJefe).setVisible(true);
             }
         });
     }

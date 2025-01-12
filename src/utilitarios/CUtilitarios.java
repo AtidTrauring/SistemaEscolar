@@ -18,6 +18,13 @@ public class CUtilitarios {
         frm.setTitle(titulo);
     }
 
+    public static void creaFramePersona(JFrame frm, String titulo) {
+        frm.setVisible(true);
+        frm.setLocationRelativeTo(null);
+        frm.setResizable(false);
+        frm.setTitle(titulo);
+    }
+
     public static void msg(String msg, String origen) {
         JOptionPane.showMessageDialog(null, msg, origen, JOptionPane.INFORMATION_MESSAGE);
     }

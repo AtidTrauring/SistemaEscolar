@@ -1,7 +1,7 @@
 package ventanas.docentes;
 
-import javax.swing.JFrame;
 import ventanas.JfInicionSesion;
+import utilitarios.CUtilitarios;
 
 public class JfMenuDocente extends javax.swing.JFrame {
 
@@ -10,13 +10,6 @@ public class JfMenuDocente extends javax.swing.JFrame {
     public JfMenuDocente(String[] datos) {
         initComponents();
         datosDocente = datos;
-    }
-
-    public void creaFrame(JFrame frm, String titulo) {
-        frm.setVisible(true);
-        frm.setLocationRelativeTo(null);
-        frm.setResizable(false);
-        frm.setTitle(titulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -33,8 +26,8 @@ public class JfMenuDocente extends javax.swing.JFrame {
         setTitle("Docente");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -63,9 +56,19 @@ public class JfMenuDocente extends javax.swing.JFrame {
         );
 
         JmnCalificacion.setText("Calificaciones");
+        JmnCalificacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JmnCalificacionMouseClicked(evt);
+            }
+        });
         JmbListaOpciones.add(JmnCalificacion);
 
         JmnBuscaGrupo.setText("Mis grupos");
+        JmnBuscaGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JmnBuscaGrupoMouseClicked(evt);
+            }
+        });
         JmbListaOpciones.add(JmnBuscaGrupo);
 
         setJMenuBar(JmbListaOpciones);
@@ -89,14 +92,23 @@ public class JfMenuDocente extends javax.swing.JFrame {
         this.setTitle(datosDocente[2]);
     }//GEN-LAST:event_formWindowOpened
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        JfInicionSesion is = new JfInicionSesion();
-        creaFrame(is, "Inicio de sesion");
-    }//GEN-LAST:event_formWindowClosing
+    private void JmnCalificacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnCalificacionMouseClicked
+        JfAsignaCalificacion ac = new JfAsignaCalificacion(datosDocente);
+        CUtilitarios.creaFrame(ac, "Asigna calificaciones");
+        this.hide();
+    }//GEN-LAST:event_JmnCalificacionMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfInicionSesion is = new JfInicionSesion();
+        CUtilitarios.creaFrame(is, "Inicio de sesion");
+    }//GEN-LAST:event_formWindowClosed
+
+    private void JmnBuscaGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnBuscaGrupoMouseClicked
+        JfMisMaterias mm = new JfMisMaterias(datosDocente);
+        CUtilitarios.creaFrame(mm, "Grupos por docentes");
+        this.hide();
+    }//GEN-LAST:event_JmnBuscaGrupoMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

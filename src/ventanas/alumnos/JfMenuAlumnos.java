@@ -84,7 +84,7 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
     private void JmnConsultaHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnConsultaHistorialMouseClicked
         JfHistorialAcademico hc = new JfHistorialAcademico(datosAlumno);
         CUtilitarios.creaFrame(hc, "Historial academico de " + datosAlumno[2]);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_JmnConsultaHistorialMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

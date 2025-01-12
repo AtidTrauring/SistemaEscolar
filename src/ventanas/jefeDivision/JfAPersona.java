@@ -1,19 +1,85 @@
 package ventanas.jefeDivision;
 
-import javax.swing.JButton;
-
+import crud.CBusquedas;
+import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import utilitarios.CUtilitarios;
 
 public class JfAPersona extends javax.swing.JFrame {
 
-    public JfAPersona() {
+    // Variable para poder manipular el modelo de las listas
+    private DefaultComboBoxModel roles;
+    private CBusquedas cb = new CBusquedas();
+    private static String[] datosJefe;
+    private static String personaL;
+    private static String nombreBotonL;
+
+    public JfAPersona(String[] datos, String persona, String nombreBoton) {
         initComponents();
-    }
-    
-    public JfAPersona(String nombreBoton) {
-        initComponents();
+        datosJefe = datos;
+        personaL = persona;
+        nombreBotonL = nombreBoton;
         JbtnEnviar.setText(nombreBoton);
+        asignaItem(persona, JcmbxOcupacion);
     }
 
+    public JfAPersona(String[] datos) {
+        initComponents();
+        datosJefe = datos;
+    }
+
+//    /* Metodo que permite cargar las opciones en las listas
+//     Recibe por parametro el JComboBox al que se agregaran items */
+//    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+//        //  Obtenemos el modelo del JComboBox
+//        roles = (DefaultComboBoxModel) combo.getModel();
+//        try {
+//            switch (metodoCarga) {
+//                case 1:
+//                    // Obtenemos los valores de la tabla
+//                    datosListas = queryCarga.cargaComboMarca();
+//                    // listas.addElement("Seleccione una opcion");
+//                    // Asiganamos los valores obtenidos al JComboBox
+//                    for (int i = 0; i < datosListas.size(); i++) {
+//                        // Añadimos items por string dentro de la lista
+//                        listas.addElement(datosListas.get(i));
+//                    }
+//                    // Limpiamos la lista para cargar los datos del siguiente JComboBox
+//                    datosListas.clear();
+//                    break;
+//                case 2:
+//                    datosListas = queryCarga.cargaComboModelo();
+//                    for (int i = 0; i < datosListas.size(); i++) {
+//                        listas.addElement(datosListas.get(i));
+//                    }
+//                    datosListas.clear();
+//                    break;
+//                case 3:
+//                    datosListas = queryCarga.cargaComboCapacidad();
+//                    for (int i = 0; i < datosListas.size(); i++) {
+//                        listas.addElement(datosListas.get(i));
+//                    }
+//                    datosListas.clear();
+//                    break;
+//
+//            }
+//
+//        } catch (SQLException e) {
+//        }
+//
+//    }
+    public void asignaItem(String persona, JComboBox combo) {
+        if (persona == null) {
+
+        } else if (persona.equals("Docente")) {
+            combo.setSelectedIndex(1);
+            combo.setEnabled(false);
+        } else if (persona.equals("Alumno")) {
+            combo.setSelectedIndex(2);
+            combo.setEnabled(false);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -37,6 +103,11 @@ public class JfAPersona extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar persona");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JPnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -59,6 +130,7 @@ public class JfAPersona extends javax.swing.JFrame {
         JlblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoAPersona.png"))); // NOI18N
 
         JcmbxOcupacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "Docente", "Estudiante" }));
+        JcmbxOcupacion.setToolTipText("");
 
         JlblOcupacion.setText("Ocupacion");
 
@@ -138,9 +210,10 @@ public class JfAPersona extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -164,14 +237,9 @@ public class JfAPersona extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfAPersona.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAPersona().setVisible(true);
+                new JfAPersona(datosJefe, personaL, nombreBotonL).setVisible(true);
             }
         });
     }

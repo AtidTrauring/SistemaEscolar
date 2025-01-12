@@ -218,7 +218,8 @@ public class JfADireccion extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        enviarDatos();
         // Instanciamos el JfRegistroBoleto *Importen el Frame*
-        JfAPersona rb = new JfAPersona("Actualizar");
+        String[] pp = {"",""};
+        JfAPersona rb = new JfAPersona(pp);
         // 300,300
         creaFrame(rb, "Actualiza direccion", 315, 338);
     }//GEN-LAST:event_JbtnEnviarActionPerformed

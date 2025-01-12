@@ -1,11 +1,15 @@
 package ventanas.docentes;
 
+import utilitarios.CUtilitarios;
 import ventanas.jefeDivision.*;
 
 public class JfAsignaCalificacion extends javax.swing.JFrame {
 
-    public JfAsignaCalificacion() {
+    private static String[] datosDocente;
+
+    public JfAsignaCalificacion(String[] datos) {
         initComponents();
+        datosDocente = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -33,6 +37,11 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Grupos por docentes");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -181,9 +190,12 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_JbtnBuscaGrupoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuDocente md = new JfMenuDocente(datosDocente);
+        CUtilitarios.creaFrame(md, datosDocente[2]);
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -207,14 +219,11 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfAsignaCalificacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAsignaCalificacion().setVisible(true);
+                new JfAsignaCalificacion(datosDocente).setVisible(true);
             }
         });
     }

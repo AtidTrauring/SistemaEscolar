@@ -102,7 +102,7 @@ public class JfInicionSesion extends javax.swing.JFrame {
         JbtnIngresar = new javax.swing.JButton();
         JlblImagen = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio de sesion");
         setResizable(false);
 
