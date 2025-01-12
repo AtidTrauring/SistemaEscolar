@@ -1,9 +1,14 @@
 package ventanas.jefeDivision;
 
+import utilitarios.CUtilitarios;
+
 public class JfAlumnoPromedio extends javax.swing.JFrame {
 
-    public JfAlumnoPromedio() {
+    private static String[] datosJefe;
+
+    public JfAlumnoPromedio(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -17,8 +22,13 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
         JtxtNombre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Grupos por docentes");
+        setTitle("Alumnos por promedio");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -84,6 +94,11 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
 //        aplicaFiltros();
     }//GEN-LAST:event_JtxtNombreKeyReleased
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -115,7 +130,7 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAlumnoPromedio().setVisible(true);
+                new JfAlumnoPromedio(datosJefe).setVisible(true);
             }
         });
     }

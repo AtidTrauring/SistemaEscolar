@@ -1,26 +1,18 @@
 package ventanas.jefeDivision;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import utilitarios.CUtilitarios;
 
 public class JfADireccion extends javax.swing.JFrame {
 
-    public JfADireccion() {
-        initComponents();
-    }
-     public void creaFrame(JFrame frm, String titulo, int ancho, int alto) {
-        //Hacemos visible al nuevo frame
-        frm.setVisible(true);
-        // Centramos el frame
-        frm.setLocationRelativeTo(null);
-        // Asignamos las medidas
-        frm.setSize(ancho, alto);
-        // No permitimos que cambien las medidas
-        frm.setResizable(false);
-        // Agregamos un titulo
-        frm.setTitle(titulo);
-    }
+    private static String[] datosJefe;
+    private static String[] datosPersona;
 
+    public JfADireccion(String[] datosJ, String[] datosP, String nombreBoton) {
+        initComponents();
+        datosJefe = datosJ;
+        datosPersona = datosP;
+        JbtnEnviar.setText(nombreBoton);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -53,6 +45,11 @@ public class JfADireccion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agrega direccion");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -215,22 +212,18 @@ public class JfADireccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
-        // TODO add your handling code here:
-//        enviarDatos();
-        // Instanciamos el JfRegistroBoleto *Importen el Frame*
-        String[] pp = {"",""};
-        JfAPersona rb = new JfAPersona(pp);
-        // 300,300
-        creaFrame(rb, "Actualiza direccion", 315, 338);
+        JfAPersona rb = new JfAPersona(datosJefe, "Datos de la persona", "Actualizar");
+        CUtilitarios.creaFrame(rb, "Actualiza direccion");
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void JtxtMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtMunicipioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JtxtMunicipioActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -254,12 +247,9 @@ public class JfADireccion extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfADireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfADireccion().setVisible(true);
+                new JfADireccion(datosJefe, datosPersona, new String()).setVisible(true);
             }
         });
     }

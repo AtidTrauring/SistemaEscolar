@@ -1,11 +1,18 @@
 package ventanas.jefeDivision;
 
+import utilitarios.CUtilitarios;
+
 public class JfAAsignatura extends javax.swing.JFrame {
 
-    public JfAAsignatura() {
-        initComponents();
-    }
+    private static String[] datosJefe;
+    private static String[] datosAsignatura;
 
+    public JfAAsignatura(String[] datosJ, String[] datosA, String nombreBoton) {
+        initComponents();
+        datosJefe = datosJ;
+        datosAsignatura = datosA;
+        JbtnEnviar.setText(nombreBoton);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -38,6 +45,11 @@ public class JfAAsignatura extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agrega asignatura");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -70,11 +82,6 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
         JtxtCreditos.setToolTipText("Ingrese la ciudad usando puras letras mayusculas o minusculas");
         JtxtCreditos.setBorder(null);
-        JtxtCreditos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JtxtCreditosActionPerformed(evt);
-            }
-        });
 
         JlblTA.setText("Tipo asignatura");
 
@@ -204,13 +211,10 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
-    private void JtxtCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtCreditosActionPerformed
-
-    }//GEN-LAST:event_JtxtCreditosActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -234,12 +238,9 @@ public class JfAAsignatura extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfAAsignatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAAsignatura().setVisible(true);
+                new JfAAsignatura(datosJefe, datosAsignatura, new String()).setVisible(true);
             }
         });
     }

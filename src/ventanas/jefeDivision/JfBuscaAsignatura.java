@@ -1,9 +1,14 @@
 package ventanas.jefeDivision;
 
+import utilitarios.CUtilitarios;
+
 public class JfBuscaAsignatura extends javax.swing.JFrame {
 
-    public JfBuscaAsignatura() {
+    private static String[] datosJefe;
+
+    public JfBuscaAsignatura(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -26,6 +31,11 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Busca asignatura");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,9 +146,10 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -162,12 +173,9 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfBuscaAsignatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfBuscaAsignatura().setVisible(true);
+                new JfBuscaAsignatura(datosJefe).setVisible(true);
             }
         });
     }

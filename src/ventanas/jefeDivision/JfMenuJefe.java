@@ -30,7 +30,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmiCreaGrupo = new javax.swing.JMenuItem();
         JmiBuscaGrupo = new javax.swing.JMenuItem();
         JmiAsignaAlumno = new javax.swing.JMenuItem();
-        JmiAsignaAsignatura = new javax.swing.JMenuItem();
+        JmiAsignaDocenteAsignatura = new javax.swing.JMenuItem();
         JmnAsignatura = new javax.swing.JMenu();
         JmiAgregaAsignatura = new javax.swing.JMenuItem();
         JmnTemario = new javax.swing.JMenu();
@@ -125,6 +125,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnAlumno.add(JmiAlumnoInscrito);
 
         JmiAlumnoPromedio.setText("Alumnos por promedio");
+        JmiAlumnoPromedio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAlumnoPromedioActionPerformed(evt);
+            }
+        });
         JmnAlumno.add(JmiAlumnoPromedio);
 
         JmbListaOpciones.add(JmnAlumno);
@@ -132,41 +137,91 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnGrupo.setText("Grupos");
 
         JmiCreaGrupo.setText("Crear grupo");
+        JmiCreaGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiCreaGrupoActionPerformed(evt);
+            }
+        });
         JmnGrupo.add(JmiCreaGrupo);
 
         JmiBuscaGrupo.setText("Buscar grupo");
+        JmiBuscaGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaGrupoActionPerformed(evt);
+            }
+        });
         JmnGrupo.add(JmiBuscaGrupo);
 
         JmiAsignaAlumno.setText("Asignar alumnos");
+        JmiAsignaAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAsignaAlumnoActionPerformed(evt);
+            }
+        });
         JmnGrupo.add(JmiAsignaAlumno);
 
-        JmiAsignaAsignatura.setText("Asignar asignaturas");
-        JmnGrupo.add(JmiAsignaAsignatura);
+        JmiAsignaDocenteAsignatura.setText("Asignar cursos");
+        JmiAsignaDocenteAsignatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAsignaDocenteAsignaturaActionPerformed(evt);
+            }
+        });
+        JmnGrupo.add(JmiAsignaDocenteAsignatura);
 
         JmbListaOpciones.add(JmnGrupo);
 
         JmnAsignatura.setText("Asignaturas");
 
         JmiAgregaAsignatura.setText("Agregar asignatura");
+        JmiAgregaAsignatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaAsignaturaActionPerformed(evt);
+            }
+        });
         JmnAsignatura.add(JmiAgregaAsignatura);
 
         JmnTemario.setText("Temarios");
 
         JmiAgregaUnidad.setText("Agregar unidad");
+        JmiAgregaUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaUnidadActionPerformed(evt);
+            }
+        });
         JmnTemario.add(JmiAgregaUnidad);
 
         JmiAgregaSubtema.setText("Agregar subtema");
+        JmiAgregaSubtema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaSubtemaActionPerformed(evt);
+            }
+        });
         JmnTemario.add(JmiAgregaSubtema);
 
         JmiBuscaTemario.setText("Consultar temarios");
+        JmiBuscaTemario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaTemarioActionPerformed(evt);
+            }
+        });
         JmnTemario.add(JmiBuscaTemario);
 
         JmnAsignatura.add(JmnTemario);
 
         JmiBuscaAsignatura.setText("Buscar asignatura");
+        JmiBuscaAsignatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaAsignaturaActionPerformed(evt);
+            }
+        });
         JmnAsignatura.add(JmiBuscaAsignatura);
 
         JmiIndeReprobada.setText("Indice de reprobadas");
+        JmiIndeReprobada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiIndeReprobadaActionPerformed(evt);
+            }
+        });
         JmnAsignatura.add(JmiIndeReprobada);
 
         JmbListaOpciones.add(JmnAsignatura);
@@ -182,9 +237,19 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnDocentes.add(JmiAgregaDocente);
 
         JmiBuscaDocente.setText("Buscar docente");
+        JmiBuscaDocente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiBuscaDocenteActionPerformed(evt);
+            }
+        });
         JmnDocentes.add(JmiBuscaDocente);
 
         JmiGrupoDocente.setText("Grupos atendidos por docentes");
+        JmiGrupoDocente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiGrupoDocenteActionPerformed(evt);
+            }
+        });
         JmnDocentes.add(JmiGrupoDocente);
 
         JmbListaOpciones.add(JmnDocentes);
@@ -192,15 +257,35 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmnAgregar.setText("Agregar docente/alumno");
 
         JmiAgregaDireccion.setText("Agregar dirección");
+        JmiAgregaDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaDireccionActionPerformed(evt);
+            }
+        });
         JmnAgregar.add(JmiAgregaDireccion);
 
         JmiAgregaTelefono.setText("Agregar telefono");
+        JmiAgregaTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaTelefonoActionPerformed(evt);
+            }
+        });
         JmnAgregar.add(JmiAgregaTelefono);
 
         JmiAgregaCorreo.setText("Agregar correo");
+        JmiAgregaCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaCorreoActionPerformed(evt);
+            }
+        });
         JmnAgregar.add(JmiAgregaCorreo);
 
         JmiAgregaPersona.setText("Agregar persona");
+        JmiAgregaPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiAgregaPersonaActionPerformed(evt);
+            }
+        });
         JmnAgregar.add(JmiAgregaPersona);
 
         JmbListaOpciones.add(JmnAgregar);
@@ -259,10 +344,94 @@ public class JfMenuJefe extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiReprobadoActionPerformed
 
     private void JmiAlumnoInscritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAlumnoInscritoActionPerformed
-        // TODO add your handling code here:
         JfPromedioGrupo pg = new JfPromedioGrupo(datosJefe);
         CUtilitarios.creaFrame(pg, "Alumnos inscritos");
     }//GEN-LAST:event_JmiAlumnoInscritoActionPerformed
+
+    private void JmiAlumnoPromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAlumnoPromedioActionPerformed
+        JfAlumnoPromedio ap = new JfAlumnoPromedio(datosJefe);
+        CUtilitarios.creaFrame(ap, "Alumno por pormedio");
+    }//GEN-LAST:event_JmiAlumnoPromedioActionPerformed
+
+    private void JmiCreaGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiCreaGrupoActionPerformed
+        JfAGrupo ag = new JfAGrupo(datosJefe);
+        CUtilitarios.creaFrame(ag, "Crear grupo");
+    }//GEN-LAST:event_JmiCreaGrupoActionPerformed
+
+    private void JmiBuscaGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaGrupoActionPerformed
+        JfBuscaGrupo bg = new JfBuscaGrupo(datosJefe);
+        CUtilitarios.creaFrame(bg, "Buscar grupo");
+    }//GEN-LAST:event_JmiBuscaGrupoActionPerformed
+
+    private void JmiAsignaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaAlumnoActionPerformed
+        JfAsignaAlumno aa = new JfAsignaAlumno(datosJefe);
+        CUtilitarios.creaFrame(aa, "Asigna alumnos");
+    }//GEN-LAST:event_JmiAsignaAlumnoActionPerformed
+
+    private void JmiAsignaDocenteAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaDocenteAsignaturaActionPerformed
+        JfAsignaCurso ac = new JfAsignaCurso(datosJefe);
+        CUtilitarios.creaFrame(ac, "Asigna cursos");
+    }//GEN-LAST:event_JmiAsignaDocenteAsignaturaActionPerformed
+
+    private void JmiBuscaDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaDocenteActionPerformed
+        JfBuscaDocente bd = new JfBuscaDocente(datosJefe);
+        CUtilitarios.creaFrame(bd, "Buscar docentes");
+    }//GEN-LAST:event_JmiBuscaDocenteActionPerformed
+
+    private void JmiGrupoDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiGrupoDocenteActionPerformed
+        JfDocenteGrupo dc = new JfDocenteGrupo(datosJefe);
+        CUtilitarios.creaFrame(dc, "Grupos atendidos por docentes");
+    }//GEN-LAST:event_JmiGrupoDocenteActionPerformed
+
+    private void JmiAgregaDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaDireccionActionPerformed
+        JfADireccion ad = new JfADireccion(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(ad, "Agrega direccion");
+    }//GEN-LAST:event_JmiAgregaDireccionActionPerformed
+
+    private void JmiAgregaTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaTelefonoActionPerformed
+        JfATelefono at = new JfATelefono(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(at, "Enviar");
+    }//GEN-LAST:event_JmiAgregaTelefonoActionPerformed
+
+    private void JmiAgregaCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaCorreoActionPerformed
+        JfACorreo ac = new JfACorreo(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(ac, "Agregar correo");
+    }//GEN-LAST:event_JmiAgregaCorreoActionPerformed
+
+    private void JmiAgregaPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaPersonaActionPerformed
+        JfAPersona ap = new JfAPersona(datosJefe, null, "Enivar");
+        CUtilitarios.creaFrame(ap, "Enviar");
+    }//GEN-LAST:event_JmiAgregaPersonaActionPerformed
+
+    private void JmiAgregaAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaAsignaturaActionPerformed
+        JfAAsignatura aa = new JfAAsignatura(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(aa, "Agregar asignatura");
+    }//GEN-LAST:event_JmiAgregaAsignaturaActionPerformed
+
+    private void JmiAgregaUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaUnidadActionPerformed
+        JfAUnidad au = new JfAUnidad(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(au, "Agregar unidad");
+    }//GEN-LAST:event_JmiAgregaUnidadActionPerformed
+
+    private void JmiAgregaSubtemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaSubtemaActionPerformed
+        JfASubtema as = new JfASubtema(datosJefe, null, "Enviar");
+        CUtilitarios.creaFrame(as, "Agregar subtema");
+    }//GEN-LAST:event_JmiAgregaSubtemaActionPerformed
+
+    private void JmiBuscaTemarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaTemarioActionPerformed
+        JfBuscaTemario bt = new JfBuscaTemario(datosJefe);
+        CUtilitarios.creaFrame(bt, "Buscar temario");
+    }//GEN-LAST:event_JmiBuscaTemarioActionPerformed
+
+    private void JmiBuscaAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaAsignaturaActionPerformed
+        JfBuscaAsignatura ba = new JfBuscaAsignatura(datosJefe);
+        CUtilitarios.creaFrame(ba, "Buscar asignatura");
+    }//GEN-LAST:event_JmiBuscaAsignaturaActionPerformed
+
+    private void JmiIndeReprobadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiIndeReprobadaActionPerformed
+        JfReprobadosAsignatura ra = new JfReprobadosAsignatura(datosJefe);
+        CUtilitarios.creaFrame(ra, "Indice de reprobados");
+    }//GEN-LAST:event_JmiIndeReprobadaActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -308,7 +477,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private javax.swing.JMenuItem JmiAlumnoInscrito;
     private javax.swing.JMenuItem JmiAlumnoPromedio;
     private javax.swing.JMenuItem JmiAsignaAlumno;
-    private javax.swing.JMenuItem JmiAsignaAsignatura;
+    private javax.swing.JMenuItem JmiAsignaDocenteAsignatura;
     private javax.swing.JMenuItem JmiBuscaAlumno;
     private javax.swing.JMenuItem JmiBuscaAsignatura;
     private javax.swing.JMenuItem JmiBuscaDocente;

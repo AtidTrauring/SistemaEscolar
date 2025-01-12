@@ -1,15 +1,12 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
-import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import utilitarios.CUtilitarios;
 
 public class JfAPersona extends javax.swing.JFrame {
 
-    // Variable para poder manipular el modelo de las listas
-    private DefaultComboBoxModel roles;
     private CBusquedas cb = new CBusquedas();
     private static String[] datosJefe;
     private static String personaL;
@@ -24,51 +21,6 @@ public class JfAPersona extends javax.swing.JFrame {
         asignaItem(persona, JcmbxOcupacion);
     }
 
-    public JfAPersona(String[] datos) {
-        initComponents();
-        datosJefe = datos;
-    }
-
-//    /* Metodo que permite cargar las opciones en las listas
-//     Recibe por parametro el JComboBox al que se agregaran items */
-//    public void cargaComboBox(JComboBox combo, int metodoCarga) {
-//        //  Obtenemos el modelo del JComboBox
-//        roles = (DefaultComboBoxModel) combo.getModel();
-//        try {
-//            switch (metodoCarga) {
-//                case 1:
-//                    // Obtenemos los valores de la tabla
-//                    datosListas = queryCarga.cargaComboMarca();
-//                    // listas.addElement("Seleccione una opcion");
-//                    // Asiganamos los valores obtenidos al JComboBox
-//                    for (int i = 0; i < datosListas.size(); i++) {
-//                        // Añadimos items por string dentro de la lista
-//                        listas.addElement(datosListas.get(i));
-//                    }
-//                    // Limpiamos la lista para cargar los datos del siguiente JComboBox
-//                    datosListas.clear();
-//                    break;
-//                case 2:
-//                    datosListas = queryCarga.cargaComboModelo();
-//                    for (int i = 0; i < datosListas.size(); i++) {
-//                        listas.addElement(datosListas.get(i));
-//                    }
-//                    datosListas.clear();
-//                    break;
-//                case 3:
-//                    datosListas = queryCarga.cargaComboCapacidad();
-//                    for (int i = 0; i < datosListas.size(); i++) {
-//                        listas.addElement(datosListas.get(i));
-//                    }
-//                    datosListas.clear();
-//                    break;
-//
-//            }
-//
-//        } catch (SQLException e) {
-//        }
-//
-//    }
     public void asignaItem(String persona, JComboBox combo) {
         if (persona == null) {
 

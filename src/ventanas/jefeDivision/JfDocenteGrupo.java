@@ -2,8 +2,11 @@ package ventanas.jefeDivision;
 
 public class JfDocenteGrupo extends javax.swing.JFrame {
 
-    public JfDocenteGrupo() {
+    private static String[] datosJefe;
+
+    public JfDocenteGrupo(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -21,8 +24,13 @@ public class JfDocenteGrupo extends javax.swing.JFrame {
         JlblNombreDocente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Grupos por docentes");
+        setTitle("Grupos atendidos por docentes");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -124,9 +132,9 @@ public class JfDocenteGrupo extends javax.swing.JFrame {
 //        aplicaFiltros();
     }//GEN-LAST:event_JtxtNombreDocenteKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -150,11 +158,9 @@ public class JfDocenteGrupo extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfDocenteGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfDocenteGrupo().setVisible(true);
+                new JfDocenteGrupo(datosJefe).setVisible(true);
             }
         });
     }

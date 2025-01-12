@@ -1,9 +1,19 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import utilitarios.CUtilitarios;
+
 public class JfACorreo extends javax.swing.JFrame {
 
-    public JfACorreo() {
+    private CBusquedas cb = new CBusquedas();
+    private static String[] datosJefe;
+    private static String[] datosPersona;
+
+    public JfACorreo(String[] datosJ, String[] datosP, String nombreBoton) {
         initComponents();
+        datosJefe = datosJ;
+        datosPersona = datosP;
+        JbtnEnviar.setText(nombreBoton);
     }
 
     @SuppressWarnings("unchecked")
@@ -23,6 +33,11 @@ public class JfACorreo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agrega correo");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -100,9 +115,10 @@ public class JfACorreo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -126,11 +142,9 @@ public class JfACorreo extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JfACorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfACorreo().setVisible(true);
+                new JfACorreo(datosJefe, datosPersona, new String()).setVisible(true);
             }
         });
     }

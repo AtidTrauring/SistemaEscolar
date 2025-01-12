@@ -1,9 +1,14 @@
 package ventanas.jefeDivision;
 
+import utilitarios.CUtilitarios;
+
 public class JfBuscaDocente extends javax.swing.JFrame {
 
-    public JfBuscaDocente() {
+    private static String[] datosJefe;
+
+    public JfBuscaDocente(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -21,6 +26,11 @@ public class JfBuscaDocente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar docente");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -111,6 +121,11 @@ public class JfBuscaDocente extends javax.swing.JFrame {
 //        aplicaFiltros();
     }//GEN-LAST:event_JtxtClaveDocenteKeyReleased
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -141,7 +156,7 @@ public class JfBuscaDocente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfBuscaDocente().setVisible(true);
+                new JfBuscaDocente(datosJefe).setVisible(true);
             }
         });
     }

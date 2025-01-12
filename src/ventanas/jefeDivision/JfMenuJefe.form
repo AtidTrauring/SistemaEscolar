@@ -53,6 +53,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alumnos por promedio"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAlumnoPromedioActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -65,21 +68,33 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Crear grupo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiCreaGrupoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaGrupo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar grupo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiBuscaGrupoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaAlumno">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Asignar alumnos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAsignaAlumnoActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaAsignatura">
+            <MenuItem class="javax.swing.JMenuItem" name="JmiAsignaDocenteAsignatura">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Asignar asignaturas"/>
+                <Property name="text" type="java.lang.String" value="Asignar cursos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAsignaDocenteAsignaturaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -92,6 +107,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar asignatura"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaAsignaturaActionPerformed"/>
+              </Events>
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="JmnTemario">
               <Properties>
@@ -102,16 +120,25 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Agregar unidad"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaUnidadActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaSubtema">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Agregar subtema"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaSubtemaActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="JmiBuscaTemario">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Consultar temarios"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiBuscaTemarioActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -119,11 +146,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar asignatura"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiBuscaAsignaturaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiIndeReprobada">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Indice de reprobadas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiIndeReprobadaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -144,11 +177,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar docente"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiBuscaDocenteActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiGrupoDocente">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Grupos atendidos por docentes"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiGrupoDocenteActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -161,21 +200,33 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar direcci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaDireccionActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaTelefono">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar telefono"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaTelefonoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaCorreo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar correo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaCorreoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmiAgregaPersona">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar persona"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JmiAgregaPersonaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
