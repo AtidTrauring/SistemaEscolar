@@ -331,106 +331,127 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private void JmiBuscaKardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaKardexActionPerformed
         JfBuscaKardex bk = new JfBuscaKardex(datosJefe);
         CUtilitarios.creaFrame(bk, "Buscar kardex");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaKardexActionPerformed
 
     private void JmiBuscaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaAlumnoActionPerformed
         JfBuscaAlumno ba = new JfBuscaAlumno(datosJefe);
         CUtilitarios.creaFrame(ba, "Busca alumno");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaAlumnoActionPerformed
 
     private void JmiReprobadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiReprobadoActionPerformed
         JfReprobado r = new JfReprobado(datosJefe);
         CUtilitarios.creaFrame(r, "Alumnos reprobados");
+        this.hide();
     }//GEN-LAST:event_JmiReprobadoActionPerformed
 
     private void JmiAlumnoInscritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAlumnoInscritoActionPerformed
         JfPromedioGrupo pg = new JfPromedioGrupo(datosJefe);
         CUtilitarios.creaFrame(pg, "Alumnos inscritos");
+        this.hide();
     }//GEN-LAST:event_JmiAlumnoInscritoActionPerformed
 
     private void JmiAlumnoPromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAlumnoPromedioActionPerformed
         JfAlumnoPromedio ap = new JfAlumnoPromedio(datosJefe);
         CUtilitarios.creaFrame(ap, "Alumno por pormedio");
+        this.hide();
     }//GEN-LAST:event_JmiAlumnoPromedioActionPerformed
 
     private void JmiCreaGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiCreaGrupoActionPerformed
         JfAGrupo ag = new JfAGrupo(datosJefe);
         CUtilitarios.creaFrame(ag, "Crear grupo");
+        this.hide();
     }//GEN-LAST:event_JmiCreaGrupoActionPerformed
 
     private void JmiBuscaGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaGrupoActionPerformed
         JfBuscaGrupo bg = new JfBuscaGrupo(datosJefe);
         CUtilitarios.creaFrame(bg, "Buscar grupo");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaGrupoActionPerformed
 
     private void JmiAsignaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaAlumnoActionPerformed
         JfAsignaAlumno aa = new JfAsignaAlumno(datosJefe);
         CUtilitarios.creaFrame(aa, "Asigna alumnos");
+        this.hide();
     }//GEN-LAST:event_JmiAsignaAlumnoActionPerformed
 
     private void JmiAsignaDocenteAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaDocenteAsignaturaActionPerformed
         JfAsignaCurso ac = new JfAsignaCurso(datosJefe);
         CUtilitarios.creaFrame(ac, "Asigna cursos");
+        this.hide();
     }//GEN-LAST:event_JmiAsignaDocenteAsignaturaActionPerformed
 
     private void JmiBuscaDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaDocenteActionPerformed
         JfBuscaDocente bd = new JfBuscaDocente(datosJefe);
         CUtilitarios.creaFrame(bd, "Buscar docentes");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaDocenteActionPerformed
 
     private void JmiGrupoDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiGrupoDocenteActionPerformed
         JfDocenteGrupo dc = new JfDocenteGrupo(datosJefe);
         CUtilitarios.creaFrame(dc, "Grupos atendidos por docentes");
+        this.hide();
     }//GEN-LAST:event_JmiGrupoDocenteActionPerformed
 
     private void JmiAgregaDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaDireccionActionPerformed
         JfADireccion ad = new JfADireccion(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(ad, "Agrega direccion");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaDireccionActionPerformed
 
     private void JmiAgregaTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaTelefonoActionPerformed
         JfATelefono at = new JfATelefono(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(at, "Enviar");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaTelefonoActionPerformed
 
     private void JmiAgregaCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaCorreoActionPerformed
         JfACorreo ac = new JfACorreo(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(ac, "Agregar correo");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaCorreoActionPerformed
 
     private void JmiAgregaPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaPersonaActionPerformed
         JfAPersona ap = new JfAPersona(datosJefe, null, "Enivar");
         CUtilitarios.creaFrame(ap, "Enviar");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaPersonaActionPerformed
 
     private void JmiAgregaAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaAsignaturaActionPerformed
         JfAAsignatura aa = new JfAAsignatura(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(aa, "Agregar asignatura");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaAsignaturaActionPerformed
 
     private void JmiAgregaUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaUnidadActionPerformed
         JfAUnidad au = new JfAUnidad(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(au, "Agregar unidad");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaUnidadActionPerformed
 
     private void JmiAgregaSubtemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaSubtemaActionPerformed
         JfASubtema as = new JfASubtema(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(as, "Agregar subtema");
+        this.hide();
     }//GEN-LAST:event_JmiAgregaSubtemaActionPerformed
 
     private void JmiBuscaTemarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaTemarioActionPerformed
         JfBuscaTemario bt = new JfBuscaTemario(datosJefe);
         CUtilitarios.creaFrame(bt, "Buscar temario");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaTemarioActionPerformed
 
     private void JmiBuscaAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaAsignaturaActionPerformed
         JfBuscaAsignatura ba = new JfBuscaAsignatura(datosJefe);
         CUtilitarios.creaFrame(ba, "Buscar asignatura");
+        this.hide();
     }//GEN-LAST:event_JmiBuscaAsignaturaActionPerformed
 
     private void JmiIndeReprobadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiIndeReprobadaActionPerformed
         JfReprobadosAsignatura ra = new JfReprobadosAsignatura(datosJefe);
         CUtilitarios.creaFrame(ra, "Indice de reprobados");
+        this.hide();
     }//GEN-LAST:event_JmiIndeReprobadaActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
