@@ -1,6 +1,6 @@
 package crud;
 
-import utilitarios.CMensajes;
+import utilitarios.CUtilitarios;
 import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ public class CConsultas {
             if (rs.next()) {
                 valorObtenido = rs.getString(1);
             } else {
-                CMensajes.msg_advertencia("Elementos no encontrados", "buscar objetos");
+                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
             }
         } catch (SQLException ex) {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
                     + "SQLState: " + ex.getSQLState() + "\n"
                     + "VendorError: " + ex.getErrorCode();
-            CMensajes.msg_error(cadena, "Conexion");
+            CUtilitarios.msg_error(cadena, "Conexion");
         } //3. 
         finally {
             //Cerrar los resultados
@@ -68,7 +68,7 @@ public class CConsultas {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
                     + "SQLState: " + ex.getSQLState() + "\n"
                     + "VendorError: " + ex.getErrorCode();
-            CMensajes.msg_error(cadena, "Conexion");
+            CUtilitarios.msg_error(cadena, "Conexion");
         } //3. 
         finally {
             //Cerrar los resultados
@@ -96,7 +96,7 @@ public class CConsultas {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(consulta);
             if (rs == null) {
-                CMensajes.msg_advertencia("Elementos no encontrados", "buscar objetos");
+                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
             } else {
                 while (rs.next()) {
                     resultadosCombos.add(rs.getString(1));
@@ -106,7 +106,7 @@ public class CConsultas {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
                     + "SQLState: " + ex.getSQLState() + "\n"
                     + "VendorError: " + ex.getErrorCode();
-            CMensajes.msg_error(cadena, "Conexion");
+            CUtilitarios.msg_error(cadena, "Conexion");
         } //3. 
         finally {
             //Cerrar los resultados
@@ -135,7 +135,7 @@ public class CConsultas {
             rs = stmt.executeQuery(consulta);
 
             if (!rs.isBeforeFirst()) { // Verifica si no hay resultados
-//            CMensajes.msg_advertencia("Elementos no encontrados", "Buscar objetos");
+//            CUtilitarios.msg_advertencia("Elementos no encontrados", "Buscar objetos");
                 return null;
             } else {
                 // Procesar los resultados
@@ -150,7 +150,7 @@ public class CConsultas {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
                     + "SQLState: " + ex.getSQLState() + "\n"
                     + "VendorError: " + ex.getErrorCode();
-            CMensajes.msg_error(cadena, "Conexión");
+            CUtilitarios.msg_error(cadena, "Conexión");
         } finally {
             // 3. Cerrar recursos
             if (rs != null) {
@@ -182,7 +182,7 @@ public class CConsultas {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(consulta);
             if (rs == null) {
-                CMensajes.msg_advertencia("Elementos no encontrados", "buscar objetos");
+                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
             } else {
                 while (rs.next()) {
                     String[] arregloResultados = new String[numCampos];
@@ -196,7 +196,7 @@ public class CConsultas {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
                     + "SQLState: " + ex.getSQLState() + "\n"
                     + "VendorError: " + ex.getErrorCode();
-            CMensajes.msg_error(cadena, "Conexion");
+            CUtilitarios.msg_error(cadena, "Conexion");
         } //3. 
         finally {
             //Cerrar los resultados
@@ -225,7 +225,7 @@ public class CConsultas {
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            CMensajes.msg_error("Error: \n" + e.getMessage(), "Inserta ");
+            CUtilitarios.msg_error("Error: \n" + e.getMessage(), "Inserta ");
         } finally {
             //3. Cerrar conex
             conector.desconecta(conn);
@@ -242,7 +242,7 @@ public class CConsultas {
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            CMensajes.msg_error("Error: " + e.getMessage(), "Elimina");
+            CUtilitarios.msg_error("Error: " + e.getMessage(), "Elimina");
         } finally {
             //3. Cerrarla conexion
             conector.desconecta(conn);
@@ -257,7 +257,7 @@ public class CConsultas {
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            CMensajes.msg_error("Error: " + e.getMessage(), "Actualiza Objeto");
+            CUtilitarios.msg_error("Error: " + e.getMessage(), "Actualiza Objeto");
         } finally {
             //3. Cerrarla conexion
             conector.desconecta(conn);
@@ -283,7 +283,7 @@ public class CConsultas {
             }
 
         } catch (SQLException e) {
-            CMensajes.msg_error("Error: " + e.getMessage(), "Buscar objeto");
+            CUtilitarios.msg_error("Error: " + e.getMessage(), "Buscar objeto");
         } finally {
             //3. Cerrarla conexion
             conector.desconecta(conn);

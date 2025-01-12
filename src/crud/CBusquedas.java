@@ -58,4 +58,17 @@ public class CBusquedas {
                 + "WHERE p.clave_persona = " + idPersona + ";";
         return cnslt.buscarValoresLista(consulta, 3);
     }
+
+    public ArrayList<String[]> buscaHistorialEstudiante(String idEstudiante) throws SQLException {
+        consulta = "SELECT a.nombre_asignatura, a.creditos, "
+                + "ev.calificacion, c.ciclo "
+                + "FROM estudiante_version ev "
+                + "JOIN version v ON ev.clave_version = v.clave_version "
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "WHERE ev.clave_estudiante = " + idEstudiante + " "
+                + "ORDER BY c.ciclo;";
+        return cnslt.buscarValores(consulta, 4);
+
+    }
 }

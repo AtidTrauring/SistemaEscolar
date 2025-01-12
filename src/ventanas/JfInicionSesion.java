@@ -2,10 +2,6 @@ package ventanas;
 
 import crud.CBusquedas;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import javax.swing.JFrame;
-import utilitarios.CMensajes;
 import utilitarios.CUtilitarios;
 import ventanas.alumnos.JfMenuAlumnos;
 import ventanas.docentes.JfMenuDocente;
@@ -14,7 +10,6 @@ import ventanas.jefeDivision.JfMenuJefe;
 public class JfInicionSesion extends javax.swing.JFrame {
 
     // Instancia
-    CUtilitarios cu = new CUtilitarios();
     CBusquedas cb = new CBusquedas();
 
     public JfInicionSesion() {
@@ -46,10 +41,10 @@ public class JfInicionSesion extends javax.swing.JFrame {
                     }
                     decideInterfaz(tipoPersona, datos);
                 } else {
-                    CMensajes.msg_error("¡Revise las credenciales!", "Inicio de sesion");
+                    CUtilitarios.msg_error("¡Revise las credenciales!", "Inicio de sesion");
                 }
             } else {
-                CMensajes.msg_error("¡Revise las credenciales!", "Inicio de sesion");
+                CUtilitarios.msg_error("¡Revise las credenciales!", "Inicio de sesion");
             }
         } catch (SQLException ex) {
         }
@@ -58,41 +53,27 @@ public class JfInicionSesion extends javax.swing.JFrame {
 
     public void decideInterfaz(char usuarioEs, String[] datosPersona) {
         switch (usuarioEs) {
-            case 'd':
-                CMensajes.msg("Bienvenido Docente", "Inicio de sesion");
+            case 'd' -> {
+                CUtilitarios.msg("Bienvenido Docente", "Inicio de sesion");
                 JfMenuDocente md = new JfMenuDocente(datosPersona);
-                creaFrame(md, "Docente", 536, 300);
+                CUtilitarios.creaFrame(md, "Docente");
                 this.dispose();
-                break;
-            case 'e':
-                CMensajes.msg("Bienvenido Alumno", "Inicio de sesion");
+            }
+            case 'e' -> {
+                CUtilitarios.msg("Bienvenido Alumno", "Inicio de sesion");
                 JfMenuAlumnos ma = new JfMenuAlumnos(datosPersona);
-                creaFrame(ma, "Alumno", 536, 300);
+                CUtilitarios.creaFrame(ma, "Alumno");
                 this.dispose();
-                break;
-            case 'j':
+            }
+            case 'j' -> {
                 JfMenuJefe mj = new JfMenuJefe(datosPersona);
-                CMensajes.msg("Bienvenido Jefe", "Inicio de sesion");
-                creaFrame(mj, "Jefe de carrera", 536, 300);
+                CUtilitarios.msg("Bienvenido Jefe", "Inicio de sesion");
+                CUtilitarios.creaFrame(mj, "Jefe de carrera");
                 this.dispose();
-                break;
-            case 's':
-                CMensajes.msg_advertencia("Ponte en contacto con Ponce", "Inicio de sesion");
-                break;
+            }
+            case 's' ->
+                CUtilitarios.msg_advertencia("Ponte en contacto con Ponce", "Inicio de sesion");
         }
-    }
-
-    public void creaFrame(JFrame frm, String titulo, int ancho, int alto) {
-        //Hacemos visible al nuevo frame
-        frm.setVisible(true);
-        // Centramos el frame
-        frm.setLocationRelativeTo(null);
-        // Asignamos las medidas
-        frm.setSize(ancho, alto);
-        // No permitimos que cambien las medidas
-        frm.setResizable(false);
-        // Agregamos un titulo
-        frm.setTitle(titulo);
     }
 
     public String obtenContra() {
@@ -103,7 +84,7 @@ public class JfInicionSesion extends javax.swing.JFrame {
 
     public void validaCampos() {
         if (JtxtUsuario.getText().isEmpty() || new String(JpsContra.getPassword()).isEmpty()) {
-            CMensajes.msg_advertencia("Ingrese usuario y contraseña\n ¡Por favor!", "Inicio de sesion");
+            CUtilitarios.msg_advertencia("Ingrese usuario y contraseña\n ¡Por favor!", "Inicio de sesion");
         } else {
             validaUsuario(JtxtUsuario.getText(), obtenContra());
         }

@@ -1,7 +1,7 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
-import utilitarios.CMensajes;
+import utilitarios.CUtilitarios;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.RowFilter;
@@ -37,7 +37,7 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 //            tr = new TableRowSorter<>(modelo);
 //            JtableKardex.setRowSorter(tr);
 //        } catch (SQLException ex) {
-//            CMensajes.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+//            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
 //        }
 //    }
 

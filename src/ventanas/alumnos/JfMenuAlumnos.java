@@ -1,28 +1,17 @@
 package ventanas.alumnos;
 
 import crud.CBusquedas;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
+import utilitarios.CUtilitarios;
 import ventanas.JfInicionSesion;
 
 public class JfMenuAlumnos extends javax.swing.JFrame {
 
-    private static String[] datosAlumnos;
+    private static String[] datosAlumno;
     private CBusquedas cb = new CBusquedas();
 
     public JfMenuAlumnos(String[] datos) {
         initComponents();
-        datosAlumnos = datos;
-    }
-
-    public void creaFrame(JFrame frm, String titulo) {
-        frm.setVisible(true);
-        frm.setLocationRelativeTo(null);
-        frm.setResizable(false);
-        frm.setTitle(titulo);
+        datosAlumno = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -38,8 +27,8 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         setTitle("Alumno");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -93,22 +82,19 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JmnConsultaHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnConsultaHistorialMouseClicked
-        System.out.println(Arrays.toString(datosAlumnos));
-
+        JfHistorialAcademico hc = new JfHistorialAcademico(datosAlumno);
+        CUtilitarios.creaFrame(hc, "Historial academico de " + datosAlumno[2]);
+        this.dispose();
     }//GEN-LAST:event_JmnConsultaHistorialMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.setTitle(datosAlumnos[2]);
+        this.setTitle(datosAlumno[2]);
     }//GEN-LAST:event_formWindowOpened
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfInicionSesion is = new JfInicionSesion();
-        creaFrame(is, "Inicio de sesion");
-    }//GEN-LAST:event_formWindowClosing
-
-    /**
-     * @param args the command line arguments
-     */
+        CUtilitarios.creaFrame(is, "Inicio de sesion");
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -136,8 +122,7 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfMenuAlumnos(datosAlumnos).setVisible(true);
-                //new JfMenuAlumnos().setVisible(true);
+                new JfMenuAlumnos(datosAlumno).setVisible(true);
             }
         });
     }
