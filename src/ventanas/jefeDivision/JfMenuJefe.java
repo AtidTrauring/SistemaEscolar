@@ -336,7 +336,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
     private void JmiBuscaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiBuscaAlumnoActionPerformed
         JfBuscaAlumno ba = new JfBuscaAlumno(datosJefe);
-        CUtilitarios.creaFrame(ba, "Busca alumno");
+        CUtilitarios.creaFrame(ba, "Buscar alumno");
         this.hide();
     }//GEN-LAST:event_JmiBuscaAlumnoActionPerformed
 
@@ -372,13 +372,13 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
     private void JmiAsignaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaAlumnoActionPerformed
         JfAsignaAlumno aa = new JfAsignaAlumno(datosJefe);
-        CUtilitarios.creaFrame(aa, "Asigna alumnos");
+        CUtilitarios.creaFrame(aa, "Asignar alumnos");
         this.hide();
     }//GEN-LAST:event_JmiAsignaAlumnoActionPerformed
 
     private void JmiAsignaDocenteAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAsignaDocenteAsignaturaActionPerformed
         JfAsignaCurso ac = new JfAsignaCurso(datosJefe);
-        CUtilitarios.creaFrame(ac, "Asigna cursos");
+        CUtilitarios.creaFrame(ac, "Asignar cursos");
         this.hide();
     }//GEN-LAST:event_JmiAsignaDocenteAsignaturaActionPerformed
 
@@ -396,13 +396,13 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
     private void JmiAgregaDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaDireccionActionPerformed
         JfADireccion ad = new JfADireccion(datosJefe, null, "Enviar");
-        CUtilitarios.creaFrame(ad, "Agrega direccion");
+        CUtilitarios.creaFrame(ad, "Agregar direccion");
         this.hide();
     }//GEN-LAST:event_JmiAgregaDireccionActionPerformed
 
     private void JmiAgregaTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaTelefonoActionPerformed
         JfATelefono at = new JfATelefono(datosJefe, null, "Enviar");
-        CUtilitarios.creaFrame(at, "Enviar");
+        CUtilitarios.creaFrame(at, "Agregar telefono");
         this.hide();
     }//GEN-LAST:event_JmiAgregaTelefonoActionPerformed
 
@@ -414,7 +414,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
     private void JmiAgregaPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaPersonaActionPerformed
         JfAPersona ap = new JfAPersona(datosJefe, null, "Enivar");
-        CUtilitarios.creaFrame(ap, "Enviar");
+        CUtilitarios.creaFrame(ap, "Agregar persona");
         this.hide();
     }//GEN-LAST:event_JmiAgregaPersonaActionPerformed
 

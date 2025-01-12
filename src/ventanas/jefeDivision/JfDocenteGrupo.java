@@ -1,5 +1,7 @@
 package ventanas.jefeDivision;
 
+import utilitarios.CUtilitarios;
+
 public class JfDocenteGrupo extends javax.swing.JFrame {
 
     private static String[] datosJefe;
@@ -133,7 +135,8 @@ public class JfDocenteGrupo extends javax.swing.JFrame {
     }//GEN-LAST:event_JtxtNombreDocenteKeyReleased
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

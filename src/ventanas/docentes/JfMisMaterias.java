@@ -1,15 +1,50 @@
 package ventanas.docentes;
 
+import crud.CBusquedas;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import utilitarios.CUtilitarios;
 import ventanas.jefeDivision.*;
 
 public class JfMisMaterias extends javax.swing.JFrame {
 
+    // Variable para manipular el modelo de la tabla
+    private DefaultTableModel modelo;
+    // Instanci de la clase que permite hacer la consulta
+    private CBusquedas cb = new CBusquedas();
+    // Creacion de lista, para la obtencion de valores de la tabla
+    private ArrayList<String[]> datosMaterias = new ArrayList<>();
+    // Variable para obtener datos del Estudiante
     private static String[] datosDocente;
 
     public JfMisMaterias(String[] datos) {
         initComponents();
         datosDocente = datos;
+    }
+
+    // Metodo para limpiar la tabla
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+        modelo.setRowCount(0);
+    }
+
+    // Metodo que permite ingresar los valores necesarios a la tabla
+    private void cargarTabla() {
+        // Obtenemos el modelo para poder manipularlo
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+        try {
+            // Leer los datos
+            datosMaterias = cb.buscaHistorialEstudiante(datosDocente[1]);
+            // Limpiamos la tabla
+            limpiarTabla();
+            // Asignamos los valores obtenidos en la tabla
+            for (String[] datosVersion : datosMaterias) {
+                modelo.addRow(new Object[]{datosVersion[2], datosVersion[3]});
+            }
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -81,13 +116,13 @@ public class JfMisMaterias extends javax.swing.JFrame {
                             .addComponent(JlblGrupo)
                             .addComponent(JcmbxGrupo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JlblAsignatura)
-                            .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JlblCarrera))
                         .addGap(18, 18, 18)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JlblCarrera)
-                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblAsignatura)
+                            .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -101,18 +136,16 @@ public class JfMisMaterias extends javax.swing.JFrame {
                         .addGap(16, 16, 16)
                         .addComponent(JcmbxCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JlblGrupo)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JlblGrupo)
+                            .addComponent(JlblCarrera)
+                            .addComponent(JlblAsignatura))
                         .addGap(16, 16, 16)
                         .addComponent(JcmbxGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JlblAsignatura)
-                        .addGap(16, 16, 16)
-                        .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JlblCarrera)
-                        .addGap(16, 16, 16)
+                    .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
                 .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -133,7 +166,6 @@ public class JfMisMaterias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
         JfMenuDocente md = new JfMenuDocente(datosDocente);
         CUtilitarios.creaFrame(md, datosDocente[2]);
     }//GEN-LAST:event_formWindowClosed

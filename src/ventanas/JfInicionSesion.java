@@ -53,26 +53,27 @@ public class JfInicionSesion extends javax.swing.JFrame {
 
     public void decideInterfaz(char usuarioEs, String[] datosPersona) {
         switch (usuarioEs) {
-            case 'd' -> {
+            case 'd':
                 CUtilitarios.msg("Bienvenido Docente", "Inicio de sesion");
                 JfMenuDocente md = new JfMenuDocente(datosPersona);
                 CUtilitarios.creaFrame(md, "Docente");
                 this.dispose();
-            }
-            case 'e' -> {
+                break;
+            case 'e':
                 CUtilitarios.msg("Bienvenido Alumno", "Inicio de sesion");
                 JfMenuAlumnos ma = new JfMenuAlumnos(datosPersona);
                 CUtilitarios.creaFrame(ma, "Alumno");
                 this.dispose();
-            }
-            case 'j' -> {
+                break;
+            case 'j':
                 JfMenuJefe mj = new JfMenuJefe(datosPersona);
                 CUtilitarios.msg("Bienvenido Jefe", "Inicio de sesion");
                 CUtilitarios.creaFrame(mj, "Jefe de carrera");
                 this.dispose();
-            }
-            case 's' ->
+                break;
+            case 's':
                 CUtilitarios.msg_advertencia("Ponte en contacto con Ponce", "Inicio de sesion");
+                break;
         }
     }
 

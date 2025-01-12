@@ -59,11 +59,6 @@ public class JfASubtema extends javax.swing.JFrame {
 
         JbtnEnviar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnEnviar.setText("Enviar");
-        JbtnEnviar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JbtnEnviarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -135,13 +130,9 @@ public class JfASubtema extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
-    }//GEN-LAST:event_JbtnEnviarActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

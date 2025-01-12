@@ -72,4 +72,20 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 4);
 
     }
+
+    public ArrayList<String[]> buscaMateriasDocente(String idDocente) throws SQLException {
+        consulta = "SELECT c.ciclo, car.nombre_carrera, g.grupo, "
+                + "a.nombre_asignatura  FROM docente d "
+                + "JOIN docente_version dv ON d.clave_docente = dv.clave_docente "
+                + "JOIN version v ON dv.clave_version = v.clave_version "
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "JOIN carrera_asignatura ca ON a.clave_asignatura = ca.clave_asignatura "
+                + "JOIN carrera car ON ca.clave_carrera = car.clave_carrera "
+                + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo "
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "WHERE d.clave_docente = " + idDocente + ";";
+        return cnslt.buscarValores(consulta, 4);
+
+    }
+
 }
