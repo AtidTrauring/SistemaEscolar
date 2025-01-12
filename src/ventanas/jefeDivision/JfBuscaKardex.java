@@ -1,7 +1,7 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
-import crud.CMensajes;
+import utilitarios.CMensajes;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.RowFilter;
@@ -25,21 +25,21 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         modelo.setRowCount(0);
     }
 
-    public void cargarTabla() {
-        modelo = (DefaultTableModel) JtableKardex.getModel();
-        try {
-            datosKardex = queryBusca.buscaTerminalesCompletas();
-            limpiarTabla();
-            for (String[] datosTerminal : datosKardex) {
-                modelo.addRow(new Object[]{datosTerminal[1], datosTerminal[2], datosTerminal[3], datosTerminal[4], datosTerminal[5], datosTerminal[6],
-                    datosTerminal[7], datosTerminal[8]});
-            }
-            tr = new TableRowSorter<>(modelo);
-            JtableKardex.setRowSorter(tr);
-        } catch (SQLException ex) {
-            CMensajes.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
-        }
-    }
+//    public void cargarTabla() {
+//        modelo = (DefaultTableModel) JtableKardex.getModel();
+//        try {
+//            datosKardex = queryBusca.buscaTerminalesCompletas();
+//            limpiarTabla();
+//            for (String[] datosTerminal : datosKardex) {
+//                modelo.addRow(new Object[]{datosTerminal[1], datosTerminal[2], datosTerminal[3], datosTerminal[4], datosTerminal[5], datosTerminal[6],
+//                    datosTerminal[7], datosTerminal[8]});
+//            }
+//            tr = new TableRowSorter<>(modelo);
+//            JtableKardex.setRowSorter(tr);
+//        } catch (SQLException ex) {
+//            CMensajes.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+//        }
+//    }
 
     public void aplicaFiltros() {
         modelo = (DefaultTableModel) JtableKardex.getModel();

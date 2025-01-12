@@ -1,9 +1,28 @@
 package ventanas.alumnos;
 
+import crud.CBusquedas;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import ventanas.JfInicionSesion;
+
 public class JfMenuAlumnos extends javax.swing.JFrame {
 
-    public JfMenuAlumnos() {
+    private static String[] datosAlumnos;
+    private CBusquedas cb = new CBusquedas();
+
+    public JfMenuAlumnos(String[] datos) {
         initComponents();
+        datosAlumnos = datos;
+    }
+
+    public void creaFrame(JFrame frm, String titulo) {
+        frm.setVisible(true);
+        frm.setLocationRelativeTo(null);
+        frm.setResizable(false);
+        frm.setTitle(titulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -18,6 +37,14 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alumno");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -41,6 +68,11 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         );
 
         JmnConsultaHistorial.setText("Historial Academico");
+        JmnConsultaHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JmnConsultaHistorialMouseClicked(evt);
+            }
+        });
         JmbListaOpciones.add(JmnConsultaHistorial);
 
         setJMenuBar(JmbListaOpciones);
@@ -59,6 +91,20 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void JmnConsultaHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnConsultaHistorialMouseClicked
+        System.out.println(Arrays.toString(datosAlumnos));
+
+    }//GEN-LAST:event_JmnConsultaHistorialMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setTitle(datosAlumnos[2]);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        JfInicionSesion is = new JfInicionSesion();
+        creaFrame(is, "Inicio de sesion");
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -90,7 +136,8 @@ public class JfMenuAlumnos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfMenuAlumnos().setVisible(true);
+                new JfMenuAlumnos(datosAlumnos).setVisible(true);
+                //new JfMenuAlumnos().setVisible(true);
             }
         });
     }

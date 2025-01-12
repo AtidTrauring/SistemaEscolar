@@ -1,5 +1,6 @@
 package crud;
 
+import utilitarios.CMensajes;
 import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class CConsultas {
     private ResultSet rs = null;
     private final CConecta conector = new CConecta();
     private ArrayList<String[]> resultados;
+    private String[] resultadosListas;
     private ArrayList<String> resultadosCombos;
 
     //************ Metodos ************
@@ -27,7 +29,6 @@ public class CConsultas {
                 valorObtenido = rs.getString(1);
             } else {
                 CMensajes.msg_advertencia("Elementos no encontrados", "buscar objetos");
-
             }
         } catch (SQLException ex) {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
@@ -62,9 +63,6 @@ public class CConsultas {
             rs = stmt.executeQuery(consulta);
             if (rs.next()) {
                 valorObtenido = rs.getString(1);
-            } else {
-//                CMensajes.msg_advertencia("Elementos no encontrados", "buscar objetos");
-
             }
         } catch (SQLException ex) {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
@@ -125,6 +123,54 @@ public class CConsultas {
             conector.desconecta(conn);
         }
         return resultadosCombos;
+    }
+
+    public String[] buscarValoresLista(String consulta, int numeroCampos) throws SQLException {
+        // 1. Abrir la conexión
+        conn = conector.conecta();
+        try {
+            // 2. Ejecutar la consulta
+            resultadosListas = new String[numeroCampos];
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(consulta);
+
+            if (!rs.isBeforeFirst()) { // Verifica si no hay resultados
+//            CMensajes.msg_advertencia("Elementos no encontrados", "Buscar objetos");
+                return null;
+            } else {
+                // Procesar los resultados
+                while (rs.next()) {
+                    for (int i = 0; i < numeroCampos; i++) {
+                        resultadosListas[i] = rs.getString(i + 1); // Almacena los valores en el arreglo
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            // Manejo de errores
+            String cadena = "SQLException: " + ex.getMessage() + "\n"
+                    + "SQLState: " + ex.getSQLState() + "\n"
+                    + "VendorError: " + ex.getErrorCode();
+            CMensajes.msg_error(cadena, "Conexión");
+        } finally {
+            // 3. Cerrar recursos
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    // Manejo opcional del error
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    // Manejo opcional del error
+                }
+            }
+            // Cerrar conexión
+            conector.desconecta(conn);
+        }
+        return resultadosListas;
     }
 
     public ArrayList<String[]> buscarValores(String consulta, int numCampos) throws SQLException {
@@ -244,4 +290,5 @@ public class CConsultas {
         }
         return false;
     }
+
 }

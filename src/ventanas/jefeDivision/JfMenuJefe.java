@@ -1,9 +1,22 @@
 package ventanas.jefeDivision;
 
+import javax.swing.JFrame;
+import ventanas.JfInicionSesion;
+
 public class JfMenuJefe extends javax.swing.JFrame {
 
-    public JfMenuJefe() {
+    private static String[] datosJefe;
+
+    public JfMenuJefe(String[] datos) {
         initComponents();
+        datosJefe = datos;
+    }
+
+    public void creaFrame(JFrame frm, String titulo) {
+        frm.setVisible(true);
+        frm.setLocationRelativeTo(null);
+        frm.setResizable(false);
+        frm.setTitle(titulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -46,6 +59,14 @@ public class JfMenuJefe extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Jefe de Division");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -64,7 +85,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(JlblFondoJefe, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(JlblFondoJefe, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -178,6 +199,15 @@ public class JfMenuJefe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setTitle(datosJefe[2]);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        JfInicionSesion is = new JfInicionSesion();
+        creaFrame(is, "Inicio de sesion");
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -208,7 +238,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfMenuJefe().setVisible(true);
+                new JfMenuJefe(datosJefe).setVisible(true);
             }
         });
     }

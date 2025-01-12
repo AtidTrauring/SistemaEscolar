@@ -1,9 +1,22 @@
 package ventanas.docentes;
 
+import javax.swing.JFrame;
+import ventanas.JfInicionSesion;
+
 public class JfMenuDocente extends javax.swing.JFrame {
 
-    public JfMenuDocente() {
+    private static String[] datosDocente;
+
+    public JfMenuDocente(String[] datos) {
         initComponents();
+        datosDocente = datos;
+    }
+
+    public void creaFrame(JFrame frm, String titulo) {
+        frm.setVisible(true);
+        frm.setLocationRelativeTo(null);
+        frm.setResizable(false);
+        frm.setTitle(titulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -19,6 +32,14 @@ public class JfMenuDocente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Docente");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -64,6 +85,15 @@ public class JfMenuDocente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setTitle(datosDocente[2]);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        JfInicionSesion is = new JfInicionSesion();
+        creaFrame(is, "Inicio de sesion");
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -94,7 +124,8 @@ public class JfMenuDocente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfMenuDocente().setVisible(true);
+                new JfMenuDocente(datosDocente).setVisible(true);
+
             }
         });
     }

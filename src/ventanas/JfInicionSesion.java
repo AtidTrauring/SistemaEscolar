@@ -1,11 +1,113 @@
 package ventanas;
 
+import crud.CBusquedas;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JFrame;
+import utilitarios.CMensajes;
+import utilitarios.CUtilitarios;
+import ventanas.alumnos.JfMenuAlumnos;
+import ventanas.docentes.JfMenuDocente;
+import ventanas.jefeDivision.JfMenuJefe;
+
 public class JfInicionSesion extends javax.swing.JFrame {
+
+    // Instancia
+    CUtilitarios cu = new CUtilitarios();
+    CBusquedas cb = new CBusquedas();
 
     public JfInicionSesion() {
         initComponents();
     }
 
+    public void validaUsuario(String user, String password) {
+        String userBase = null, passBase = null;
+        String[] datos = null;
+        char tipoPersona = 's';
+        try {
+            String[] datosBase = cb.buscaUsuario(user, password);
+            if (datosBase != null) {
+                userBase = datosBase[1];
+                passBase = datosBase[2];
+
+                // Validacion usuario
+                if (user.equals(userBase) && password.equals(passBase)) {
+                    // Determina usuario
+                    if (cb.usuarioEnEstudiante(datosBase[0]) != null) {
+                        datos = cb.datosEstudiante(datosBase[0]);
+                        tipoPersona = 'e';
+                    } else if (cb.usuarioEnDocente(datosBase[0]) != null) {
+                        datos = cb.datosDocente(datosBase[0]);
+                        tipoPersona = 'd';
+                    } else if (cb.usuarioEnJefe(datosBase[0]) != null) {
+                        datos = cb.datosJefe(datosBase[0]);
+                        tipoPersona = 'j';
+                    }
+                    decideInterfaz(tipoPersona, datos);
+                } else {
+                    CMensajes.msg_error("¡Revise las credenciales!", "Inicio de sesion");
+                }
+            } else {
+                CMensajes.msg_error("¡Revise las credenciales!", "Inicio de sesion");
+            }
+        } catch (SQLException ex) {
+        }
+
+    }
+
+    public void decideInterfaz(char usuarioEs, String[] datosPersona) {
+        switch (usuarioEs) {
+            case 'd':
+                CMensajes.msg("Bienvenido Docente", "Inicio de sesion");
+                JfMenuDocente md = new JfMenuDocente(datosPersona);
+                creaFrame(md, "Docente", 536, 300);
+                this.dispose();
+                break;
+            case 'e':
+                CMensajes.msg("Bienvenido Alumno", "Inicio de sesion");
+                JfMenuAlumnos ma = new JfMenuAlumnos(datosPersona);
+                creaFrame(ma, "Alumno", 536, 300);
+                this.dispose();
+                break;
+            case 'j':
+                JfMenuJefe mj = new JfMenuJefe(datosPersona);
+                CMensajes.msg("Bienvenido Jefe", "Inicio de sesion");
+                creaFrame(mj, "Jefe de carrera", 536, 300);
+                this.dispose();
+                break;
+            case 's':
+                CMensajes.msg_advertencia("Ponte en contacto con Ponce", "Inicio de sesion");
+                break;
+        }
+    }
+
+    public void creaFrame(JFrame frm, String titulo, int ancho, int alto) {
+        //Hacemos visible al nuevo frame
+        frm.setVisible(true);
+        // Centramos el frame
+        frm.setLocationRelativeTo(null);
+        // Asignamos las medidas
+        frm.setSize(ancho, alto);
+        // No permitimos que cambien las medidas
+        frm.setResizable(false);
+        // Agregamos un titulo
+        frm.setTitle(titulo);
+    }
+
+    public String obtenContra() {
+        char[] password = JpsContra.getPassword();
+        String passwordStr = new String(password);
+        return passwordStr;
+    }
+
+    public void validaCampos() {
+        if (JtxtUsuario.getText().isEmpty() || new String(JpsContra.getPassword()).isEmpty()) {
+            CMensajes.msg_advertencia("Ingrese usuario y contraseña\n ¡Por favor!", "Inicio de sesion");
+        } else {
+            validaUsuario(JtxtUsuario.getText(), obtenContra());
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -13,13 +115,13 @@ public class JfInicionSesion extends javax.swing.JFrame {
 
         JpnlLienzo = new javax.swing.JPanel();
         JtxtUsuario = new javax.swing.JTextField();
-        JtxtContra = new javax.swing.JTextField();
         JlblUsuario = new javax.swing.JLabel();
         JlblContra = new javax.swing.JLabel();
+        JpsContra = new javax.swing.JPasswordField();
         JbtnIngresar = new javax.swing.JButton();
         JlblImagen = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inicio de sesion");
         setResizable(false);
 
@@ -46,16 +148,16 @@ public class JfInicionSesion extends javax.swing.JFrame {
                         .addGap(71, 71, 71)
                         .addComponent(JlblImagen))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JtxtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(106, 106, 106)
+                        .addComponent(JlblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGap(99, 99, 99)
                         .addComponent(JlblContra))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(JlblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(52, 52, 52)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(JtxtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                            .addComponent(JpsContra))))
                 .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -73,9 +175,9 @@ public class JfInicionSesion extends javax.swing.JFrame {
                 .addComponent(JtxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JlblContra)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JtxtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(JpsContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JbtnIngresar)
                 .addContainerGap())
         );
@@ -96,7 +198,7 @@ public class JfInicionSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnIngresarActionPerformed
-        // Validar Usuario
+        validaCampos();
     }//GEN-LAST:event_JbtnIngresarActionPerformed
 
     /**
@@ -140,7 +242,7 @@ public class JfInicionSesion extends javax.swing.JFrame {
     private javax.swing.JLabel JlblImagen;
     private javax.swing.JLabel JlblUsuario;
     private javax.swing.JPanel JpnlLienzo;
-    private javax.swing.JTextField JtxtContra;
+    private javax.swing.JPasswordField JpsContra;
     private javax.swing.JTextField JtxtUsuario;
     // End of variables declaration//GEN-END:variables
 }
