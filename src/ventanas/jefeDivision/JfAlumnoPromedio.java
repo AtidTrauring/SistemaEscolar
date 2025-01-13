@@ -3,6 +3,7 @@ package ventanas.jefeDivision;
 import crud.CBusquedas;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
@@ -40,8 +41,53 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
             for (String[] datosPromedio : datosPromedios) {
                 modelo.addRow(new Object[]{datosPromedio[0], datosPromedio[1], datosPromedio[2], datosPromedio[3]});
             }
+            // Crea un TableRowSorter para permitir la ordenación de las filas de la tabla.
+            tr = new TableRowSorter<>(modelo);
+
+            // Establece el TableRowSorter en la tabla 'JtableConductores'.
+            JtableAlumno.setRowSorter(tr);
         } catch (SQLException e) {
             CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    private void limpiarBuscadores() {
+        // Limpia los cuadro de texto
+        JtxtPromedio.setText(null);
+    }
+
+    public void limpiarFiltro() {
+        // Si el objeto 'tr' tiene algun filtro
+        if (tr != null) {
+            // Elimina el filtro 
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void aplicaFiltros() {
+        // Obtiene el modelo de la tabla
+        modelo = (DefaultTableModel) JtableAlumno.getModel();
+
+        // Crea un TableRowSorter para la tabla
+        tr = new TableRowSorter<>(modelo);
+
+        // Asigna el TableRowSorter a la tabla
+        JtableAlumno.setRowSorter(tr);
+
+        // Lista para almacenar filtros
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+
+        // Si el cuadro de texto no está vacío, aplica el filtro
+        if (!JtxtPromedio.getText().trim().isEmpty()) {
+            filtros.add(RowFilter.regexFilter("^" + JtxtPromedio.getText().trim() + "$", 3));
+        }
+
+        // Si hay filtros válidos, los aplica; de lo contrario, limpia los filtros
+        if (!filtros.isEmpty()) {
+            RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+            tr.setRowFilter(rf);
+        } else {
+            tr.setRowFilter(null);
         }
     }
 
@@ -53,7 +99,7 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
         JSPTablaAlumno = new javax.swing.JScrollPane();
         JtableAlumno = new javax.swing.JTable();
         JlblNombre = new javax.swing.JLabel();
-        JtxtNombre = new javax.swing.JTextField();
+        JtxtPromedio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alumnos por promedio");
@@ -84,12 +130,12 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
         });
         JSPTablaAlumno.setViewportView(JtableAlumno);
 
-        JlblNombre.setText("Nombre del alumno");
+        JlblNombre.setText("Promedio del alumno");
 
-        JtxtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        JtxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        JtxtPromedio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JtxtPromedio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                JtxtNombreKeyReleased(evt);
+                JtxtPromedioKeyReleased(evt);
             }
         });
 
@@ -102,7 +148,7 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JSPTablaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JlblNombre)
-                    .addComponent(JtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JtxtPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JpnlLienzoLayout.setVerticalGroup(
@@ -111,7 +157,7 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addComponent(JlblNombre)
                 .addGap(18, 18, 18)
-                .addComponent(JtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(JtxtPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JSPTablaAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -132,9 +178,9 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JtxtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtxtNombreKeyReleased
-//        aplicaFiltros();
-    }//GEN-LAST:event_JtxtNombreKeyReleased
+    private void JtxtPromedioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtxtPromedioKeyReleased
+        aplicaFiltros();
+    }//GEN-LAST:event_JtxtPromedioKeyReleased
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
@@ -182,6 +228,6 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
     private javax.swing.JLabel JlblNombre;
     private javax.swing.JPanel JpnlLienzo;
     private javax.swing.JTable JtableAlumno;
-    private javax.swing.JTextField JtxtNombre;
+    private javax.swing.JTextField JtxtPromedio;
     // End of variables declaration//GEN-END:variables
 }

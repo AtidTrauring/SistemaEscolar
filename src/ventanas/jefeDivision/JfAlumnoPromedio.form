@@ -53,7 +53,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="JSPTablaAlumno" alignment="0" min="-2" pref="700" max="-2" attributes="0"/>
                       <Component id="JlblNombre" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="JtxtNombre" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                      <Component id="JtxtPromedio" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -65,7 +65,7 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Component id="JlblNombre" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="JtxtNombre" min="-2" max="-2" attributes="0"/>
+                  <Component id="JtxtPromedio" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="JSPTablaAlumno" min="-2" pref="288" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -124,10 +124,10 @@
         </Container>
         <Component class="javax.swing.JLabel" name="JlblNombre">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nombre del alumno"/>
+            <Property name="text" type="java.lang.String" value="Promedio del alumno"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="JtxtNombre">
+        <Component class="javax.swing.JTextField" name="JtxtPromedio">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -136,7 +136,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="JtxtNombreKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="JtxtPromedioKeyReleased"/>
           </Events>
         </Component>
       </SubComponents>

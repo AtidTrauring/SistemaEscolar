@@ -161,8 +161,8 @@ public class CBusquedas {
     }
 
     public ArrayList<String[]> buscaPromedioAlumnos() throws SQLException {
-        consulta = "SELECT DISTINCT CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), "
-                + "g_cursado.grupo AS 'Grupo Cursado', c.ciclo, "
+        consulta = "SELECT DISTINCT c.ciclo, g_cursado.grupo, "
+                + "CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), "
                 + "ROUND(AVG(CAST(ev.calificacion AS DECIMAL(10, 2))), 2) "
                 + "FROM estudiante e JOIN persona p ON e.clave_persona = p.clave_persona "
                 + "JOIN estudiante_grupo eg ON e.clave_estudiante = eg.clave_estudiante "
