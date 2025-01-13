@@ -160,4 +160,20 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
+    public ArrayList<String[]> buscaPromedioAlumnos() throws SQLException {
+        consulta = "SELECT DISTINCT CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), "
+                + "g_cursado.grupo AS 'Grupo Cursado', c.ciclo, "
+                + "ROUND(AVG(CAST(ev.calificacion AS DECIMAL(10, 2))), 2) "
+                + "FROM estudiante e JOIN persona p ON e.clave_persona = p.clave_persona "
+                + "JOIN estudiante_grupo eg ON e.clave_estudiante = eg.clave_estudiante "
+                + "JOIN grupo g_actual ON eg.clave_grupo = g_actual.clave_grupo "
+                + "LEFT JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante "
+                + "LEFT JOIN version v ON ev.clave_version = v.clave_version "
+                + "LEFT JOIN grupo g_cursado ON v.clave_ciclo = g_cursado.clave_ciclo "
+                + "LEFT JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "GROUP BY e.clave_estudiante, g_actual.grupo, g_cursado.grupo, c.ciclo "
+                + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre, c.ciclo;";
+        return cnslt.buscarValores(consulta, 4);
+    }
+
 }

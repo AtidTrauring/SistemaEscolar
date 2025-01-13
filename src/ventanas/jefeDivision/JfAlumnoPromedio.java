@@ -1,14 +1,48 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfAlumnoPromedio extends javax.swing.JFrame {
 
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosPromedios = new ArrayList<>();
     private static String[] datosJefe;
 
     public JfAlumnoPromedio(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargarTabla();
+    }
+
+    // Metodo para limpiar la tabla
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableAlumno.getModel();
+        modelo.setRowCount(0);
+    }
+
+    // Metodo que permite ingresar los valores necesarios a la tabla
+    private void cargarTabla() {
+        // Obtenemos el modelo para poder manipularlo
+        modelo = (DefaultTableModel) JtableAlumno.getModel();
+        try {
+            // Leer los datos
+            datosPromedios = cb.buscaPromedioAlumnos();
+            // Limpiamos la tabla
+            limpiarTabla();
+            // Asignamos los valores obtenidos en la tabla
+            for (String[] datosPromedio : datosPromedios) {
+                modelo.addRow(new Object[]{datosPromedio[0], datosPromedio[1], datosPromedio[2], datosPromedio[3]});
+            }
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -37,9 +71,17 @@ public class JfAlumnoPromedio extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Grupo", "Nombre del alumno", "Promedio"
+                "Ciclo", "Grupo", "Nombre del alumno", "Promedio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JSPTablaAlumno.setViewportView(JtableAlumno);
 
         JlblNombre.setText("Nombre del alumno");

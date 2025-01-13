@@ -209,6 +209,9 @@ public class JfMisMaterias extends javax.swing.JFrame {
             }
         ));
         JSPTablaGrupo.setViewportView(JtableGrupo);
+        if (JtableGrupo.getColumnModel().getColumnCount() > 0) {
+            JtableGrupo.getColumnModel().getColumn(1).setHeaderValue("Carrera");
+        }
 
         JlblGrupo.setText("Grupo");
 
@@ -325,13 +328,13 @@ public class JfMisMaterias extends javax.swing.JFrame {
         aplicaFiltros();
     }//GEN-LAST:event_JcmbxGrupoItemStateChanged
 
-    private void JcmbxCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCarreraItemStateChanged
-        aplicaFiltros();
-    }//GEN-LAST:event_JcmbxCarreraItemStateChanged
-
     private void JcmbxAsignaturaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxAsignaturaItemStateChanged
         aplicaFiltros();
     }//GEN-LAST:event_JcmbxAsignaturaItemStateChanged
+
+    private void JcmbxCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCarreraItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCarreraItemStateChanged
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
