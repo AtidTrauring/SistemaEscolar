@@ -13,13 +13,15 @@ public class JfBuscaKardex extends javax.swing.JFrame {
     //**************   ATRIBUTOS  *******************/
     private DefaultTableModel modelo;
     private TableRowSorter tr;
-    private final CBusquedas queryBusca = new CBusquedas();
+    private CBusquedas cb = new CBusquedas();
     private ArrayList<String[]> datosKardex = new ArrayList<>();
     private static String[] datosJefe;
 
     public JfBuscaKardex(String[] datos) {
         initComponents();
+        JtableKardex.getTableHeader().setReorderingAllowed(false);
         datosJefe = datos;
+        cargarTabla();
     }
 
     private void limpiarTabla() {
@@ -27,21 +29,35 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         modelo.setRowCount(0);
     }
 
-//    public void cargarTabla() {
-//        modelo = (DefaultTableModel) JtableKardex.getModel();
-//        try {
-//            datosKardex = queryBusca.buscaTerminalesCompletas();
-//            limpiarTabla();
-//            for (String[] datosTerminal : datosKardex) {
-//                modelo.addRow(new Object[]{datosTerminal[1], datosTerminal[2], datosTerminal[3], datosTerminal[4], datosTerminal[5], datosTerminal[6],
-//                    datosTerminal[7], datosTerminal[8]});
-//            }
-//            tr = new TableRowSorter<>(modelo);
-//            JtableKardex.setRowSorter(tr);
-//        } catch (SQLException ex) {
-//            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
-//        }
-//    }
+    private void limpiarBuscadores() {
+        // Limpia los cuadro de texto
+        JtxtNombreAlumno.setText(null);
+        JtxtMatriculaAlumno.setText(null);
+    }
+
+    public void limpiarFiltro() {
+        // Si el objeto 'tr' tiene algun filtro
+        if (tr != null) {
+            // Elimina el filtro 
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        try {
+            datosKardex = cb.buscarAlumnosCompletos();
+            limpiarTabla();
+
+            for (String[] datoKardex : datosKardex) {
+                modelo.addRow(new Object[]{datoKardex[0], datoKardex[1], datoKardex[2], datoKardex[3], datoKardex[4], datoKardex[5],
+                    datoKardex[6]});
+            }
+        } catch (SQLException ex) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
     public void aplicaFiltros() {
         modelo = (DefaultTableModel) JtableKardex.getModel();
         tr = new TableRowSorter<>(modelo);

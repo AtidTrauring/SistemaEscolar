@@ -1,16 +1,69 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
+import utilitarios.CUtilitarios;
+import crud.CInserciones;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import java.sql.SQLException;
 import utilitarios.CUtilitarios;
+import javax.swing.JTextField;
 
 public class JfAPersona extends javax.swing.JFrame {
 
+    private CInserciones queryInserta = new CInserciones();
     private CBusquedas cb = new CBusquedas();
+    private String nombres, apPaterno, apMaterno;
     private static String[] datosJefe;
     private static String personaL;
     private static String nombreBotonL;
+    private String regexNombres = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$";
+
+    public void asignaValores() {
+        nombres = JtxtNombres.getText();
+        apPaterno = JtxtApPaterno.getText();
+        apMaterno = JtxtApMaterno.getText();
+    }
+
+    public void limpiaValores() {
+        nombres = null;
+        apPaterno = null;
+        apMaterno = null;
+    }
+
+    public String devuelveCadena(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$")) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public boolean validaCampo(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Usuarios");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Usuarios");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampos() {
+        return (validaCampo(nombres, JtxtNombres, regexNombres, "Ingrese nombre(s)", "Valores invalidos para nombre(s)"))
+                && (validaCampo(apPaterno, JtxtApPaterno, regexNombres, "Ingrerse un apellido paterno.", "Valores invalidos para apellido paterno"))
+                && (validaCampo(apMaterno, JtxtApMaterno, regexNombres, "Ingrese un apellido materno.", "Valores invalidos para apellido materno"));
+    }
 
     public JfAPersona(String[] datos, String persona, String nombreBoton) {
         initComponents();

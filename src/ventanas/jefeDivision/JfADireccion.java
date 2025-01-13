@@ -1,17 +1,108 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import crud.CInserciones;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import utilitarios.CUtilitarios;
+import javax.swing.JTextField;
 
 public class JfADireccion extends javax.swing.JFrame {
 
+    private final CBusquedas queryBusca1 = new CBusquedas();
+    private final CBusquedas queryBusca2 = new CBusquedas();
+    private final CInserciones queryInserta1 = new CInserciones();
+    private final CCargaCombos queryCarga = new CCargaCombos();
+
     private static String[] datosJefe;
     private static String[] datosPersona;
+    private String calle, colonia, codigoPostal, num_Int, num_Ext, municipio, estado;
+    private String regexNombre = "^[a-zA-Z]{1,80}$";
+    private String regexCodigoPostal = "^[0-9]{5}$";
+    private String regexEstado = "^[a-zA-Z]{1,19}$";
+    private String regexMunicipio = "^[a-zA-Z]{1,80}$";
+    private String regexCalle = "^[a-zA-Z]{1,80}$";
+    private String regexNumero = "^[0-9]{1,5}$";
+    private String regexColonia = "^[a-zA-Z]{1,80}$";
+    private DefaultComboBoxModel listas;
+    private ArrayList<String> datosListas = new ArrayList<>();
+    private String nombreEstado;
 
     public JfADireccion(String[] datosJ, String[] datosP, String nombreBoton) {
         initComponents();
-        datosJefe = datosJ;
-        datosPersona = datosP;
         JbtnEnviar.setText(nombreBoton);
+    }
+
+    public JfADireccion() {
+        initComponents();
+        cargaComboBox(JcmbxEstado, 1);
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboEstados();
+                    for (int i = 1; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void asignaValores() {
+        calle = JtxtCalle.getText();
+        colonia = JtxtBarrio.getText();
+        codigoPostal = JtxtCP.getText();
+        num_Int = JtxtNumeroInt.getText();
+        num_Ext = JtxtNumeroExt.getText();
+        municipio = JtxtMunicipio.getText();
+        estado = (String) JcmbxEstado.getSelectedItem();
+    }
+
+    public void limpiaValores() {
+        calle = null;
+        colonia = null;
+        codigoPostal = null;
+        num_Int = null;
+        num_Ext = null;
+        municipio = null;
+        estado = null;
+    }
+
+    public boolean validaCampos() {
+        return CUtilitarios.validaCampo(calle, JtxtCalle, regexCalle, "Ingrese la calle", "Calle invalida")
+                && CUtilitarios.validaCampo(colonia, JtxtBarrio, regexColonia, "Ingrese la colonia", "Colonia invalida")
+                && CUtilitarios.validaCampo(codigoPostal, JtxtCP, regexCodigoPostal, "Ingrese el Codigo postal", "Codigo postal invalido")
+                && CUtilitarios.validaCampo(num_Int, JtxtNumeroInt, regexNumero, "Ingrese el numero", "Numero Interior invalido")
+                && CUtilitarios.validaCampo(num_Ext, JtxtNumeroExt, regexNumero, "Ingrese el numero", "Numero Exterior invalido")
+                && CUtilitarios.validaCampo(municipio, JtxtMunicipio, regexMunicipio, "Ingrese el municipio", "Municipio invalido")
+                && CUtilitarios.validaComboBox(nombreEstado, JcmbxEstado, "Seleccione un estado");
+
+    }
+
+    public void BuscaCamposColonia(String colonia) throws SQLException {
+        try {
+            String resultado = queryBusca1.buscarIdColonia(colonia);
+            String IdCol = queryBusca2.obtenIdFinalColoniaa();
+            int clave_colonia = Integer.parseInt(IdCol);
+            if (resultado == null) {
+                queryInserta1.insertaColonia(clave_colonia + 1, colonia);
+                System.out.println("Se inserto colonia:" + colonia);
+            } else {
+                CUtilitarios.msg_advertencia("La colonia ya esta registrada", "Registro colonia");
+                System.out.println("Encontrado");
+            }
+
+        } catch (Exception e) {
+        }
     }
 
     @SuppressWarnings("unchecked")

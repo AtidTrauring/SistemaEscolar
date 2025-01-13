@@ -1,7 +1,9 @@
 package utilitarios;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class CUtilitarios {
 
@@ -44,6 +46,44 @@ public class CUtilitarios {
             msg_error("Ingrese numeros entre 0 y 100.", "Asignar calificacion");
             return -1;
         }
+    }
+
+    public static boolean validaComboBox(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+        boolean valida = true;
+        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+        if (campoTexto.equals("Selecciona una opcion")) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Direccion");
+            valida = false;
+        }
+        return valida;
+    }
+
+    public static String devuelveCadena(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regex)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public static boolean validaCampo(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro direccion");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro direccion");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
     }
 
 }

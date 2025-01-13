@@ -117,4 +117,46 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
+    // --------------------- Busquedas JfMenuJefeDivision ---------------------
+    public ArrayList<String[]> buscarAlumnosCompletos() throws SQLException {
+        consulta = "SELECT a.clave_asignatura, a.nombre_asignatura, p.nombre AS nombre_docente,"
+                + "c.fecha_inicio, c.fecha_fin, "
+                + "o.origen, ev.calificacion"
+                + "FROM asignatura a"
+                + "JOIN version v ON a.clave_asignatura = v.clave_asignatura"
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo"
+                + "JOIN origen o ON v.clave_origen = o.clave_origen"
+                + "JOIN docente_version dv ON v.clave_version = dv.clave_version"
+                + "JOIN docente d ON dv.clave_docente = d.clave_docente"
+                + "JOIN persona p ON d.clave_persona = p.clave_persona"
+                + "JOIN estudiante_version ev ON v.clave_version = ev.clave_version"
+                + "JOIN estudiante e ON ev.clave_estudiante = e.clave_estudiante";
+        return cnslt.buscarValores(consulta, 7);
+    }
+
+    public String buscarIdCodigoPostal(String codigoPostal) throws SQLException {
+        String claveDireccion = cnslt.buscarValor("SELECT\n"
+                + "codigo_postal.clave_cp\n"
+                + "FROM\n"
+                + "codigo_postal\n"
+                + "WHERE\n"
+                + "codigo_postal.cp = '" + codigoPostal + "';");
+        return claveDireccion;
+    }
+
+    public String buscarIdColonia(String colonia) throws SQLException {
+        String claveDireccion = cnslt.buscarValor("SELECT\n"
+                + "colonia.clave_colonia\n"
+                + "FROM\n"
+                + "colonia\n"
+                + "WHERE\n"
+                + "colonia.colonia = '" + colonia + "';");
+        return claveDireccion;
+    }
+
+    public String obtenIdFinalColoniaa() throws SQLException {
+        consulta = "SELECT MAX(clave_colonia) FROM carreras_teschi.colonia;";
+        return cnslt.buscarValor(consulta);
+    }
+
 }
