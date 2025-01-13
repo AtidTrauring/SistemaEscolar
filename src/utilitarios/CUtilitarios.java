@@ -18,13 +18,6 @@ public class CUtilitarios {
         frm.setTitle(titulo);
     }
 
-    public static void creaFramePersona(JFrame frm, String titulo) {
-        frm.setVisible(true);
-        frm.setLocationRelativeTo(null);
-        frm.setResizable(false);
-        frm.setTitle(titulo);
-    }
-
     public static void msg(String msg, String origen) {
         JOptionPane.showMessageDialog(null, msg, origen, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -36,4 +29,21 @@ public class CUtilitarios {
     public static void msg_advertencia(String msg, String origen) {
         JOptionPane.showMessageDialog(null, msg, origen, JOptionPane.WARNING_MESSAGE);
     }
+
+    public static double validaCalificaion(String valor) {
+        String regex = "^(100|\\d{1,2}(\\.\\d{1,2})?)$";
+        if (valor.matches(regex)) {
+            double numero = Double.parseDouble(valor);
+            if (numero >= 0 && numero <= 100) {
+                return numero;
+            } else {
+                msg_advertencia("El valor debe estar entre 0 y 100.", "Asignar calificacion");
+                return -1;
+            }
+        } else {
+            msg_error("Ingrese numeros entre 0 y 100.", "Asignar calificacion");
+            return -1;
+        }
+    }
+
 }

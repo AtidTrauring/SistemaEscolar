@@ -73,6 +73,7 @@ public class CBusquedas {
 
     }
 
+    // --------------------- Busquedas JfMenuDocente ---------------------
     public ArrayList<String[]> buscaMateriasDocente(String idDocente) throws SQLException {
         consulta = "SELECT c.ciclo, car.nombre_carrera, g.grupo, "
                 + "a.nombre_asignatura  FROM docente d "
@@ -85,7 +86,35 @@ public class CBusquedas {
                 + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
                 + "WHERE d.clave_docente = " + idDocente + ";";
         return cnslt.buscarValores(consulta, 4);
+    }
 
+    public ArrayList<String[]> buscaAlumnosGrupo(String grupo, String ciclo, String asignatura) throws SQLException {
+        consulta = "SELECT e.clave_estudiante, "
+                + "CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre) AS Nombre_Completo "
+                + "FROM estudiante_grupo eg JOIN grupo g ON eg.clave_grupo = g.clave_grupo "
+                + "JOIN ciclo c ON g.clave_ciclo = c.clave_ciclo "
+                + "JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
+                + "JOIN persona p ON e.clave_persona = p.clave_persona "
+                + "JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante "
+                + "JOIN version v ON ev.clave_version = v.clave_version "
+                + "JOIN carrera_asignatura ca ON v.clave_asignatura = ca.clave_asignatura "
+                + "JOIN asignatura a ON ca.clave_asignatura = a.clave_asignatura "
+                + "WHERE g.grupo = '" + grupo + "' AND c.ciclo = '" + ciclo + "' "
+                + "AND a.nombre_asignatura = '" + asignatura + "' "
+                + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre;";
+        return cnslt.buscarValores(consulta, 2);
+    }
+
+    public String buscaMateriaDocente(String ciclo, String asignatura, String grupo, String idDocente) throws SQLException {
+        consulta = "SELECT v.clave_version FROM version v "
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "JOIN docente_version dv ON v.clave_version = dv.clave_version "
+                + "JOIN docente d ON dv.clave_docente = d.clave_docente "
+                + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo "
+                + "WHERE c.ciclo = '" + ciclo + "' AND a.nombre_asignatura = '" + asignatura + "' "
+                + "AND g.grupo = '" + grupo + "' AND d.clave_docente = " + idDocente + ";";
+        return cnslt.buscarValor(consulta);
     }
 
 }
