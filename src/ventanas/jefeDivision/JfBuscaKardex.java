@@ -103,9 +103,17 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave Asignatura", "Asignatura", "Docente", "Inicio", "Termino", "Origen", "Calificación"
+                "Alumno", "Clave Asignatura", "Asignatura", "Docente", "Periodo", "Origen", "Calificación"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JSPTablaKardex.setViewportView(JtableKardex);
 
         JlblNombreAlumno.setText("Nombre del alumno");
