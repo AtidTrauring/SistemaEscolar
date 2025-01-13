@@ -52,7 +52,7 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 
             for (String[] datoKardex : datosKardex) {
                 modelo.addRow(new Object[]{datoKardex[0], datoKardex[1], datoKardex[2], datoKardex[3], datoKardex[4], datoKardex[5],
-                    datoKardex[6]});
+                    datoKardex[6],datoKardex[7]});
             }
         } catch (SQLException ex) {
             CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
@@ -68,7 +68,7 @@ public class JfBuscaKardex extends javax.swing.JFrame {
             filtros.add(RowFilter.regexFilter("^" + JtxtNombreAlumno.getText().trim() + "$", 0));
         }
         if (!JtxtMatriculaAlumno.getText().trim().isEmpty()) {
-            filtros.add(RowFilter.regexFilter("^" + JtxtMatriculaAlumno.getText().trim() + "$", 0));
+            filtros.add(RowFilter.regexFilter("^" + JtxtMatriculaAlumno.getText().trim() + "$", 1));
         }
         RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
         tr.setRowFilter(rf);
@@ -88,14 +88,16 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         return valores;
     }
     
-    public int buscarId(String nombre, String apPat, String apMat, String correo) {
-        for (String[] Alumno : datosAlumno) {
-            if (Alumno[1].equals(nombre) && Alumno[2].equals(apPat) && Alumno[3].equals(apMat) && Alumno[4].equals(correo)) {
-                return Integer.parseInt(Alumno[0]);
-            }
+   
+    public int buscarId(String nombre, int correo) {
+    for (String[] Alumno : datosAlumno) {
+        if (Alumno[1].equals(nombre) && Integer.parseInt(Alumno[2]) == correo) {
+            return Integer.parseInt(Alumno[0]);
         }
-        return -1;
     }
+    return -1;
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -127,11 +129,11 @@ public class JfBuscaKardex extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Alumno", "Clave Asignatura", "Asignatura", "Docente", "Periodo", "Origen", "Calificación"
+                "Alumno", "Matricula", "Clave Asignatura", "Asignatura", "Docente", "Periodo", "Origen", "Calificación"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, true, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -177,8 +179,8 @@ public class JfBuscaKardex extends javax.swing.JFrame {
                         .addComponent(JbtnEliminaAlumno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(JbtnActualizaDato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JSPTablaKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(JSPTablaKardex, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE)
+                .addContainerGap())
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

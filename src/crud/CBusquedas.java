@@ -119,20 +119,20 @@ public class CBusquedas {
 
     // --------------------- Busquedas JfMenuJefeDivision ---------------------
     public ArrayList<String[]> buscarAlumnosCompletos() throws SQLException {
-        consulta = "SELECT pe.nombre AS nombre_estudiante, a.clave_asignatura, \n"
-                + "    a.nombre_asignatura, p.nombre AS nombre_docente, \n"
-                + "    c.ciclo, o.origen,  ev.calificacion\n"
-                + "FROM asignatura a\n"
-                + "JOIN version v ON a.clave_asignatura = v.clave_asignatura\n"
-                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo\n"
-                + "JOIN origen o ON v.clave_origen = o.clave_origen\n"
-                + "JOIN docente_version dv ON v.clave_version = dv.clave_version\n"
-                + "JOIN docente d ON dv.clave_docente = d.clave_docente\n"
-                + "JOIN persona p ON d.clave_persona = p.clave_persona\n"
-                + "JOIN estudiante_version ev ON v.clave_version = ev.clave_version\n"
-                + "JOIN estudiante e ON ev.clave_estudiante = e.clave_estudiante\n"
+        consulta = "SELECT pe.nombre AS nombre_estudiante, e.clave_estudiante, a.clave_asignatura, "
+                + "a.nombre_asignatura, p.nombre AS nombre_docente, "
+                + "c.ciclo, o.origen, ev.calificacion "
+                + "FROM asignatura a "
+                + "JOIN version v ON a.clave_asignatura = v.clave_asignatura "
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "JOIN origen o ON v.clave_origen = o.clave_origen "
+                + "JOIN docente_version dv ON v.clave_version = dv.clave_version "
+                + "JOIN docente d ON dv.clave_docente = d.clave_docente "
+                + "JOIN persona p ON d.clave_persona = p.clave_persona "
+                + "JOIN estudiante_version ev ON v.clave_version = ev.clave_version "
+                + "JOIN estudiante e ON ev.clave_estudiante = e.clave_estudiante "
                 + "JOIN persona pe ON e.clave_persona = pe.clave_persona;";
-        return cnslt.buscarValores(consulta, 7);
+        return cnslt.buscarValores(consulta, 8);
     }
 
     public String buscarIdCodigoPostal(String codigoPostal) throws SQLException {
