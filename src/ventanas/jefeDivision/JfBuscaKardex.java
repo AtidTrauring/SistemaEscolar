@@ -15,6 +15,7 @@ public class JfBuscaKardex extends javax.swing.JFrame {
     private TableRowSorter tr;
     private CBusquedas cb = new CBusquedas();
     private ArrayList<String[]> datosKardex = new ArrayList<>();
+    private ArrayList<String[]> datosAlumno = new ArrayList<>();
     private static String[] datosJefe;
 
     public JfBuscaKardex(String[] datos) {
@@ -71,6 +72,29 @@ public class JfBuscaKardex extends javax.swing.JFrame {
         }
         RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
         tr.setRowFilter(rf);
+    }
+    
+    private String[] obtenerValoresFilaTabla() {
+        String[] valores = new String[4];
+        int filaSeleccionada = JtableKardex.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            for (int i = 0; i < JtableKardex.getColumnCount(); i++) {
+                valores[i] = (String) JtableKardex.getValueAt(filaSeleccionada, i);
+            }
+        } else {
+            CUtilitarios.msg_error("No hay fila seleccionada", "Obteniendo datos fila");
+            return null;
+        }
+        return valores;
+    }
+    
+    public int buscarId(String nombre, String apPat, String apMat, String correo) {
+        for (String[] Alumno : datosAlumno) {
+            if (Alumno[1].equals(nombre) && Alumno[2].equals(apPat) && Alumno[3].equals(apMat) && Alumno[4].equals(correo)) {
+                return Integer.parseInt(Alumno[0]);
+            }
+        }
+        return -1;
     }
 
     @SuppressWarnings("unchecked")
