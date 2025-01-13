@@ -3,48 +3,174 @@ package ventanas.docentes;
 import crud.CBusquedas;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
-import ventanas.jefeDivision.*;
 
 public class JfMisMaterias extends javax.swing.JFrame {
 
-    // Variable para manipular el modelo de la tabla
-    private DefaultTableModel modelo;
-    // Instanci de la clase que permite hacer la consulta
-    private CBusquedas cb = new CBusquedas();
-    // Creacion de lista, para la obtencion de valores de la tabla
-    private ArrayList<String[]> datosMaterias = new ArrayList<>();
-    // Variable para obtener datos del Estudiante
-    private static String[] datosDocente;
+// Clase JfMisMaterias: gestiona la interfaz gráfica para mostrar las materias asignadas a un docente.
+    private DefaultTableModel modelo; // Modelo de datos para la tabla JtableGrupo.
+    private DefaultComboBoxModel listas; // Modelo de datos para los JComboBox.
+    private TableRowSorter tr; // Objeto para ordenar y filtrar filas en la tabla.
+    private CBusquedas cb = new CBusquedas(); // Objeto que gestiona las búsquedas de datos.
+    private ArrayList<String[]> datosMaterias = new ArrayList<>(); // Lista para almacenar los datos de las materias.
+    private static String[] datosDocente; // Datos del docente actual.
 
+// Constructor: inicializa la interfaz gráfica y carga los datos iniciales.
     public JfMisMaterias(String[] datos) {
-        initComponents();
-        datosDocente = datos;
+        initComponents(); // Inicializa los componentes gráficos.
+        datosDocente = datos; // Almacena los datos del docente.
+
+        // Configura la tabla para no permitir reordenar columnas.
+        JtableGrupo.getTableHeader().setReorderingAllowed(false);
+
+        // Carga los datos iniciales en los ComboBox correspondientes.
+        cargaComboBox(JcmbxCiclo, 1);
+        cargaComboBox(JcmbxCarrera, 2);
+        cargaComboBox(JcmbxGrupo, 3);
+        cargaComboBox(JcmbxAsignatura, 4);
+
+        // Carga los datos iniciales en la tabla.
+        cargarTabla();
     }
 
-    // Metodo para limpiar la tabla
+// **************** MÉTODOS ******************//
+    /**
+     * Método: limpiarTabla Descripción: Elimina todos los datos del modelo de
+     * la tabla.
+     */
     private void limpiarTabla() {
+        // Obtiene el modelo de datos de la tabla.
         modelo = (DefaultTableModel) JtableGrupo.getModel();
+
+        // Establece el número de filas en 0 para vaciar la tabla.
         modelo.setRowCount(0);
     }
 
-    // Metodo que permite ingresar los valores necesarios a la tabla
+    /**
+     * Método: cargarTabla Descripción: Carga los datos de las materias
+     * asignadas al docente en la tabla.
+     */
     private void cargarTabla() {
-        // Obtenemos el modelo para poder manipularlo
+        // Obtiene el modelo de datos de la tabla.
         modelo = (DefaultTableModel) JtableGrupo.getModel();
+
         try {
-            // Leer los datos
-            datosMaterias = cb.buscaHistorialEstudiante(datosDocente[1]);
-            // Limpiamos la tabla
+            // Obtiene los datos de las materias del docente a través del objeto de búsqueda.
+            datosMaterias = cb.buscaMateriasDocente(datosDocente[1]);
+
+            // Limpia la tabla antes de cargar nuevos datos.
             limpiarTabla();
-            // Asignamos los valores obtenidos en la tabla
+
+            // Agrega cada materia como una nueva fila en la tabla.
+            for (String[] datosMateria : datosMaterias) {
+                modelo.addRow(new Object[]{datosMateria[0], datosMateria[1], datosMateria[2], datosMateria[3]});
+            }
+
+            // Configura el TableRowSorter para la tabla.
+            tr = new TableRowSorter<>(modelo);
+            JtableGrupo.setRowSorter(tr);
+        } catch (SQLException e) {
+            // Muestra un mensaje de error si ocurre un problema al cargar los datos.
+            CUtilitarios.msg_error("No se pudo cargar la información en la tabla", "Cargando Tabla");
+        }
+    }
+
+    /**
+     * Método: cargaComboBox Descripción: Llena un JComboBox con datos filtrados
+     * según el método de carga.
+     * utilizará.
+     */
+    private void cargaComboBox(JComboBox<String> combo, int metodoCarga) {
+        // Obtiene el modelo del JComboBox.
+        listas = (DefaultComboBoxModel<String>) combo.getModel();
+
+        try {
+            // Obtiene los datos de las materias del docente.
+            datosMaterias = cb.buscaMateriasDocente(datosDocente[1]);
+
+            // Itera sobre los datos para agregar los valores al JComboBox.
             for (String[] datosVersion : datosMaterias) {
-                modelo.addRow(new Object[]{datosVersion[2], datosVersion[3]});
+                String elemento = ""; // Variable para almacenar el dato seleccionado.
+
+                // Selecciona el dato según el método de carga.
+                switch (metodoCarga) {
+                    case 1:
+                        elemento = datosVersion[0];
+                        break; // Primer campo (por ejemplo, ciclo).
+                    case 2:
+                        elemento = datosVersion[1];
+                        break; // Segundo campo (por ejemplo, carrera).
+                    case 3:
+                        elemento = datosVersion[2];
+                        break; // Tercer campo (por ejemplo, grupo).
+                    case 4:
+                        elemento = datosVersion[3];
+                        break; // Cuarto campo (por ejemplo, asignatura).
+                    default:
+                        // Muestra un mensaje de error si el método de carga no es válido.
+                        CUtilitarios.msg_error("Método de carga inválido", "Carga ComboBox");
+                        return;
+                }
+
+                // Verifica si el elemento ya existe en el ComboBox.
+                boolean existe = false;
+                for (int i = 0; i < listas.getSize(); i++) {
+                    if (listas.getElementAt(i).equals(elemento)) {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                // Agrega el elemento solo si no existe.
+                if (!existe) {
+                    listas.addElement(elemento);
+                }
             }
         } catch (SQLException e) {
-            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+            // Muestra un mensaje de error si ocurre un problema al cargar los datos.
+            CUtilitarios.msg_error("Error al cargar datos en el ComboBox", "Carga ComboBox");
         }
+    }
+
+    /**
+     * Método: aplicaFiltros Descripción: Aplica filtros a los datos de la tabla
+     * basándose en las selecciones de los JComboBox.
+     */
+    private void aplicaFiltros() {
+        // Obtiene el modelo de datos de la tabla.
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+
+        // Configura un TableRowSorter para la tabla.
+        tr = new TableRowSorter<>(modelo);
+        JtableGrupo.setRowSorter(tr);
+
+        // Lista para almacenar los filtros que se aplicarán.
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+
+        // Verifica las selecciones de cada JComboBox y agrega filtros correspondientes.
+        if (JcmbxCiclo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCiclo.getSelectedItem().toString(), 0));
+        }
+        if (JcmbxCarrera.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCarrera.getSelectedItem().toString(), 1));
+        }
+        if (JcmbxGrupo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 2));
+        }
+        if (JcmbxAsignatura.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxAsignatura.getSelectedItem().toString(), 3));
+        }
+
+        // Combina todos los filtros en uno solo.
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+
+        // Aplica el filtro combinado al TableRowSorter.
+        tr.setRowFilter(rf);
     }
 
     @SuppressWarnings("unchecked")
@@ -79,7 +205,7 @@ public class JfMisMaterias extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Grupo", "Asignatura"
+                "Ciclo", "Carrera", "Grupo", "Asignatura"
             }
         ));
         JSPTablaGrupo.setViewportView(JtableGrupo);
@@ -87,18 +213,38 @@ public class JfMisMaterias extends javax.swing.JFrame {
         JlblGrupo.setText("Grupo");
 
         JcmbxGrupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxGrupo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxGrupoItemStateChanged(evt);
+            }
+        });
 
         JlblCiclo.setText("Ciclo");
 
         JcmbxCiclo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCiclo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxCicloItemStateChanged(evt);
+            }
+        });
 
         JlblAsignatura.setText("Asignatura");
 
         JcmbxAsignatura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxAsignatura.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxAsignaturaItemStateChanged(evt);
+            }
+        });
 
         JlblCarrera.setText("Carrera");
 
         JcmbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarrera.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxCarreraItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -107,6 +253,7 @@ public class JfMisMaterias extends javax.swing.JFrame {
             .addGroup(JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JSPTablaGrupo)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblCiclo)
@@ -122,9 +269,9 @@ public class JfMisMaterias extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblAsignatura)
-                            .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 222, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,6 +316,22 @@ public class JfMisMaterias extends javax.swing.JFrame {
         JfMenuDocente md = new JfMenuDocente(datosDocente);
         CUtilitarios.creaFrame(md, datosDocente[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxCicloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCicloItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCicloItemStateChanged
+
+    private void JcmbxGrupoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxGrupoItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxGrupoItemStateChanged
+
+    private void JcmbxCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCarreraItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCarreraItemStateChanged
+
+    private void JcmbxAsignaturaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxAsignaturaItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxAsignaturaItemStateChanged
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

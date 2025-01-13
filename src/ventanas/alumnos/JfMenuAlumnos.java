@@ -7,6 +7,7 @@ import ventanas.JfInicionSesion;
 public class JfMenuAlumnos extends javax.swing.JFrame {
 
     private static String[] datosAlumno;
+    //[0] Clave Persona -> 4, [1]Clave Rol ->2022452004, [2]Angel Jair Alvarado Medina
     private CBusquedas cb = new CBusquedas();
 
     public JfMenuAlumnos(String[] datos) {

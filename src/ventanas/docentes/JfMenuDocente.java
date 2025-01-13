@@ -5,8 +5,10 @@ import utilitarios.CUtilitarios;
 
 public class JfMenuDocente extends javax.swing.JFrame {
 
+    // Permite obtener los datos del docente/alumno/Jefe de carrera
     private static String[] datosDocente;
 
+    //Constructor
     public JfMenuDocente(String[] datos) {
         initComponents();
         datosDocente = datos;
