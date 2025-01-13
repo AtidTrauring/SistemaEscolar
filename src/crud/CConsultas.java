@@ -28,7 +28,7 @@ public class CConsultas {
             if (rs.next()) {
                 valorObtenido = rs.getString(1);
             } else {
-                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
+//                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
             }
         } catch (SQLException ex) {
             String cadena = "SQLException: " + ex.getMessage() + "\n"
@@ -182,7 +182,7 @@ public class CConsultas {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(consulta);
             if (rs == null) {
-                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
+//                CUtilitarios.msg_advertencia("Elementos no encontrados", "buscar objetos");
             } else {
                 while (rs.next()) {
                     String[] arregloResultados = new String[numCampos];

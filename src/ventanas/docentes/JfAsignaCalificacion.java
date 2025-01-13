@@ -306,7 +306,7 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         } else {
             double calificacion = CUtilitarios.validaCalificaion(JtxtCalificacion.getText());
             if (calificacion != -1) {
-                JtxtCalificacion.isEditable();
+                JtxtCalificacion.setEditable(true);
                 try {
                     if (ci.insertaCalificacion(idVersion, alumno[0], calificacion)) {
                         CUtilitarios.msg("Se registro la calificacion, exitosamente", "Asignar califiacion");
@@ -323,8 +323,9 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         String[] criteriosBusqueda = obtenValoresBusqueda();
         if (criteriosBusqueda != null) {
             try {
+                // validar si hay calificacion
                 idVersion = cb.buscaMateriaDocente(criteriosBusqueda[0], criteriosBusqueda[1], criteriosBusqueda[2], datosDocente[1]);
-                if (idVersion.isEmpty()) {
+                if (idVersion == null) {
                     CUtilitarios.msg("No hay ninguna grupo asignado con esa materia.", "Asignar calificacion.");
                 } else {
                     cargarTabla();
@@ -345,8 +346,8 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         alumno = obtenerValoresFilaTabla();
         if (alumno != null) {
             JtxtAlumno.setText(alumno[1]);
-            JtxtCalificacion.isEnabled();
-            JtxtCalificacion.isEditable();
+            JtxtAlumno.setEditable(false);
+            JtxtAlumno.setEnabled(false);
         }
     }//GEN-LAST:event_JtableGrupoMouseClicked
 
