@@ -29,22 +29,23 @@ public class CCargaCombos {
         return cnslt.buscarValoresCombos(consulta);
     }
 
-    public ArrayList<String> cargaComboUnidad(String claveAsignatura) throws SQLException {
-        consulta = "SELECT u.unidad FROM asignatura_unidad au "
-                + "JOIN unidad u ON au.clave_unidad = u.clave_unidad "
-                + "WHERE au.clave_asignatura = '" + claveAsignatura + "';";
+    public ArrayList<String> cargaComboUnidad() throws SQLException {
+        consulta = "SELECT unidad FROM unidad;";
         return cnslt.buscarValoresCombos(consulta);
     }
 
-    public ArrayList<String> cargaComboSubtema(String nombreUnidad) throws SQLException {
-        consulta = "SELECT s.subtema FROM subtema s "
-                + "JOIN unidad u ON s.clave_unidad = u.clave_unidad "
-                + "WHERE u.unidad = '" + nombreUnidad + "';";
+    public ArrayList<String> cargaComboSubtema() throws SQLException {
+        consulta = "SELECT subtema FROM subtema;";
         return cnslt.buscarValoresCombos(consulta);
     }
 
-    public ArrayList<String> cargaComboAsignatura(String nombreUnidad) throws SQLException {
+    public ArrayList<String> cargaComboAsignatura() throws SQLException {
         consulta = "SELECT asignatura.nombre_asignatura FROM asignatura;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
+    public ArrayList<String> cargaComboCarrera() throws SQLException {
+        consulta = "SELECT carrera.nombre_carrera FROM carrera;";
         return cnslt.buscarValoresCombos(consulta);
     }
 

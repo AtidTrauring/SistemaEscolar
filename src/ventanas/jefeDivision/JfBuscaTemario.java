@@ -50,14 +50,14 @@ public class JfBuscaTemario extends javax.swing.JFrame {
 
         try {
             // Obtiene los datos de las materias del docente a través del objeto de búsqueda.
-            datosTemarios = cb.buscaGrupoxDocente();
+            datosTemarios = cb.buscaTemario();
 
             // Limpia la tabla antes de cargar nuevos datos.
             limpiarTabla();
 
             // Agrega cada materia como una nueva fila en la tabla.
-            for (String[] datosdg : datosTemarios) {
-                modelo.addRow(new Object[]{datosdg[0], datosdg[1], datosdg[2]});
+            for (String[] datosTemario : datosTemarios) {
+                modelo.addRow(new Object[]{datosTemario[0], datosTemario[1], datosTemario[2], datosTemario[3], datosTemario[4]});
             }
 
             // Configura el TableRowSorter para la tabla.
@@ -80,7 +80,7 @@ public class JfBuscaTemario extends javax.swing.JFrame {
             switch (metodoCarga) {
                 case 1:
                     // Obtenemos los valores de la tabla
-                    datosListas = cc.cargaComboCiclo();
+                    datosListas = cc.cargaComboCarrera();
                     // listas.addElement("Seleccione una opcion");
                     // Asiganamos los valores obtenidos al JComboBox
                     for (int i = 0; i < datosListas.size(); i++) {
@@ -91,7 +91,21 @@ public class JfBuscaTemario extends javax.swing.JFrame {
                     datosListas.clear();
                     break;
                 case 2:
-                    datosListas = cc.cargaComboGrupo();
+                    datosListas = cc.cargaComboAsignatura();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 3:
+                    datosListas = cc.cargaComboUnidad();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 4:
+                    datosListas = cc.cargaComboSubtema();
                     for (int i = 0; i < datosListas.size(); i++) {
                         listas.addElement(datosListas.get(i));
                     }
@@ -120,14 +134,20 @@ public class JfBuscaTemario extends javax.swing.JFrame {
         ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
 
         // Verifica las selecciones de cada JComboBox y agrega filtros correspondientes.
-        if (JcmbxCiclo.getSelectedIndex() != 0) {
-            filtros.add(RowFilter.regexFilter(JcmbxCiclo.getSelectedItem().toString(), 0));
+        if (JcmbxCarrera.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCarrera.getSelectedItem().toString(), 0));
         }
-        if (JcmbxGrupo.getSelectedIndex() != 0) {
-            filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 1));
+        if (JcmbxAsignatura.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxAsignatura.getSelectedItem().toString(), 2));
         }
-        if (!JtxtNombreDocente.getText().trim().isEmpty()) {
-            filtros.add(RowFilter.regexFilter(JtxtNombreDocente.getText().trim(), 2));
+        if (JcmbxUnidad.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxUnidad.getSelectedItem().toString(), 3));
+        }
+        if (JcmbxSubtema.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxSubtema.getSelectedItem().toString(), 4));
+        }
+        if (!JtxtClaveAsignatura.getText().trim().isEmpty()) {
+            filtros.add(RowFilter.regexFilter(JtxtClaveAsignatura.getText().trim(), 1));
         }
 
         // Combina todos los filtros en uno solo.
@@ -152,6 +172,8 @@ public class JfBuscaTemario extends javax.swing.JFrame {
         JcmbxSubtema = new javax.swing.JComboBox<>();
         JSPTablaTemario = new javax.swing.JScrollPane();
         JtableTemario = new javax.swing.JTable();
+        JtxtClaveAsignatura = new javax.swing.JTextField();
+        JlblClaveAsignatura = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Busca temario");
@@ -160,6 +182,9 @@ public class JfBuscaTemario extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
@@ -167,19 +192,40 @@ public class JfBuscaTemario extends javax.swing.JFrame {
         JlblCarrera.setText("Carrera");
 
         JcmbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarrera.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxCarreraItemStateChanged(evt);
+            }
+        });
 
         JlblAsignatura.setText("Asignatura");
 
         JcmbxAsignatura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxAsignatura.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxAsignaturaItemStateChanged(evt);
+            }
+        });
 
         JlblUnidad.setText("Unidad");
 
         JcmbxUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxUnidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxUnidadItemStateChanged(evt);
+            }
+        });
 
         JlblSubtema.setText("Subtema");
 
         JcmbxSubtema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxSubtema.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxSubtemaItemStateChanged(evt);
+            }
+        });
 
+        JtableTemario.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         JtableTemario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -189,7 +235,7 @@ public class JfBuscaTemario extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, true, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -198,6 +244,14 @@ public class JfBuscaTemario extends javax.swing.JFrame {
         });
         JSPTablaTemario.setViewportView(JtableTemario);
 
+        JtxtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                JtxtClaveAsignaturaKeyReleased(evt);
+            }
+        });
+
+        JlblClaveAsignatura.setText("Clave asignatura");
+
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
         JpnlLienzoLayout.setHorizontalGroup(
@@ -205,9 +259,7 @@ public class JfBuscaTemario extends javax.swing.JFrame {
             .addGroup(JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JSPTablaTemario)
-                        .addContainerGap())
+                    .addComponent(JSPTablaTemario)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblCarrera)
@@ -224,7 +276,12 @@ public class JfBuscaTemario extends javax.swing.JFrame {
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JcmbxSubtema, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JlblSubtema))
-                        .addContainerGap(267, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblClaveAsignatura)
+                            .addComponent(JtxtClaveAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 367, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         JpnlLienzoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {JcmbxAsignatura, JcmbxCarrera, JcmbxSubtema, JcmbxUnidad});
@@ -241,13 +298,15 @@ public class JfBuscaTemario extends javax.swing.JFrame {
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(JlblUnidad)
                             .addComponent(JlblSubtema)
-                            .addComponent(JlblAsignatura))
+                            .addComponent(JlblAsignatura)
+                            .addComponent(JlblClaveAsignatura))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(JcmbxUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JcmbxSubtema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JtxtClaveAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JSPTablaTemario, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,6 +331,34 @@ public class JfBuscaTemario extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCarreraItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCarreraItemStateChanged
+
+    private void JcmbxAsignaturaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxAsignaturaItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxAsignaturaItemStateChanged
+
+    private void JcmbxUnidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxUnidadItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxUnidadItemStateChanged
+
+    private void JcmbxSubtemaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxSubtemaItemStateChanged
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxSubtemaItemStateChanged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        cargaComboBox(JcmbxCarrera, 1);
+        cargaComboBox(JcmbxAsignatura, 2);
+        cargaComboBox(JcmbxUnidad, 3);
+        cargaComboBox(JcmbxSubtema, 4);
+        cargarTabla();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void JtxtClaveAsignaturaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtxtClaveAsignaturaKeyReleased
+        aplicaFiltros();
+    }//GEN-LAST:event_JtxtClaveAsignaturaKeyReleased
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -310,9 +397,11 @@ public class JfBuscaTemario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> JcmbxUnidad;
     private javax.swing.JLabel JlblAsignatura;
     private javax.swing.JLabel JlblCarrera;
+    private javax.swing.JLabel JlblClaveAsignatura;
     private javax.swing.JLabel JlblSubtema;
     private javax.swing.JLabel JlblUnidad;
     private javax.swing.JPanel JpnlLienzo;
     private javax.swing.JTable JtableTemario;
+    private javax.swing.JTextField JtxtClaveAsignatura;
     // End of variables declaration//GEN-END:variables
 }
