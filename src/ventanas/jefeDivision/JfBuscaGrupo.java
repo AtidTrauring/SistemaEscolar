@@ -1,14 +1,97 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfBuscaGrupo extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private final CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosGrupo = new ArrayList<>();
+    private final CCargaCombos queryCarga = new CCargaCombos();
+    private DefaultComboBoxModel listas;
+    private ArrayList<String> datosListas = new ArrayList<>();
 
     public JfBuscaGrupo(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargarTabla();
+        cargaComboBox(JcmbxCiclo, 1);
+        cargaComboBox(JcmbxGrupo, 2);
+    }
+
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+        modelo.setRowCount(0);
+    }
+
+    public void limpiarFiltro() {
+        if (tr != null) {
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+        try {
+            datosGrupo = cb.buscarGrupo();
+            limpiarTabla();
+            for (String[] datoRepro : datosGrupo) {
+                modelo.addRow(new Object[]{datoRepro[0], datoRepro[1], datoRepro[2], datoRepro[3]});
+            }
+            tr = new TableRowSorter<>(modelo);
+            JtableGrupo.setRowSorter(tr);
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCiclo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboGrupo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void aplicaFiltros() {
+        modelo = (DefaultTableModel) JtableGrupo.getModel();
+        tr = new TableRowSorter<>(modelo);
+        JtableGrupo.setRowSorter(tr);
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+        if (JcmbxCiclo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCiclo.getSelectedItem().toString(), 3));
+        }
+        if (JcmbxGrupo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 2));
+        }
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+        tr.setRowFilter(rf);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +124,7 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Matricula", "Nombre del alumno"
+                "Matricula", "Nombre del alumno", "Grupo", "Ciclo"
             }
         ));
         JSPTablaGrupo.setViewportView(JtableGrupo);
@@ -53,10 +136,20 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
         JlblGrupo.setText("Grupo");
 
         JcmbxGrupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxGrupoActionPerformed(evt);
+            }
+        });
 
         JlblCiclo.setText("Ciclo");
 
         JcmbxCiclo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCiclo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxCicloActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -116,6 +209,16 @@ public class JfBuscaGrupo extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxGrupoActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxGrupoActionPerformed
+
+    private void JcmbxCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCicloActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCicloActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

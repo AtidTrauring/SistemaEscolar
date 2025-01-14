@@ -221,6 +221,20 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 5);
     }
 
+    public ArrayList<String[]> buscarGrupo() throws SQLException {
+        consulta = "SELECT \n"
+                + "    e.clave_estudiante AS matricula,\n"
+                + "    CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) AS nombre_estudiante,\n"
+                + "    g.grupo, ci.ciclo\n"
+                + "FROM estudiante_grupo eg\n"
+                + "JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante\n"
+                + "JOIN persona p ON e.clave_persona = p.clave_persona\n"
+                + "JOIN grupo g ON eg.clave_grupo = g.clave_grupo\n"
+                + "JOIN ciclo ci ON g.clave_ciclo = ci.clave_ciclo\n"
+                + "ORDER BY e.clave_estudiante, ci.ciclo, g.grupo;";
+        return cnslt.buscarValores(consulta, 4);
+    }
+
     public ArrayList<String[]> buscaNoAlumnos() throws SQLException {
         consulta = "SELECT c.ciclo, g.grupo, "
                 + "COUNT(eg.clave_estudiante) FROM grupo g, estudiante_grupo eg, ciclo c "
