@@ -274,5 +274,16 @@ public class CBusquedas {
                 + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
         return cnslt.buscarValores(consulta, 5);
     }
+    public ArrayList<String[]> buscaRAsignatura2() throws SQLException {
+        consulta = "SELECT \n"
+                + "    c.nombre_carrera, ta.tipo_asignatura, \n"
+                + "    a.nombre_asignatura, a.horas_T , \n"
+                + "    a.horas_P , a.creditos\n"
+                + "FROM asignatura a\n"
+                + "JOIN tipo_asignatura ta ON a.clave_tasignatura = ta.clave_tasignatura\n"
+                + "JOIN carrera_asignatura ca ON a.clave_asignatura = ca.clave_asignatura\n"
+                + "JOIN carrera c ON ca.clave_carrera = c.clave_carrera;";
+        return cnslt.buscarValores(consulta, 6);
+    }
 
 }

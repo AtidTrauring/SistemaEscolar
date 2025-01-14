@@ -49,4 +49,24 @@ public class CCargaCombos {
         return cnslt.buscarValoresCombos(consulta);
     }
 
+    public ArrayList<String> cargaComboTIpoAsig() throws SQLException {
+        consulta = "SELECT tipo_asignatura.tipo_asignatura FROM tipo_asignatura;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
+    public ArrayList<String> cargaComboAsigHP() throws SQLException {
+        consulta = "SELECT asignatura.horas_P FROM asignatura;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
+    public ArrayList<String> cargaComboAsigHT() throws SQLException {
+        consulta = "SELECT asignatura.horas_T FROM asignatura;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
+    public ArrayList<String> cargaComboAsigCred() throws SQLException {
+        consulta = "SELECT asignatura.creditos FROM asignatura;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
 }

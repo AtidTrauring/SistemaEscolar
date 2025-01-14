@@ -27,7 +27,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="JpnlLienzo" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="JpnlLienzo" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -47,40 +51,42 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="JSPTablaAsignatura" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="JSPTablaAsignatura" min="-2" pref="927" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="JlblCarrera" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JcmbxCarrera" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JlblCarrera" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxCarrera" min="-2" pref="159" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="JcmbxTA" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblTA" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="JcmbxHT" linkSize="1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                              <Component id="JlblHT" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JlblTA" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxTA" min="-2" pref="159" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="JlblHT" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
                                   <Component id="JlblHP" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="JcmbxHP" linkSize="1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                  <Component id="JcmbxHT" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="JcmbxHP" min="-2" pref="156" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="JcmbxNumCreditos" min="-2" pref="150" max="-2" attributes="0"/>
                               <Component id="JlblNumCreditos" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxNumCreditos" min="-2" pref="161" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -88,33 +94,22 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="JlblTA" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="JcmbxTA" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JcmbxCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="JlblHT" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblHP" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblNumCreditos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="JcmbxHT" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JcmbxHP" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JcmbxNumCreditos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="JlblTA" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JlblCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JlblHT" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JlblHP" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JlblNumCreditos" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="JcmbxTA" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxHT" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxHP" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxNumCreditos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="JSPTablaAsignatura" min="-2" pref="288" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -135,6 +130,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JcmbxCarreraActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -152,6 +150,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JcmbxTAActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -169,6 +170,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JcmbxHTActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -186,6 +190,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JcmbxHPActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -203,6 +210,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JcmbxNumCreditosActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -217,7 +227,9 @@
             <Component class="javax.swing.JTable" name="JtableAsignatura">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
+                  <Table columnCount="6" rowCount="0">
+                    <Column editable="true" title="Carrera" type="java.lang.Object"/>
+                    <Column editable="true" title="Tipo de Asignatura" type="java.lang.Object"/>
                     <Column editable="true" title="Asignatura" type="java.lang.Object"/>
                     <Column editable="true" title="Horas practicas" type="java.lang.Object"/>
                     <Column editable="true" title="Horas teoricas" type="java.lang.Object"/>
@@ -226,6 +238,16 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>

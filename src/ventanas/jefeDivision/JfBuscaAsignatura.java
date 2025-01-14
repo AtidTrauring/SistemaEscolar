@@ -1,14 +1,131 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfBuscaAsignatura extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private final CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosAsignatura = new ArrayList<>();
+    private final CCargaCombos queryCarga = new CCargaCombos();
+    private DefaultComboBoxModel listas;
+    private ArrayList<String> datosListas = new ArrayList<>();
 
     public JfBuscaAsignatura(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargarTabla();
+        cargaComboBox(JcmbxCarrera, 1);
+        cargaComboBox(JcmbxTA, 2);
+        cargaComboBox(JcmbxHT, 3);
+        cargaComboBox(JcmbxHP, 4);
+        cargaComboBox(JcmbxNumCreditos, 5);
+    }
+
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableAsignatura.getModel();
+        modelo.setRowCount(0);
+    }
+
+    public void limpiarFiltro() {
+        if (tr != null) {
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableAsignatura.getModel();
+        try {
+            datosAsignatura = cb.buscaRAsignatura2();
+            limpiarTabla();
+            for (String[] datoAsignatura : datosAsignatura) {
+                modelo.addRow(new Object[]{datoAsignatura[0], datoAsignatura[1], datoAsignatura[2], datoAsignatura[3],
+                    datoAsignatura[4], datoAsignatura[5]});
+            }
+            tr = new TableRowSorter<>(modelo);
+            JtableAsignatura.setRowSorter(tr);
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCarrera();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboTIpoAsig();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 3:
+                    datosListas = queryCarga.cargaComboAsigHT();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 4:
+                    datosListas = queryCarga.cargaComboAsigHP();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 5:
+                    datosListas = queryCarga.cargaComboAsigCred();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void aplicaFiltros() {
+        modelo = (DefaultTableModel) JtableAsignatura.getModel();
+        tr = new TableRowSorter<>(modelo);
+        JtableAsignatura.setRowSorter(tr);
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+        if (JcmbxCarrera.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCarrera.getSelectedItem().toString(), 0));
+        }
+        if (JcmbxTA.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxTA.getSelectedItem().toString(), 1));
+        }
+        if (JcmbxHT.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxHT.getSelectedItem().toString(), 3));
+        }
+        if (JcmbxHP.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxHP.getSelectedItem().toString(), 4));
+        }
+        if (JcmbxNumCreditos.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxNumCreditos.getSelectedItem().toString(), 5));
+        }
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+        tr.setRowFilter(rf);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,29 +159,54 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
         JlblCarrera.setText("Carrera");
 
         JcmbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxCarreraActionPerformed(evt);
+            }
+        });
 
         JlblTA.setText("Tipo de asignatura");
 
         JcmbxTA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxTA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxTAActionPerformed(evt);
+            }
+        });
 
         JlblHT.setText("Horas teoricas");
 
         JcmbxHT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxHT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxHTActionPerformed(evt);
+            }
+        });
 
         JlblHP.setText("Horas practicas");
 
         JcmbxHP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxHP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxHPActionPerformed(evt);
+            }
+        });
 
         JlblNumCreditos.setText("Creditos");
 
         JcmbxNumCreditos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxNumCreditos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxNumCreditosActionPerformed(evt);
+            }
+        });
 
         JtableAsignatura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Asignatura", "Horas practicas", "Horas teoricas", "Creditos"
+                "Carrera", "Tipo de Asignatura", "Asignatura", "Horas practicas", "Horas teoricas", "Creditos"
             }
         ));
         JSPTablaAsignatura.setViewportView(JtableAsignatura);
@@ -73,60 +215,53 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
         JpnlLienzo.setLayout(JpnlLienzoLayout);
         JpnlLienzoLayout.setHorizontalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(JSPTablaAsignatura)
+            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JSPTablaAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 927, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblCarrera)
-                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblTA))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JcmbxHT, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblHT))
-                        .addGap(18, 18, 18)
+                            .addComponent(JlblTA)
+                            .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
-                                .addComponent(JlblHP)
-                                .addGap(81, 81, 81))
-                            .addComponent(JcmbxHP, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JlblHT)
+                                .addGap(87, 87, 87)
+                                .addComponent(JlblHP))
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(JcmbxHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JcmbxHP, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JcmbxNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblNumCreditos))))
-                .addContainerGap())
+                            .addComponent(JlblNumCreditos)
+                            .addComponent(JcmbxNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
-
-        JpnlLienzoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {JcmbxCarrera, JcmbxHP, JcmbxHT, JcmbxTA});
-
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JlblTA)
-                            .addComponent(JlblCarrera))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JlblHT)
-                            .addComponent(JlblHP)
-                            .addComponent(JlblNumCreditos))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JcmbxHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JcmbxHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JcmbxNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JlblTA)
+                    .addComponent(JlblCarrera)
+                    .addComponent(JlblHT)
+                    .addComponent(JlblHP)
+                    .addComponent(JlblNumCreditos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxNumCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(JSPTablaAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -135,7 +270,10 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JpnlLienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(JpnlLienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,6 +288,31 @@ public class JfBuscaAsignatura extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCarreraActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxCarreraActionPerformed
+
+    private void JcmbxTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxTAActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxTAActionPerformed
+
+    private void JcmbxHTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxHTActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxHTActionPerformed
+
+    private void JcmbxHPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxHPActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxHPActionPerformed
+
+    private void JcmbxNumCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxNumCreditosActionPerformed
+        // TODO add your handling code here:
+        aplicaFiltros();
+    }//GEN-LAST:event_JcmbxNumCreditosActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
