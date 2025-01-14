@@ -176,4 +176,13 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 4);
     }
 
+    public ArrayList<String[]> buscaNoAlumnos() throws SQLException {
+        consulta = "SELECT c.ciclo, g.grupo, "
+                + "COUNT(eg.clave_estudiante) FROM grupo g, estudiante_grupo eg, ciclo c "
+                + "WHERE g.clave_grupo = eg.clave_grupo "
+                + "AND g.clave_ciclo = c.clave_ciclo "
+                + "GROUP BY g.grupo, c.ciclo ORDER BY g.grupo;";
+        return cnslt.buscarValores(consulta, 3);
+    }
+
 }
