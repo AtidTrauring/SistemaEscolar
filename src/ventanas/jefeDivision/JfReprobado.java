@@ -29,14 +29,10 @@ public class JfReprobado extends javax.swing.JFrame {
         cargaComboBox(JcmbxCiclo, 1);
         cargaComboBox(JcmbxGrupo, 2);
     }
-     private void limpiarTabla() {
+
+    private void limpiarTabla() {
         modelo = (DefaultTableModel) JtableKardex.getModel();
         modelo.setRowCount(0);
-    }
-
-    private void limpiarBuscadores() {
-        JcmbxCiclo.setSelectedIndex(0);
-        JcmbxGrupo.setSelectedIndex(0);
     }
 
     public void limpiarFiltro() {
@@ -197,11 +193,11 @@ public class JfReprobado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JcmbxCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCicloActionPerformed
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JcmbxCicloActionPerformed
 
     private void JcmbxGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxGrupoActionPerformed
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JcmbxGrupoActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
