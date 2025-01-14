@@ -130,6 +130,23 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 4);
     }
 
+    public ArrayList<String[]> buscarAlumno() throws SQLException {
+        consulta = "SELECT e.clave_estudiante ,\n"
+                + "    CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) AS nombre_completo,\n"
+                + "    c.correo, g.grupo, car.nombre_carrera, ci.ciclo, m.municipio\n"
+                + "FROM estudiante e\n"
+                + "JOIN persona p ON e.clave_persona = p.clave_persona\n"
+                + "JOIN correo c ON p.clave_persona = c.clave_persona\n"
+                + "JOIN direccion d ON p.clave_dir = d.clave_dir\n"
+                + "JOIN municipio m ON d.clave_mun = m.clave_mun\n"
+                + "JOIN estudiante_grupo eg ON e.clave_estudiante = eg.clave_estudiante\n"
+                + "JOIN grupo g ON eg.clave_grupo = g.clave_grupo\n"
+                + "JOIN ciclo ci ON g.clave_ciclo = ci.clave_ciclo\n"
+                + "JOIN  estudiante_carrera ec ON e.clave_estudiante = ec.clave_estudiante\n"
+                + "JOIN carrera car ON ec.clave_carrera = car.clave_carrera;";
+        return cnslt.buscarValores(consulta, 7);
+    }
+
     public ArrayList<String[]> buscarAlumnosCompletos() throws SQLException {
         consulta = "SELECT pe.nombre AS nombre_estudiante, e.clave_estudiante, a.clave_asignatura, "
                 + "a.nombre_asignatura, p.nombre AS nombre_docente, "

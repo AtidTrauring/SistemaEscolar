@@ -1,16 +1,110 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfBuscaAlumno extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private CBusquedas cb = new CBusquedas();
+    private DefaultComboBoxModel listas;
+    private final CCargaCombos queryCarga = new CCargaCombos();
+    private ArrayList<String> datosListas = new ArrayList<>();
+    private ArrayList<String[]> datosKardex = new ArrayList<>();
+    private ArrayList<String[]> datosAlumnos = new ArrayList<>();
 
     public JfBuscaAlumno(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargarTabla();
+        cargaComboBox(JcmbxCiclo, 1);
+        cargaComboBox(JcmbxGrupo, 2);
+        cargaComboBox(JcmbxMunicipio, 3);
     }
 
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        modelo.setRowCount(0);
+    }
+
+    public void limpiarFiltro() {
+        if (tr != null) {
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        try {
+            datosKardex = cb.buscarAlumno();
+            limpiarTabla();
+
+            for (String[] datoKardex : datosKardex) {
+                modelo.addRow(new Object[]{datoKardex[0], datoKardex[1], datoKardex[2], datoKardex[3], datoKardex[4],
+                    datoKardex[5], datoKardex[6]});
+            }
+        } catch (SQLException ex) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCiclo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboGrupo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 3:
+                    datosListas = queryCarga.cargaComboMunicipio();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void aplicaFiltros() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        tr = new TableRowSorter<>(modelo);
+        JtableKardex.setRowSorter(tr);
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+        if (JcmbxCiclo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCiclo.getSelectedItem().toString(), 5));
+        }
+        if (JcmbxGrupo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 3));
+        }
+         if (JcmbxCiclo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxMunicipio.getSelectedItem().toString(), 6));
+        }
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+        tr.setRowFilter(rf);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -40,7 +134,7 @@ public class JfBuscaAlumno extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Matricula", "Nombre Completo", "Correo Institucional", "Grupo", "Carrera"
+                "Matricula", "Nombre Completo", "Correo Institucional", "Grupo", "Carrera", "Ciclo", "Municipio"
             }
         ));
         JSPTablaKardex.setViewportView(JtableKardex);
@@ -80,13 +174,13 @@ public class JfBuscaAlumno extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JlblMunicipio)
-                    .addComponent(JcmbxMunicipio, 0, 187, Short.MAX_VALUE)
-                    .addComponent(JcmbxCiclo, 0, 187, Short.MAX_VALUE)
+                    .addComponent(JcmbxMunicipio, 0, 235, Short.MAX_VALUE)
+                    .addComponent(JcmbxCiclo, 0, 235, Short.MAX_VALUE)
                     .addComponent(JlblCiclo)
-                    .addComponent(JcmbxGrupo, 0, 187, Short.MAX_VALUE)
+                    .addComponent(JcmbxGrupo, 0, 235, Short.MAX_VALUE)
                     .addComponent(JlblGrupo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JSPTablaKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(JSPTablaKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JpnlLienzoLayout.setVerticalGroup(
@@ -126,15 +220,15 @@ public class JfBuscaAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JcmbxMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxMunicipioActionPerformed
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JcmbxMunicipioActionPerformed
 
     private void JcmbxCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCicloActionPerformed
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JcmbxCicloActionPerformed
 
     private void JcmbxGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxGrupoActionPerformed
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JcmbxGrupoActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

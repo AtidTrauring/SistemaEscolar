@@ -23,4 +23,10 @@ public class CCargaCombos {
         consulta = "SELECT grupo.grupo FROM grupo;";
         return cnslt.buscarValoresCombos(consulta);
     }
+    
+     public ArrayList<String> cargaComboMunicipio() throws SQLException {
+        consulta = "SELECT municipio.municipio FROM municipio;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+    
 }
