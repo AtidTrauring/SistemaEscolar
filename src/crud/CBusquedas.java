@@ -206,21 +206,18 @@ public class CBusquedas {
     }
 
     public ArrayList<String[]> buscarAlumnosReprobados() throws SQLException {
-        consulta = "SELECT \n"
-                + "    e.clave_estudiante,\n"
-                + "    CONCAT(pe.nombre, ' ', pe.ap_Paterno, ' ', pe.ap_Materno) AS nombre_completo,\n"
-                + "    a.nombre_asignatura, \n"
-                + "    g.grupo, \n"
-                + "    c.ciclo\n"
-                + "FROM estudiante e\n"
-                + "JOIN persona pe ON e.clave_persona = pe.clave_persona\n"
-                + "JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante\n"
-                + "JOIN version v ON ev.clave_version = v.clave_version\n"
-                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura\n"
-                + "JOIN estudiante_grupo eg ON e.clave_estudiante = eg.clave_estudiante\n"
-                + "JOIN grupo g ON eg.clave_grupo = g.clave_grupo\n"
-                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo\n"
-                + "WHERE ev.calificacion < 70;";
+        consulta = "SELECT e.clave_estudiante AS matricula,\n"
+                + "    CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) AS nombre_estudiante,\n"
+                + "    a.nombre_asignatura, g.grupo, ci.ciclo \n"
+                + "FROM estudiante_version ev \n"
+                + "JOIN estudiante e ON ev.clave_estudiante = e.clave_estudiante \n"
+                + "JOIN version v ON ev.clave_version = v.clave_version \n"
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura \n"
+                + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo \n"
+                + "JOIN ciclo ci ON g.clave_ciclo = ci.clave_ciclo \n"
+                + "JOIN persona p ON e.clave_persona = p.clave_persona\n"
+                + "WHERE ev.calificacion < 70 \n"
+                + "ORDER BY ci.ciclo, g.grupo;";
         return cnslt.buscarValores(consulta, 5);
     }
 

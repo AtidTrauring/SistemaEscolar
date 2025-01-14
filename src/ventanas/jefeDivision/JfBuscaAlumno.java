@@ -99,7 +99,7 @@ public class JfBuscaAlumno extends javax.swing.JFrame {
         if (JcmbxGrupo.getSelectedIndex() != 0) {
             filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 3));
         }
-         if (JcmbxCiclo.getSelectedIndex() != 0) {
+         if (JcmbxMunicipio.getSelectedIndex() != 0) {
             filtros.add(RowFilter.regexFilter(JcmbxMunicipio.getSelectedItem().toString(), 6));
         }
         RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
