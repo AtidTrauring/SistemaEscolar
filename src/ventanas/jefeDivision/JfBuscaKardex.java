@@ -89,14 +89,7 @@ public class JfBuscaKardex extends javax.swing.JFrame {
     }
     
    
-    public int buscarId(String nombre, int correo) {
-    for (String[] Alumno : datosAlumno) {
-        if (Alumno[1].equals(nombre) && Integer.parseInt(Alumno[2]) == correo) {
-            return Integer.parseInt(Alumno[0]);
-        }
-    }
-    return -1;
-}
+
 
 
     @SuppressWarnings("unchecked")

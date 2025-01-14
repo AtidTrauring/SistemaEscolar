@@ -1,14 +1,72 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfBuscaDocente extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosKardex = new ArrayList<>();
+    private ArrayList<String[]> datosProfe=  new ArrayList<>();
 
     public JfBuscaDocente(String[] datos) {
         initComponents();
         datosJefe = datos;
+        JtableDocente.getTableHeader().setReorderingAllowed(false);
+        cargarTabla();
+    }
+
+    private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableDocente.getModel();
+        modelo.setRowCount(0);
+    }
+
+    private void limpiarBuscadores() {
+        JtxtNombreDocente.setText(null);
+        JtxtClaveDocente.setText(null);
+    }
+
+    public void limpiarFiltro() {
+        if (tr != null) {
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableDocente.getModel();
+        try {
+            datosKardex = cb.buscarDocente();
+            limpiarTabla();
+
+            for (String[] datoKardex : datosKardex) {
+                modelo.addRow(new Object[]{datoKardex[0], datoKardex[1], datoKardex[2], datoKardex[3]});
+            }
+        } catch (SQLException ex) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    public void aplicaFiltros() {
+        modelo = (DefaultTableModel) JtableDocente.getModel();
+        tr = new TableRowSorter<>(modelo);
+        JtableDocente.setRowSorter(tr);
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+        if (!JtxtClaveDocente.getText().trim().isEmpty()) {
+            filtros.add(RowFilter.regexFilter("^" + JtxtClaveDocente.getText().trim() + "$", 0));
+        }
+        if (!JtxtNombreDocente.getText().trim().isEmpty()) {
+            filtros.add(RowFilter.regexFilter("^" + JtxtNombreDocente.getText().trim() + "$", 1));
+        }
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+        tr.setRowFilter(rf);
     }
 
     @SuppressWarnings("unchecked")
@@ -114,11 +172,11 @@ public class JfBuscaDocente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JtxtNombreDocenteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtxtNombreDocenteKeyReleased
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JtxtNombreDocenteKeyReleased
 
     private void JtxtClaveDocenteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JtxtClaveDocenteKeyReleased
-//        aplicaFiltros();
+        aplicaFiltros();
     }//GEN-LAST:event_JtxtClaveDocenteKeyReleased
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

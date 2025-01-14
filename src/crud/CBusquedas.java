@@ -118,6 +118,18 @@ public class CBusquedas {
     }
 
     // --------------------- Busquedas JfMenuJefeDivision ---------------------
+    public ArrayList<String[]> buscarDocente() throws SQLException {
+        consulta = "SELECT \n"
+                + "    d.clave_docente,\n"
+                + "    CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) AS nombre_completo,\n"
+                + "    t.telefono,c.correo\n"
+                + "FROM docente d\n"
+                + "JOIN persona p ON d.clave_persona = p.clave_persona\n"
+                + "JOIN telefono t ON p.clave_persona = t.clave_persona\n"
+                + "JOIN correo c ON p.clave_persona = c.clave_persona;";
+        return cnslt.buscarValores(consulta, 4);
+    }
+
     public ArrayList<String[]> buscarAlumnosCompletos() throws SQLException {
         consulta = "SELECT pe.nombre AS nombre_estudiante, e.clave_estudiante, a.clave_asignatura, "
                 + "a.nombre_asignatura, p.nombre AS nombre_docente, "
