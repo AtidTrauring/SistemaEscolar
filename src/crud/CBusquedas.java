@@ -216,4 +216,23 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 3);
     }
 
+    public ArrayList<String[]> buscaGrupoxDocente() throws SQLException {
+        consulta = "SELECT ci.ciclo, g.grupo, CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) "
+                + "FROM docente_grupo dg JOIN docente d ON dg.clave_docente = d.clave_docente "
+                + "JOIN persona p ON d.clave_persona = p.clave_persona JOIN grupo g ON dg.clave_grupo = g.clave_grupo "
+                + "JOIN ciclo ci ON g.clave_ciclo = ci.clave_ciclo;";
+        return cnslt.buscarValores(consulta, 3);
+    }
+
+    public ArrayList<String[]> buscaRAsignatura() throws SQLException {
+        consulta = "SELECT ci.ciclo, g.grupo, a.nombre_asignatura, COUNT(ev.clave_estudiante) AS reprobado "
+                + "FROM estudiante_version ev JOIN estudiante e ON ev.clave_estudiante = e.clave_estudiante "
+                + "JOIN version v ON ev.clave_version = v.clave_version "
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo JOIN ciclo ci ON g.clave_ciclo = ci.clave_ciclo "
+                + "WHERE ev.calificacion < 70 GROUP BY ci.ciclo, g.grupo, a.nombre_asignatura "
+                + "ORDER BY ci.ciclo, g.grupo, reprobado DESC;";
+        return cnslt.buscarValores(consulta, 4);
+    }
+
 }
