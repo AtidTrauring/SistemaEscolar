@@ -263,4 +263,16 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 4);
     }
 
+    public ArrayList<String[]> buscaTemario() throws SQLException {
+        consulta = "SELECT ca.nombre_carrera, a.clave_asignatura, "
+                + "a.nombre_asignatura, u.unidad, s.subtema "
+                + "FROM carrera ca "
+                + "JOIN carrera_asignatura caa ON ca.clave_carrera = caa.clave_carrera "
+                + "JOIN asignatura a ON caa.clave_asignatura = a.clave_asignatura "
+                + "JOIN asignatura_unidad au ON a.clave_asignatura = au.clave_asignatura "
+                + "JOIN unidad u ON au.clave_unidad = u.clave_unidad "
+                + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
+        return cnslt.buscarValores(consulta, 5);
+    }
+
 }
