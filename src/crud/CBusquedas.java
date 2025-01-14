@@ -176,6 +176,25 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 4);
     }
 
+    public ArrayList<String[]> buscarAlumnosReprobados() throws SQLException {
+        consulta = "SELECT \n"
+                + "    e.clave_estudiante,\n"
+                + "    CONCAT(pe.nombre, ' ', pe.ap_Paterno, ' ', pe.ap_Materno) AS nombre_completo,\n"
+                + "    a.nombre_asignatura, \n"
+                + "    g.grupo, \n"
+                + "    c.ciclo\n"
+                + "FROM estudiante e\n"
+                + "JOIN persona pe ON e.clave_persona = pe.clave_persona\n"
+                + "JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante\n"
+                + "JOIN version v ON ev.clave_version = v.clave_version\n"
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura\n"
+                + "JOIN estudiante_grupo eg ON e.clave_estudiante = eg.clave_estudiante\n"
+                + "JOIN grupo g ON eg.clave_grupo = g.clave_grupo\n"
+                + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo\n"
+                + "WHERE ev.calificacion < 70;";
+        return cnslt.buscarValores(consulta, 5);
+    }
+
     public ArrayList<String[]> buscaNoAlumnos() throws SQLException {
         consulta = "SELECT c.ciclo, g.grupo, "
                 + "COUNT(eg.clave_estudiante) FROM grupo g, estudiante_grupo eg, ciclo c "

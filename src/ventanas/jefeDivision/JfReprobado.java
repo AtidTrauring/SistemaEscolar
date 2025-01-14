@@ -1,14 +1,101 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfReprobado extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultTableModel modelo;
+    private TableRowSorter tr;
+    private final CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosReprobados = new ArrayList<>();
+    private final CCargaCombos queryCarga = new CCargaCombos();
+    private DefaultComboBoxModel listas;
+    private ArrayList<String> datosListas = new ArrayList<>();
 
     public JfReprobado(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargarTabla();
+        cargaComboBox(JcmbxCiclo, 1);
+        cargaComboBox(JcmbxGrupo, 2);
+    }
+     private void limpiarTabla() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        modelo.setRowCount(0);
+    }
+
+    private void limpiarBuscadores() {
+        JcmbxCiclo.setSelectedIndex(0);
+        JcmbxGrupo.setSelectedIndex(0);
+    }
+
+    public void limpiarFiltro() {
+        if (tr != null) {
+            tr.setRowFilter(null);
+        }
+    }
+
+    public void cargarTabla() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        try {
+            datosReprobados = cb.buscarAlumnosReprobados();
+            limpiarTabla();
+            for (String[] datoRepro : datosReprobados) {
+                modelo.addRow(new Object[]{datoRepro[0], datoRepro[1], datoRepro[2], datoRepro[3], datoRepro[4]});
+            }
+            tr = new TableRowSorter<>(modelo);
+            JtableKardex.setRowSorter(tr);
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudo cargar la informacion en la tabla", "Cargando Tabla");
+        }
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCiclo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboGrupo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void aplicaFiltros() {
+        modelo = (DefaultTableModel) JtableKardex.getModel();
+        tr = new TableRowSorter<>(modelo);
+        JtableKardex.setRowSorter(tr);
+        ArrayList<RowFilter<Object, Object>> filtros = new ArrayList<>();
+        if (JcmbxCiclo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxCiclo.getSelectedItem().toString(), 4));
+        }
+        if (JcmbxGrupo.getSelectedIndex() != 0) {
+            filtros.add(RowFilter.regexFilter(JcmbxGrupo.getSelectedItem().toString(), 3));
+        }
+        RowFilter<Object, Object> rf = RowFilter.andFilter(filtros);
+        tr.setRowFilter(rf);
     }
 
     @SuppressWarnings("unchecked")
