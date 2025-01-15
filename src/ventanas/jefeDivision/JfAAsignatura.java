@@ -1,8 +1,11 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
+import crud.CCargaCombos;
 import crud.CInserciones;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import utilitarios.CUtilitarios;
@@ -17,26 +20,31 @@ public class JfAAsignatura extends javax.swing.JFrame {
     private String regexHT = "^[0-9]+$";
     private String regexCreditos = "^[0-9]+$";
     private String regexUnidades = "^[0-9]+$";
-    private String claveAsig, asignatura, HT, HP, numUnid, creditos, tipoAsig;
+    private String claveAsig, asignatura, HT, HP, numUnid, creditos, tipoAsig, carrera;
     private final CBusquedas queryBusca = new CBusquedas();
     private final CInserciones queryInserta = new CInserciones();
+    private ArrayList<String> datosListas = new ArrayList<>();
+    DefaultComboBoxModel<String> listas;
+    private final CCargaCombos queryCarga = new CCargaCombos();
 
     public JfAAsignatura(String[] datosJ, String[] datosA, String nombreBoton) {
         initComponents();
         datosJefe = datosJ;
         datosAsignatura = datosA;
         JbtnEnviar.setText(nombreBoton);
+        cargaComboBox(JcmbxCarrera, 1);
     }
 
     public void asignaValores() {
         // Obtener los valores de los campos de texto
-        claveAsig = JtxtClave.getText();
+        claveAsig = JtxtClave.getText().trim();
         asignatura = JtxtNombre.getText();
         HT = JtxtHT.getText();
         HP = JtxtHP.getText();
         numUnid = JtxtNumeroUnidades.getText();
         creditos = JtxtCreditos.getText();
         tipoAsig = (String) JcmbxTA.getSelectedItem();
+        carrera = (String) JcmbxCarrera.getSelectedItem();
     }
 
     public void limpiaValores() {
@@ -47,6 +55,23 @@ public class JfAAsignatura extends javax.swing.JFrame {
         numUnid = null;
         creditos = null;
         tipoAsig = null;
+        carrera = null;
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCarrera();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
     }
 
     public String devuelveCadena(JTextField campo, String regex) {
@@ -64,15 +89,14 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     public String devuelveCadenaClave(JTextField campo, String regex) {
         String cadena = null;
-        cadena = campo.getText();
+        cadena = campo.getText().trim(); // Elimina espacios al inicio y al final
         if (cadena.isEmpty()) {
-            cadena = null;
-        } else if (cadena.matches(regexClave)) {
+            return null;
+        } else if (cadena.matches(regex)) {
             return cadena;
         } else {
-            cadena = "NoValido";
+            return "NoValido";
         }
-        return cadena;
     }
 
     public String devuelveCadenaHP(JTextField campo, String regex) {
@@ -129,8 +153,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     public boolean validaCampoClave(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
         boolean valida = true;
-        campoTexto = devuelveCadena(campo, regex);
-
+        campoTexto = devuelveCadenaClave(campo, regex);
         if (campoTexto == null) {
             CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
             valida = false;
@@ -228,6 +251,18 @@ public class JfAAsignatura extends javax.swing.JFrame {
         return valida;
     }
 
+    public boolean validaCampoCarrera(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+        boolean valida = true;
+
+        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+
+        if (campoTexto.equals("Selecciona una opcion")) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        }
+        return valida;
+    }
+
     public boolean validaCampos() {
         return (validaCampoClave(claveAsig, JtxtClave, regexClave, "Ingrese la clave.", "Valores invalidos para la clave"))
                 && (validaCampoAsignatura(asignatura, JtxtNombre, regexNombre, "Ingrese el nombre de la asignatura", "Valores invalidos para el nombre de la asignatura"))
@@ -235,83 +270,58 @@ public class JfAAsignatura extends javax.swing.JFrame {
                 && (validaCampoHP(HP, JtxtHP, regexHP, "Ingrese las horas practicas.", "Valores invalidos para las horas practicas"))
                 && (validaCampoUnidades(numUnid, JtxtNumeroUnidades, regexUnidades, "Ingrese el numero de unidades", "Valores invalidos para el numero de unidades"))
                 && (validaCampoCreditos(creditos, JtxtCreditos, regexCreditos, "Ingrese los creditos", "Valores invalidos para los creditos"))
-                && (validaCampoTA(tipoAsig, JcmbxTA, "Ingrese el tipo de asignatura"));
+                && (validaCampoTA(tipoAsig, JcmbxTA, "Ingrese el tipo de asignatura"))
+                && (validaCampoCarrera(carrera, JcmbxCarrera, "Ingrese la carrera"));
     }
 
     public void enviarDatos() {
-    String clave_asignatura, clave_tipo_asignatura;
-    if (validaCampos()) {
-        asignaValores();
-        try {
-            // Obtener las claves
-            clave_asignatura = queryBusca.obtenClaveFinalAsignatura(claveAsig);
-            // Creo que aqui esta el error, necesitas obtener la clave por la cual vas a insertar
-            // entonces tu consulta la voy a modificar.
-            clave_tipo_asignatura = queryBusca.obtenClaveTASeleccionado(tipoAsig);
+        String clave_asignatura, clave_tipo_asignatura;
+        if (validaCampos()) { 
+            asignaValores();
+            try {
+                clave_asignatura = JtxtClave.getText();
+                clave_tipo_asignatura = queryBusca.obtenClaveTASeleccionado(tipoAsig);
+                if (carrera == null || carrera.isEmpty()) {
+                    CUtilitarios.msg_error("Debe seleccionar una carrera antes de continuar.", "Falta Información");
+                    return; 
+                }
 
-            // Imprimir valores para depuración
-            System.out.println("ClaveAsignatura:" + claveAsig + "\nNombreAsignatura:" + asignatura + "\nHorasTeoricas: " + HT + "\nHorasPracticas: " + HP);
-            System.out.println("CAsignatura" + clave_asignatura);
-            System.out.println("NumerosUnidades: " + numUnid + "\nCreditos:" + creditos);
-            System.out.println("TipoAsignatura: " + tipoAsig);
-            System.out.println("claveTA: " + clave_tipo_asignatura);
+                int clave_carrera = queryBusca.obtenClaveCarreraSeleccionado(carrera);
 
-            // Llamar al método de inserción
-            boolean insercion = queryInserta.insertaAsignatura(clave_asignatura, asignatura, HT, HP, numUnid, creditos, clave_tipo_asignatura);
+                // Imprimir valores para depuración
+                System.out.println("ClaveAsignatura:" + claveAsig + "\nNombreAsignatura:" + asignatura + "\nHorasTeoricas: " + HT + "\nHorasPracticas: " + HP);
+                System.out.println("CAsignatura: " + clave_asignatura);
+                System.out.println("NumerosUnidades: " + numUnid + "\nCreditos: " + creditos);
+                System.out.println("TipoAsignatura: " + tipoAsig);
+                System.out.println("claveTA: " + clave_tipo_asignatura);
+                System.out.println("ClaveCarrera: " + clave_carrera);
 
-            if (insercion) {
-                // Si la inserción fue exitosa, muestra mensaje de éxito
-                CUtilitarios.msg("Asignatura Registrada", "Registro Asignatura");
-            } else {
-                // Si la inserción falló, muestra mensaje de error
-                CUtilitarios.msg_error("Hubo un error al registrar la asignatura.", "Error en el Registro");
+                // Llamar al método de inserción de asignatura
+                boolean insercionAsignatura = queryInserta.insertaAsignatura(claveAsig, asignatura, HT, HP, numUnid, creditos, clave_tipo_asignatura);
+
+                if (insercionAsignatura) {
+                    // Insertar relación en carrera_asignatura
+                    boolean insercionCarreraAsignatura = queryInserta.insertaCarrera_asignatura(clave_carrera, claveAsig);
+
+                    if (insercionCarreraAsignatura) {
+                        // Mostrar mensaje de éxito y limpiar valores
+                        CUtilitarios.msg("Asignatura y relación con carrera registradas correctamente", "Registro Asignatura");
+                        limpiaValores();
+                        this.dispose(); 
+                    } else {
+                        CUtilitarios.msg_error("Hubo un error al registrar la relación carrera-asignatura.", "Error en el Registro");
+                    }
+                } else {
+                    CUtilitarios.msg_error("Hubo un error al registrar la asignatura.", "Error en el Registro");
+                }
+
+            } catch (SQLException ex) {
+                CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
             }
-
-        } catch (SQLException ex) {
-            CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
-        } finally {
-            limpiaValores();
+        } else {
+            CUtilitarios.msg_error("Por favor, complete todos los campos correctamente antes de continuar.", "Falta Información");
         }
-        this.dispose();
     }
-}
-//    public void enviarDatos() {
-//        String clave_asignatura, clave_tipo_asignatura;
-//        if (validaCampos()) {
-//            asignaValores();
-//            try {
-//                boolean claveTAExistente = queryBusca.obtenClaveTASeleccionado(tipoAsig);
-//                if (!claveTAExistente) {
-//                    CUtilitarios.msg_error("El tipo de asignatura no existe. Por favor seleccione un tipo válido.", "Error en el Registro");
-//                    return; // Detener la ejecución si la clave de tipo asignatura no existe
-//                }
-//                boolean claveExistente = queryBusca.obtenClaveFinalAsignatura(claveAsig);
-//                if (claveExistente) {
-//                    CUtilitarios.msg_error("La clave de la asignatura ya existe. Por favor ingrese una clave diferente.", "Error en el Registro");
-//                    return;
-//                }
-//                clave_asignatura = claveAsig;
-//                clave_tipo_asignatura = tipoAsig;
-//                System.out.println("ClaveAsignatura:" + claveAsig + "\nNombreAsignatura:" + asignatura + "\nHorasTeoricas: " + HT + "\nHorasPracticas: " + HP);
-//                System.out.println("NumerosUnidades: " + numUnid + "\nCreditos:" + creditos);
-//                System.out.println("TipoAsignatura: " + tipoAsig);
-//                System.out.println("claveTA: " + clave_tipo_asignatura);
-//                boolean insercion = queryInserta.insertaAsignatura(clave_asignatura, asignatura, HT, HP, numUnid, creditos, clave_tipo_asignatura);
-//
-//                if (insercion) {
-//                    CUtilitarios.msg("Asignatura Registrada", "Registro Asignatura");
-//                } else {
-//                    CUtilitarios.msg_error("Hubo un error al registrar la asignatura.", "Error en el Registro");
-//                }
-//
-//            } catch (SQLException ex) {
-//                CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
-//            } finally {
-//                limpiaValores();
-//            }
-//            this.dispose();
-//        }
-//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -340,6 +350,8 @@ public class JfAAsignatura extends javax.swing.JFrame {
         JcmbxTA = new javax.swing.JComboBox<>();
         JlblFondo = new javax.swing.JLabel();
         JbtnEnviar = new javax.swing.JButton();
+        JcmbxCarrera = new javax.swing.JComboBox<>();
+        JlblTA1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agrega asignatura");
@@ -401,6 +413,15 @@ public class JfAAsignatura extends javax.swing.JFrame {
             }
         });
 
+        JcmbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxCarreraActionPerformed(evt);
+            }
+        });
+
+        JlblTA1.setText("Carrera");
+
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
         JpnlLienzoLayout.setHorizontalGroup(
@@ -408,7 +429,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(JlblFondo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JtxtHT, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JspHT, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,26 +442,31 @@ public class JfAAsignatura extends javax.swing.JFrame {
                     .addComponent(JspNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JtxtCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JspCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JlblCreditos)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(JspHP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JtxtHP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JlblNumeroUnidades)
+                        .addComponent(JtxtNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JlblHP)
+                        .addComponent(JspNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JlblTA)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JtxtCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JspCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblCreditos))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JspHP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtHP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblNumeroUnidades)
-                            .addComponent(JtxtNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblHP)
-                            .addComponent(JspNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JlblTA)
-                            .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(JlblTA1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
+                                .addGap(0, 5, Short.MAX_VALUE)
+                                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JbtnEnviar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JcmbxCarrera, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JcmbxTA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())))
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -469,30 +495,40 @@ public class JfAAsignatura extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(JspHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JlblHP)
-                            .addComponent(JlblTA))
-                        .addGap(2, 2, 2)
-                        .addComponent(JtxtHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(JspHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(JlblNumeroUnidades)
-                        .addGap(2, 2, 2)
-                        .addComponent(JtxtNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JlblHP)
+                                .addGap(2, 2, 2)
+                                .addComponent(JtxtHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(JspHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(JlblNumeroUnidades)
+                                .addGap(2, 2, 2)
+                                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(JtxtNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JlblTA1)))
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(JlblTA)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JspNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JlblCreditos)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JspNumeroUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JlblCreditos))
+                            .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(2, 2, 2)
-                        .addComponent(JtxtCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(JspCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(JcmbxTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JbtnEnviar)))
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JtxtCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(JspCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                .addComponent(JbtnEnviar)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -523,6 +559,10 @@ public class JfAAsignatura extends javax.swing.JFrame {
     private void JcmbxTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxTAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JcmbxTAActionPerformed
+
+    private void JcmbxCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCarreraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JcmbxCarreraActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -555,6 +595,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JbtnEnviar;
+    private javax.swing.JComboBox<String> JcmbxCarrera;
     private javax.swing.JComboBox<String> JcmbxTA;
     private javax.swing.JLabel JlblClave;
     private javax.swing.JLabel JlblCreditos;
@@ -564,6 +605,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
     private javax.swing.JLabel JlblNombre;
     private javax.swing.JLabel JlblNumeroUnidades;
     private javax.swing.JLabel JlblTA;
+    private javax.swing.JLabel JlblTA1;
     private javax.swing.JPanel JpnlLienzo;
     private javax.swing.JSeparator JspClave;
     private javax.swing.JSeparator JspCreditos;

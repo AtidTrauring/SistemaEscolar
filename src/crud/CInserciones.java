@@ -25,13 +25,10 @@ public class CInserciones {
 
     }
 
-//    public boolean insertaAsignatura(String clave, String nombre, String HT, String HP, String numUni, String creditos, String clave_tasignatura) throws SQLException {
-//        String consulta = "CALL sp_agrega_asignatura (" + clave + "," + nombre + "," + HT + "," + HP + "," + numUni + "," + creditos + "," + clave_tasignatura + ");";
-//        return cnslt.inserta(consulta);
-//    }
-//    public boolean insertaAsignatura(String clave, String nombre, String HT, String HP, String numUni, String creditos, String TA) throws SQLException {
-//        consulta = "INSERT INTO `asignatura`(`clave_asignatura`, `nombre_asignatura`, `horas_T`, `horas_P`, `numero_unidades`, `creditos`, `clave_tasignatura`) "
-//                + "VALUES (" + clave + ",'" + nombre + "','" + HT+ "','" + HP + "','" + numUni + "'," + creditos + ",'" + TA + "')";
-//        return cnslt.inserta(consulta);
-//    }
+
+    public boolean insertaCarrera_asignatura(int carrera, String clave) throws SQLException {
+        String consulta = "CALL sp_agrega_carrera_asignatura ('" + clave + "'," + carrera + ");";
+        return cnslt.inserta(consulta);
+
+    }
 }

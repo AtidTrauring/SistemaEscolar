@@ -326,12 +326,6 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
-//    public boolean obtenClaveFinalAsignatura(String clave) throws SQLException {
-//        // Realizar consulta para contar cuántas asignaturas tienen la misma clave
-//        consulta = "SELECT COUNT(*) FROM asignatura WHERE clave_asignatura = '" + clave + "'";
-//        int count = Integer.parseInt(cnslt.buscarValor(consulta)); // Devuelve la cantidad de asignaturas con esa clave
-//        return count > 0; // Si el count es mayor que 0, la clave ya existe
-//    }
     public String obtenClaveTASeleccionado(String TA) throws SQLException {
 //        consulta = "SELECT COUNT(*)"
 //                + "FROM tipo_asignatura "
@@ -341,10 +335,25 @@ public class CBusquedas {
                 + "WHERE tipo_asignatura = '" + TA + "';";
         return cnslt.buscarValor(consulta);
     }
-    //    public boolean obtenClaveTASeleccionado(String TA) throws SQLException {
-//        // Realizar consulta para contar cuántos tipos de asignaturas tienen la misma clave
-//        consulta = "SELECT COUNT(*) FROM tipo_asignatura WHERE tipo_asignatura = '" + TA + "'";
-//        int count = Integer.parseInt(cnslt.buscarValor(consulta)); 
-//        return count > 0; 
+
+//    public String obtenClaveCarreraSeleccionado(String carrera) throws SQLException {
+//        consulta = "SELECT clave_carrera "
+//                + "FROM carrera "
+//                + "WHERE nombre_carrera = '" + carrera + "';";
+//        return cnslt.buscarValor(consulta);
 //    }
+    public int obtenClaveCarreraSeleccionado(String carrera) throws SQLException {
+    String consulta = "SELECT clave_carrera " +
+                      "FROM carrera " +
+                      "WHERE nombre_carrera = '" + carrera + "';";
+    String resultado = cnslt.buscarValor(consulta); // Suponiendo que buscarValor devuelve un String
+    
+    if (resultado != null && !resultado.isEmpty()) {
+        return Integer.parseInt(resultado); // Convertir a int si el resultado no es nulo
+    } else {
+        throw new SQLException("No se encontró la clave para la carrera seleccionada: " + carrera);
+    }
+}
+
+
 }
