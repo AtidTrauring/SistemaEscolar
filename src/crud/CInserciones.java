@@ -8,7 +8,7 @@ public class CInserciones {
     private String consulta;
 
     public boolean insertaCalificacion(String idEstudiante, String idVersion, Double calificacion) throws SQLException {
-        String consulta = "CALL sp_agrega_estudiante_version (" + idEstudiante + "," + idVersion + "," + calificacion + ");";
+        String consulta = "CALL sp_agrega_estudiante_version (" + idEstudiante + ", '" + idVersion + "', " + calificacion + ");";
         System.out.println(consulta);
         return cnslt.inserta(consulta);
     }
