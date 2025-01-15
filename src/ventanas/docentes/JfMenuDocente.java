@@ -103,6 +103,7 @@ public class JfMenuDocente extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfInicionSesion is = new JfInicionSesion();
         CUtilitarios.creaFrame(is, "Inicio de sesion");
+        this.hide();
     }//GEN-LAST:event_formWindowClosed
 
     private void JmnBuscaGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnBuscaGrupoMouseClicked

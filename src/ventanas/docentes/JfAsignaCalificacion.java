@@ -10,20 +10,20 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import utilitarios.CUtilitarios;
 
 public class JfAsignaCalificacion extends javax.swing.JFrame {
 
     private DefaultTableModel modelo;
     private DefaultComboBoxModel listas;
-    private TableRowSorter tr;
     private final CBusquedas cb = new CBusquedas();
     private final CInserciones ci = new CInserciones();
     private ArrayList<String[]> datosAlumnos = new ArrayList<>();
+    private ArrayList<String[]> datosAlumnosSinCalificacion = new ArrayList<>();
     private static String[] datosDocente;
     private String[] alumno;
     private String idVersion;
+    private String idAsignatura;
 
     public JfAsignaCalificacion(String[] datos) {
         initComponents();
@@ -37,25 +37,37 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
     private void limpiarTabla() {
         modelo = (DefaultTableModel) JtableGrupo.getModel();
         modelo.setRowCount(0);
+        modelo.setColumnCount(0);
     }
 
     private void cargarTabla() {
         modelo = (DefaultTableModel) JtableGrupo.getModel();
         String[] valoresBusqueda = new String[3];
         valoresBusqueda = obtenValoresBusqueda();
+
         if (valoresBusqueda != null) {
             try {
-                System.out.println(Arrays.toString(valoresBusqueda));
                 datosAlumnos = cb.buscaAlumnosConCalificacion(valoresBusqueda[2], valoresBusqueda[0], valoresBusqueda[1]);
                 if (datosAlumnos.isEmpty()) {
-                    CUtilitarios.msg("No se encontraron alumnos en el grupo indicado", "Asignar calificacion");
+                    //Aqui cargar la tabla sin calificaciones
+                    idAsignatura = cb.buscaClaveAsignatura(idVersion);
+                    datosAlumnosSinCalificacion = cb.buscaAlumnosSinCalificacion(valoresBusqueda[2], idAsignatura);
+                    limpiarTabla();
+                    modelo.addColumn("Matricula");
+                    modelo.addColumn("Alumno");
+
+                    for (String[] datosAlumnoSC : datosAlumnosSinCalificacion) {
+                        System.out.println(Arrays.toString(datosAlumnoSC));
+                        modelo.addRow(new Object[]{datosAlumnoSC[0], datosAlumnoSC[1]});
+                    }
                 } else {
                     limpiarTabla();
+                    modelo.addColumn("Matricula");
+                    modelo.addColumn("Alumno");
+                    modelo.addColumn("Calificacion");
                     for (String[] datosAlumno : datosAlumnos) {
                         modelo.addRow(new Object[]{datosAlumno[0], datosAlumno[1], datosAlumno[2]});
                     }
-                    tr = new TableRowSorter<>(modelo);
-                    JtableGrupo.setRowSorter(tr);
                 }
             } catch (SQLException e) {
                 CUtilitarios.msg_error("No se pudo cargar la información en la tabla", "Cargando Tabla");
@@ -123,16 +135,20 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
     }
 
     private String[] obtenerValoresFilaTabla() {
-        String[] valores = new String[2];
+        int numColumnas = JtableGrupo.getColumnCount();
+        // Ajustar el tamaño del arreglo según el número de columnas en la tabla
+        String[] valores = new String[numColumnas];
         int filaSeleccionada = JtableGrupo.getSelectedRow();
+
         if (filaSeleccionada != -1) {
-            for (int i = 0; i < JtableGrupo.getColumnCount(); i++) {
+            for (int i = 0; i < numColumnas; i++) {
                 valores[i] = (String) JtableGrupo.getValueAt(filaSeleccionada, i);
             }
         } else {
             CUtilitarios.msg_error("Seleccione un alumno por favor!", "Obteniendo datos fila");
             return null;
         }
+
         return valores;
     }
 
@@ -172,17 +188,9 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave", "Alumno", "Calificacion"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         JtableGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JtableGrupoMouseClicked(evt);
@@ -322,7 +330,7 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
             double calificacion = CUtilitarios.validaCalificaion(JtxtCalificacion.getText());
             if (calificacion != -1) {
                 try {
-                    if (ci.insertaCalificacion(idVersion, alumno[0], calificacion)) {
+                    if (ci.insertaCalificacion(alumno[0],idVersion,calificacion)) {
                         CUtilitarios.msg("Se registro la calificacion, exitosamente", "Asignar califiacion");
                     }
                 } catch (SQLException ex) {
@@ -337,8 +345,6 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         String[] criteriosBusqueda = obtenValoresBusqueda();
         if (criteriosBusqueda != null) {
             try {
-                // validar si hay calificacion
-                System.out.println(Arrays.toString(criteriosBusqueda));
                 idVersion = cb.buscaMateriaDocente(criteriosBusqueda[0], criteriosBusqueda[1], criteriosBusqueda[2], datosDocente[1]);
                 if (idVersion == null) {
                     CUtilitarios.msg("No hay ninguna grupo asignado con esa materia.", "Asignar calificacion.");
@@ -354,17 +360,28 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuDocente md = new JfMenuDocente(datosDocente);
         CUtilitarios.creaFrame(md, datosDocente[2]);
-        this.dispose();
+        this.hide();
     }//GEN-LAST:event_formWindowClosed
 
     private void JtableGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JtableGrupoMouseClicked
         alumno = obtenerValoresFilaTabla();
         if (alumno != null) {
-            JtxtAlumno.setText(alumno[1]);
-            JtxtAlumno.setEditable(false);
-            JtxtAlumno.setEnabled(false);
-            JtxtCalificacion.setEditable(true);
+            if (alumno.length == 2) {
+                JtxtAlumno.setText(alumno[1]);
+                JtxtAlumno.setEditable(false);
+                JtxtAlumno.setEnabled(false);
+                JtxtCalificacion.setEnabled(true);
+                JtxtCalificacion.setEditable(true);
+            } else if (alumno.length == 3) {
+                JtxtAlumno.setText(alumno[1]);
+                JtxtAlumno.setEditable(false);
+                JtxtAlumno.setEnabled(false);
+                JtxtCalificacion.setText(alumno[2]);
+                JtxtCalificacion.setEditable(false);
+                JtxtCalificacion.setEnabled(false);
+            }
         }
+
     }//GEN-LAST:event_JtableGrupoMouseClicked
 
     public static void main(String args[]) {

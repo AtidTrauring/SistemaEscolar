@@ -7,8 +7,9 @@ public class CInserciones {
     private final CConsultas cnslt = new CConsultas();
     private String consulta;
 
-    public boolean insertaCalificacion(String idVersion, String idEstudiante, Double calificacion) throws SQLException {
+    public boolean insertaCalificacion(String idEstudiante, String idVersion, Double calificacion) throws SQLException {
         String consulta = "CALL sp_agrega_estudiante_version (" + idEstudiante + "," + idVersion + "," + calificacion + ");";
+        System.out.println(consulta);
         return cnslt.inserta(consulta);
     }
 
@@ -17,12 +18,12 @@ public class CInserciones {
         consulta = "INSERT INTO `colonia`(`clave_colonia`, `colonia`) VALUES (" + clave_colonia + ",'" + colonia + "')";
         return cnslt.inserta(consulta);
     }
-    public boolean insertaAsignatura(String clave, String nombre, String HT, String HP, String numUni, String creditos, String clave_tasignatura) throws SQLException {
-    String consulta = "CALL sp_agrega_asignatura ('" + clave + "','" + nombre + "'," + HT + "," + HP + "," + numUni + "," + creditos + ",'" + clave_tasignatura + "');";
-      return  cnslt.inserta(consulta);
-   
-}
 
+    public boolean insertaAsignatura(String clave, String nombre, String HT, String HP, String numUni, String creditos, String clave_tasignatura) throws SQLException {
+        String consulta = "CALL sp_agrega_asignatura ('" + clave + "','" + nombre + "'," + HT + "," + HP + "," + numUni + "," + creditos + ",'" + clave_tasignatura + "');";
+        return cnslt.inserta(consulta);
+
+    }
 
 //    public boolean insertaAsignatura(String clave, String nombre, String HT, String HP, String numUni, String creditos, String clave_tasignatura) throws SQLException {
 //        String consulta = "CALL sp_agrega_asignatura (" + clave + "," + nombre + "," + HT + "," + HP + "," + numUni + "," + creditos + "," + clave_tasignatura + ");";

@@ -87,6 +87,18 @@ public class CBusquedas {
     }
 
     public ArrayList<String[]> buscaAlumnosConCalificacion(String grupo, String ciclo, String asignatura) throws SQLException {
+//        consulta = "SELECT e.clave_estudiante, CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), ev.calificacion "
+//                + "FROM estudiante_grupo eg JOIN grupo g ON eg.clave_grupo = g.clave_grupo "
+//                + "JOIN ciclo c ON g.clave_ciclo = c.clave_ciclo JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
+//                + "JOIN persona p ON e.clave_persona = p.clave_persona "
+//                + "JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante "
+//                + "JOIN version v ON ev.clave_version = v.clave_version "
+//                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+//                + "JOIN carrera_asignatura ca ON a.clave_asignatura = ca.clave_asignatura "
+//                + "JOIN carrera cr ON ca.clave_carrera = cr.clave_carrera "
+//                + "WHERE g.grupo = '" + grupo + "' AND c.ciclo = '" + ciclo + "' "
+//                + "AND a.nombre_asignatura = '" + asignatura + "' "
+//                + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre;";
         consulta = "SELECT e.clave_estudiante, CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), ev.calificacion "
                 + "FROM estudiante_grupo eg JOIN grupo g ON eg.clave_grupo = g.clave_grupo "
                 + "JOIN ciclo c ON g.clave_ciclo = c.clave_ciclo JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
@@ -102,6 +114,22 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 3);
     }
 
+    public ArrayList<String[]> buscaAlumnosSinCalificacion(String grupo, String claveAsignatura) throws SQLException {
+        consulta = "SELECT e.clave_estudiante, CONCAT(p.nombre, ' ', p.ap_Paterno, ' ', p.ap_Materno) "
+                + "FROM estudiante_grupo eg JOIN grupo g ON eg.clave_grupo = g.clave_grupo "
+                + "JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
+                + "JOIN persona p ON e.clave_persona = p.clave_persona "
+                + "JOIN docente_grupo dg ON g.clave_grupo = dg.clave_grupo "
+                + "JOIN docente d ON dg.clave_docente = d.clave_docente "
+                + "JOIN docente_version dv ON d.clave_docente = dv.clave_docente "
+                + "JOIN version v ON dv.clave_version = v.clave_version "
+                + "LEFT JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante "
+                + "AND ev.clave_version = v.clave_version WHERE g.grupo = '" + grupo + "' "
+                + "AND v.clave_asignatura = '" + claveAsignatura + "' AND ev.clave_estudiante IS NULL "
+                + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre;";
+        return cnslt.buscarValores(consulta, 2);
+    }
+
     public String buscaMateriaDocente(String ciclo, String asignatura, String grupo, String idDocente) throws SQLException {
         consulta = "SELECT v.clave_version FROM version v "
                 + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
@@ -111,6 +139,13 @@ public class CBusquedas {
                 + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo "
                 + "WHERE c.ciclo = '" + ciclo + "' AND a.nombre_asignatura = '" + asignatura + "' "
                 + "AND g.grupo = '" + grupo + "' AND d.clave_docente = " + idDocente + ";";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaClaveAsignatura(String claveVersion) throws SQLException {
+        consulta = "SELECT a.clave_asignatura "
+                + "FROM version v JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "WHERE v.clave_version = '" + claveVersion + "';";
         return cnslt.buscarValor(consulta);
     }
 
