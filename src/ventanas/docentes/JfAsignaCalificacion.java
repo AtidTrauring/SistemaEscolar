@@ -30,8 +30,8 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         datosDocente = datos;
         JtableGrupo.getTableHeader().setReorderingAllowed(false);
         cargaComboBox(JcmbxCiclo, 1);
-        cargaComboBox(JcmbxGrupo, 3);
-        cargaComboBox(JcmbxAsignatura, 4);
+        cargaComboBox(JcmbxGrupo, 2);
+        cargaComboBox(JcmbxAsignatura, 3);
     }
 
     private void limpiarTabla() {
@@ -52,7 +52,7 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                 } else {
                     limpiarTabla();
                     for (String[] datosAlumno : datosAlumnos) {
-                        modelo.addRow(new Object[]{datosAlumno[0], datosAlumno[1],datosAlumno[2]});
+                        modelo.addRow(new Object[]{datosAlumno[0], datosAlumno[1], datosAlumno[2]});
                     }
                     tr = new TableRowSorter<>(modelo);
                     JtableGrupo.setRowSorter(tr);
@@ -78,10 +78,10 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                         elemento = datosVersion[1];
                         break;
                     case 3:
-                        elemento = datosVersion[2];
+                        elemento = datosVersion[3];
                         break;
                     case 4:
-                        elemento = datosVersion[3];
+                        elemento = datosVersion[2];
                         break;
                     default:
                         CUtilitarios.msg_error("Método de carga inválido", "Carga ComboBox");
@@ -172,9 +172,17 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave", "Alumno"
+                "Clave", "Alumno", "Calificacion"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JtableGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JtableGrupoMouseClicked(evt);
@@ -200,7 +208,6 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
 
         JlblCalificacion.setText("Calificacion");
 
-        JtxtCalificacion.setEditable(false);
         JtxtCalificacion.setToolTipText("Ingrese valores de 0 a 100");
 
         JbtnCalifica.setBackground(new java.awt.Color(153, 204, 255));
@@ -227,17 +234,6 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JlblAsignatura)
-                            .addComponent(JlblGrupo)
-                            .addComponent(JcmbxGrupo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JlblCiclo)
-                            .addComponent(JcmbxCiclo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JcmbxAsignatura, 0, 202, Short.MAX_VALUE)
-                            .addComponent(JbtnBuscaGrupo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblAlumno)
                             .addComponent(JtxtAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -247,8 +243,27 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                             .addGroup(JpnlLienzoLayout.createSequentialGroup()
                                 .addComponent(JtxtCalificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(JbtnCalifica, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(JbtnCalifica, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(261, Short.MAX_VALUE))
+                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JlblAsignatura)
+                                    .addComponent(JlblGrupo)
+                                    .addComponent(JlblCiclo))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
+                                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(JcmbxGrupo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JcmbxCiclo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(JbtnBuscaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(JcmbxAsignatura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())))))
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,13 +281,13 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                             .addComponent(JtxtCalificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JbtnCalifica))))
                 .addGap(19, 19, 19)
-                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(JSPTablaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
                         .addComponent(JlblAsignatura)
-                        .addGap(16, 16, 16)
+                        .addGap(18, 18, 18)
                         .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
                         .addComponent(JlblGrupo)
                         .addGap(16, 16, 16)
                         .addComponent(JcmbxGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -280,9 +295,9 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
                         .addComponent(JlblCiclo)
                         .addGap(16, 16, 16)
                         .addComponent(JcmbxCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(JbtnBuscaGrupo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -306,7 +321,6 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         } else {
             double calificacion = CUtilitarios.validaCalificaion(JtxtCalificacion.getText());
             if (calificacion != -1) {
-                JtxtCalificacion.setEditable(true);
                 try {
                     if (ci.insertaCalificacion(idVersion, alumno[0], calificacion)) {
                         CUtilitarios.msg("Se registro la calificacion, exitosamente", "Asignar califiacion");
@@ -324,6 +338,7 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         if (criteriosBusqueda != null) {
             try {
                 // validar si hay calificacion
+                System.out.println(Arrays.toString(criteriosBusqueda));
                 idVersion = cb.buscaMateriaDocente(criteriosBusqueda[0], criteriosBusqueda[1], criteriosBusqueda[2], datosDocente[1]);
                 if (idVersion == null) {
                     CUtilitarios.msg("No hay ninguna grupo asignado con esa materia.", "Asignar calificacion.");
@@ -348,6 +363,7 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
             JtxtAlumno.setText(alumno[1]);
             JtxtAlumno.setEditable(false);
             JtxtAlumno.setEnabled(false);
+            JtxtCalificacion.setEditable(true);
         }
     }//GEN-LAST:event_JtableGrupoMouseClicked
 

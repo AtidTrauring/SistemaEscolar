@@ -99,7 +99,7 @@ public class CBusquedas {
                 + "WHERE g.grupo = '" + grupo + "' AND c.ciclo = '" + ciclo + "' "
                 + "AND a.nombre_asignatura = '" + asignatura + "' "
                 + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre;";
-        return cnslt.buscarValores(consulta, 2);
+        return cnslt.buscarValores(consulta, 3);
     }
 
     public String buscaMateriaDocente(String ciclo, String asignatura, String grupo, String idDocente) throws SQLException {
@@ -261,14 +261,6 @@ public class CBusquedas {
     }
 
     public ArrayList<String[]> buscaTemario() throws SQLException {
-//        consulta = "SELECT ca.nombre_carrera, a.clave_asignatura, "
-//                + "a.nombre_asignatura, u.unidad, s.subtema "
-//                + "FROM carrera ca "
-//                + "JOIN carrera_asignatura caa ON ca.clave_carrera = caa.clave_carrera "
-//                + "JOIN asignatura a ON caa.clave_asignatura = a.clave_asignatura "
-//                + "JOIN asignatura_unidad au ON a.clave_asignatura = au.clave_asignatura "
-//                + "JOIN unidad u ON au.clave_unidad = u.clave_unidad "
-//                + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
         consulta = "SELECT c.nombre_carrera, s.clave_semestre, a.clave_asignatura, "
                 + "a.nombre_asignatura, u.unidad FROM carrera c "
                 + "JOIN carrera_asignatura ca ON c.clave_carrera = ca.clave_carrera "
