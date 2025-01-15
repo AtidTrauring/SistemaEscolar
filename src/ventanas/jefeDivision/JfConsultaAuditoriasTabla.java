@@ -13,9 +13,11 @@ public class JfConsultaAuditoriasTabla extends javax.swing.JFrame {
     private DefaultTableModel modelo;
     private ArrayList<String[]> datosConsultas;
     private static int opcionEscogida;
+    private static String[] datosJefe;
 
-    public JfConsultaAuditoriasTabla(int opcionAuditoria) {
+    public JfConsultaAuditoriasTabla(String[] datos, int opcionAuditoria) {
         initComponents();
+        datosJefe = datos;
         opcionEscogida = opcionAuditoria;
     }
 
@@ -309,7 +311,7 @@ public class JfConsultaAuditoriasTabla extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        JfConsultaAuditorias ca = new JfConsultaAuditorias();
+        JfConsultaAuditorias ca = new JfConsultaAuditorias(datosJefe);
         CUtilitarios.creaFrame(ca, "Seleccion de auditorias.");
     }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
@@ -338,7 +340,7 @@ public class JfConsultaAuditoriasTabla extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfConsultaAuditoriasTabla(opcionEscogida).setVisible(true);
+                new JfConsultaAuditoriasTabla(datosJefe, opcionEscogida).setVisible(true);
             }
         });
     }

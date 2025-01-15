@@ -48,6 +48,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmiAgregaTelefono = new javax.swing.JMenuItem();
         JmiAgregaCorreo = new javax.swing.JMenuItem();
         JmiAgregaPersona = new javax.swing.JMenuItem();
+        JmnAuditoria = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Jefe de Division");
@@ -290,6 +291,14 @@ public class JfMenuJefe extends javax.swing.JFrame {
 
         JmbListaOpciones.add(JmnAgregar);
 
+        JmnAuditoria.setText("Auditorias");
+        JmnAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmnAuditoriaActionPerformed(evt);
+            }
+        });
+        JmbListaOpciones.add(JmnAuditoria);
+
         setJMenuBar(JmbListaOpciones);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -453,6 +462,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
         CUtilitarios.creaFrame(ra, "Indice de reprobados");
         this.hide();
     }//GEN-LAST:event_JmiIndeReprobadaActionPerformed
+
+    private void JmnAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmnAuditoriaActionPerformed
+        JfConsultaAuditorias ca = new JfConsultaAuditorias(datosJefe);
+        CUtilitarios.creaFrame(ca, "");
+    }//GEN-LAST:event_JmnAuditoriaActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -512,6 +526,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
     private javax.swing.JMenu JmnAgregar;
     private javax.swing.JMenu JmnAlumno;
     private javax.swing.JMenu JmnAsignatura;
+    private javax.swing.JMenu JmnAuditoria;
     private javax.swing.JMenu JmnDocentes;
     private javax.swing.JMenu JmnGrupo;
     private javax.swing.JMenu JmnTemario;

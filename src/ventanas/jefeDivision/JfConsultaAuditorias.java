@@ -4,8 +4,11 @@ import utilitarios.CUtilitarios;
 
 public class JfConsultaAuditorias extends javax.swing.JFrame {
 
-    public JfConsultaAuditorias() {
+    private static String[] datosJefe;
+
+    public JfConsultaAuditorias(String[] datos) {
         initComponents();
+        datosJefe = datos;
     }
 
     @SuppressWarnings("unchecked")
@@ -18,8 +21,13 @@ public class JfConsultaAuditorias extends javax.swing.JFrame {
         JbtnEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Consultas Complejas");
+        setTitle("Seleccion de auditorias");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -81,12 +89,17 @@ public class JfConsultaAuditorias extends javax.swing.JFrame {
         if (JcmbxConsultas.getSelectedIndex() == 0) {
             CUtilitarios.msg("Porfavor seleccione una Auditoria!", "Consultar auditorias.");
         } else {
-            JfConsultaAuditoriasTabla caj = new JfConsultaAuditoriasTabla(JcmbxConsultas.getSelectedIndex());
+            JfConsultaAuditoriasTabla caj = new JfConsultaAuditoriasTabla(datosJefe, JcmbxConsultas.getSelectedIndex());
             CUtilitarios.creaFrame(caj, "Consultas de Auditorias.");
             this.hide();
         }
 
     }//GEN-LAST:event_JbtnEnviarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+    }//GEN-LAST:event_formWindowClosed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -113,7 +126,7 @@ public class JfConsultaAuditorias extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfConsultaAuditorias().setVisible(true);
+                new JfConsultaAuditorias(datosJefe).setVisible(true);
             }
         });
     }
