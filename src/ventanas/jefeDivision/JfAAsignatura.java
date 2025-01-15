@@ -1,11 +1,25 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CInserciones;
+import java.sql.SQLException;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import utilitarios.CUtilitarios;
 
 public class JfAAsignatura extends javax.swing.JFrame {
 
     private static String[] datosJefe;
     private static String[] datosAsignatura;
+    private String regexNombre = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$";
+    private String regexClave = "^[a-zA-Z0-9-]{1,8}$";
+    private String regexHP = "^[0-9]+$";
+    private String regexHT = "^[0-9]+$";
+    private String regexCreditos = "^[0-9]+$";
+    private String regexUnidades = "^[0-9]+$";
+    private String claveAsig, asignatura, HT, HP, numUnid, creditos, tipoAsig;
+    private final CBusquedas queryBusca = new CBusquedas();
+    private final CInserciones queryInserta = new CInserciones();
 
     public JfAAsignatura(String[] datosJ, String[] datosA, String nombreBoton) {
         initComponents();
@@ -13,6 +27,289 @@ public class JfAAsignatura extends javax.swing.JFrame {
         datosAsignatura = datosA;
         JbtnEnviar.setText(nombreBoton);
     }
+
+    public void asignaValores() {
+        // Obtener los valores de los campos de texto
+        claveAsig = JtxtClave.getText();
+        asignatura = JtxtNombre.getText();
+        HT = JtxtHT.getText();
+        HP = JtxtHP.getText();
+        numUnid = JtxtNumeroUnidades.getText();
+        creditos = JtxtCreditos.getText();
+        tipoAsig = (String) JcmbxTA.getSelectedItem();
+    }
+
+    public void limpiaValores() {
+        claveAsig = null;
+        asignatura = null;
+        HT = null;
+        HP = null;
+        numUnid = null;
+        creditos = null;
+        tipoAsig = null;
+    }
+
+    public String devuelveCadena(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 ]+$")) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public String devuelveCadenaClave(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regexClave)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public String devuelveCadenaHP(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regexHP)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public String devuelveCadenaHT(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regexHT)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public String devuelveCadenaCreditos(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regexCreditos)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public String devuelveCadenaUnidades(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches(regexUnidades)) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public boolean validaCampoClave(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if ("NoValido".equals(campoTexto)) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoAsignatura(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoHT(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoHP(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoCreditos(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoUnidades(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        } else if (campoTexto.equals("NoValido")) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Asignatura");
+            valida = false;
+        } else {
+            valida = true;
+        }
+        return valida;
+    }
+
+    public boolean validaCampoTA(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+        boolean valida = true;
+
+        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+
+        if (campoTexto.equals("Selecciona una opcion")) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+            valida = false;
+        }
+        return valida;
+    }
+
+    public boolean validaCampos() {
+        return (validaCampoClave(claveAsig, JtxtClave, regexClave, "Ingrese la clave.", "Valores invalidos para la clave"))
+                && (validaCampoAsignatura(asignatura, JtxtNombre, regexNombre, "Ingrese el nombre de la asignatura", "Valores invalidos para el nombre de la asignatura"))
+                && (validaCampoHT(HT, JtxtHT, regexHT, "Ingrerse las horas teoricas", "Valores invalidos para las horas teoricas"))
+                && (validaCampoHP(HP, JtxtHP, regexHP, "Ingrese las horas practicas.", "Valores invalidos para las horas practicas"))
+                && (validaCampoUnidades(numUnid, JtxtNumeroUnidades, regexUnidades, "Ingrese el numero de unidades", "Valores invalidos para el numero de unidades"))
+                && (validaCampoCreditos(creditos, JtxtCreditos, regexCreditos, "Ingrese los creditos", "Valores invalidos para los creditos"))
+                && (validaCampoTA(tipoAsig, JcmbxTA, "Ingrese el tipo de asignatura"));
+    }
+
+    public void enviarDatos() {
+    String clave_asignatura, clave_tipo_asignatura;
+    if (validaCampos()) {
+        asignaValores();
+        try {
+            // Obtener las claves
+            clave_asignatura = queryBusca.obtenClaveFinalAsignatura(claveAsig);
+            clave_tipo_asignatura = queryBusca.obtenClaveTASeleccionado(tipoAsig);
+
+            // Imprimir valores para depuración
+            System.out.println("ClaveAsignatura:" + claveAsig + "\nNombreAsignatura:" + asignatura + "\nHorasTeoricas: " + HT + "\nHorasPracticas: " + HP);
+            System.out.println("CAsignatura" + clave_asignatura);
+            System.out.println("NumerosUnidades: " + numUnid + "\nCreditos:" + creditos);
+            System.out.println("TipoAsignatura: " + tipoAsig);
+            System.out.println("claveTA: " + clave_tipo_asignatura);
+
+            // Llamar al método de inserción
+            boolean insercion = queryInserta.insertaAsignatura(clave_asignatura, asignatura, HT, HP, numUnid, creditos, clave_tipo_asignatura);
+
+            if (insercion) {
+                // Si la inserción fue exitosa, muestra mensaje de éxito
+                CUtilitarios.msg("Asignatura Registrada", "Registro Asignatura");
+            } else {
+                // Si la inserción falló, muestra mensaje de error
+                CUtilitarios.msg_error("Hubo un error al registrar la asignatura.", "Error en el Registro");
+            }
+
+        } catch (SQLException ex) {
+            CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
+        } finally {
+            limpiaValores();
+        }
+        this.dispose();
+    }
+}
+//    public void enviarDatos() {
+//        String clave_asignatura, clave_tipo_asignatura;
+//        if (validaCampos()) {
+//            asignaValores();
+//            try {
+//                boolean claveTAExistente = queryBusca.obtenClaveTASeleccionado(tipoAsig);
+//                if (!claveTAExistente) {
+//                    CUtilitarios.msg_error("El tipo de asignatura no existe. Por favor seleccione un tipo válido.", "Error en el Registro");
+//                    return; // Detener la ejecución si la clave de tipo asignatura no existe
+//                }
+//                boolean claveExistente = queryBusca.obtenClaveFinalAsignatura(claveAsig);
+//                if (claveExistente) {
+//                    CUtilitarios.msg_error("La clave de la asignatura ya existe. Por favor ingrese una clave diferente.", "Error en el Registro");
+//                    return;
+//                }
+//                clave_asignatura = claveAsig;
+//                clave_tipo_asignatura = tipoAsig;
+//                System.out.println("ClaveAsignatura:" + claveAsig + "\nNombreAsignatura:" + asignatura + "\nHorasTeoricas: " + HT + "\nHorasPracticas: " + HP);
+//                System.out.println("NumerosUnidades: " + numUnid + "\nCreditos:" + creditos);
+//                System.out.println("TipoAsignatura: " + tipoAsig);
+//                System.out.println("claveTA: " + clave_tipo_asignatura);
+//                boolean insercion = queryInserta.insertaAsignatura(clave_asignatura, asignatura, HT, HP, numUnid, creditos, clave_tipo_asignatura);
+//
+//                if (insercion) {
+//                    CUtilitarios.msg("Asignatura Registrada", "Registro Asignatura");
+//                } else {
+//                    CUtilitarios.msg_error("Hubo un error al registrar la asignatura.", "Error en el Registro");
+//                }
+//
+//            } catch (SQLException ex) {
+//                CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
+//            } finally {
+//                limpiaValores();
+//            }
+//            this.dispose();
+//        }
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,6 +383,11 @@ public class JfAAsignatura extends javax.swing.JFrame {
         JlblTA.setText("Tipo asignatura");
 
         JcmbxTA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "Curricular", "Cocurricular" }));
+        JcmbxTA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxTAActionPerformed(evt);
+            }
+        });
 
         JlblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoAsignatura.png"))); // NOI18N
 
@@ -208,13 +510,17 @@ public class JfAAsignatura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
-
+        enviarDatos();
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxTAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JcmbxTAActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

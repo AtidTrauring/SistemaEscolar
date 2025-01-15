@@ -274,6 +274,7 @@ public class CBusquedas {
                 + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
         return cnslt.buscarValores(consulta, 5);
     }
+
     public ArrayList<String[]> buscaRAsignatura2() throws SQLException {
         consulta = "SELECT \n"
                 + "    c.nombre_carrera, ta.tipo_asignatura, \n"
@@ -286,4 +287,28 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 6);
     }
 
+    // ----------------------------- Asignaturas ---------------------------------------
+    public String obtenClaveFinalAsignatura(String clave) throws SQLException {
+        consulta = "SELECT COUNT(*) FROM asignatura WHERE clave_asignatura = '" + clave + "'";
+        return cnslt.buscarValor(consulta);
+    }
+
+//    public boolean obtenClaveFinalAsignatura(String clave) throws SQLException {
+//        // Realizar consulta para contar cuántas asignaturas tienen la misma clave
+//        consulta = "SELECT COUNT(*) FROM asignatura WHERE clave_asignatura = '" + clave + "'";
+//        int count = Integer.parseInt(cnslt.buscarValor(consulta)); // Devuelve la cantidad de asignaturas con esa clave
+//        return count > 0; // Si el count es mayor que 0, la clave ya existe
+//    }
+    public String obtenClaveTASeleccionado(String TA) throws SQLException {
+        consulta = "SELECT COUNT(*)"
+                + "FROM tipo_asignatura "
+                + "WHERE tipo_asignatura = '" + TA + "'";
+        return cnslt.buscarValor(consulta);
+    }
+    //    public boolean obtenClaveTASeleccionado(String TA) throws SQLException {
+//        // Realizar consulta para contar cuántos tipos de asignaturas tienen la misma clave
+//        consulta = "SELECT COUNT(*) FROM tipo_asignatura WHERE tipo_asignatura = '" + TA + "'";
+//        int count = Integer.parseInt(cnslt.buscarValor(consulta)); 
+//        return count > 0; 
+//    }
 }
