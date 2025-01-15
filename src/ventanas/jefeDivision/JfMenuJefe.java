@@ -292,9 +292,9 @@ public class JfMenuJefe extends javax.swing.JFrame {
         JmbListaOpciones.add(JmnAgregar);
 
         JmnAuditoria.setText("Auditorias");
-        JmnAuditoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JmnAuditoriaActionPerformed(evt);
+        JmnAuditoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JmnAuditoriaMouseClicked(evt);
             }
         });
         JmbListaOpciones.add(JmnAuditoria);
@@ -463,10 +463,11 @@ public class JfMenuJefe extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_JmiIndeReprobadaActionPerformed
 
-    private void JmnAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmnAuditoriaActionPerformed
+    private void JmnAuditoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JmnAuditoriaMouseClicked
         JfConsultaAuditorias ca = new JfConsultaAuditorias(datosJefe);
-        CUtilitarios.creaFrame(ca, "");
-    }//GEN-LAST:event_JmnAuditoriaActionPerformed
+        CUtilitarios.creaFrame(ca, "Consulta Auditorias");
+        this.hide();
+    }//GEN-LAST:event_JmnAuditoriaMouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
