@@ -245,6 +245,8 @@ public class JfAAsignatura extends javax.swing.JFrame {
         try {
             // Obtener las claves
             clave_asignatura = queryBusca.obtenClaveFinalAsignatura(claveAsig);
+            // Creo que aqui esta el error, necesitas obtener la clave por la cual vas a insertar
+            // entonces tu consulta la voy a modificar.
             clave_tipo_asignatura = queryBusca.obtenClaveTASeleccionado(tipoAsig);
 
             // Imprimir valores para depuración

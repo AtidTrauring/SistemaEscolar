@@ -300,9 +300,12 @@ public class CBusquedas {
 //        return count > 0; // Si el count es mayor que 0, la clave ya existe
 //    }
     public String obtenClaveTASeleccionado(String TA) throws SQLException {
-        consulta = "SELECT COUNT(*)"
+//        consulta = "SELECT COUNT(*)"
+//                + "FROM tipo_asignatura "
+//                + "WHERE tipo_asignatura = '" + TA + "'";
+        consulta = "SELECT clave_tasignatura "
                 + "FROM tipo_asignatura "
-                + "WHERE tipo_asignatura = '" + TA + "'";
+                + "WHERE tipo_asignatura = '" + TA + "';";
         return cnslt.buscarValor(consulta);
     }
     //    public boolean obtenClaveTASeleccionado(String TA) throws SQLException {
