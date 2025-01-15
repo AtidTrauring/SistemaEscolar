@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Consultas Complejas"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="JpnlLienzo" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="JpnlLienzo" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="JpnlLienzo">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="JcmbxConsultas" alignment="0" pref="401" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="JlblConsultas" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="JbtnEnviar" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="JlblConsultas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="JcmbxConsultas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="JbtnEnviar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="21" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JComboBox" name="JcmbxConsultas">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="33">
+                <StringItem index="0" value="Seleccione una opcion"/>
+                <StringItem index="1" value="Auditoria de las Asignaturas"/>
+                <StringItem index="2" value="Auditoria de la relacion de Asignatura con Semestre"/>
+                <StringItem index="3" value="Auditoria de la relacion de Asignatura con Unidad"/>
+                <StringItem index="4" value="Auditoria de las Carreras"/>
+                <StringItem index="5" value="Auditoria de la relacion de Carreras con Asignatura"/>
+                <StringItem index="6" value="Auditoria de los Ciclos"/>
+                <StringItem index="7" value="Auditoria de los Codigos postal"/>
+                <StringItem index="8" value="Auditoria de las Colonias"/>
+                <StringItem index="9" value="Auditoria de las Contrase&#xf1;as"/>
+                <StringItem index="10" value="Auditoria de los Correos"/>
+                <StringItem index="11" value="Auditoria de las Direcciones"/>
+                <StringItem index="12" value="Auditoria de los Docentes"/>
+                <StringItem index="13" value="Auditoria de la relacion de Docentes con Carreras"/>
+                <StringItem index="14" value="Auditoria de la relacion de Docentes con Grupos"/>
+                <StringItem index="15" value="Auditoria de la relacion de Docentes con Versiones"/>
+                <StringItem index="16" value="Auditoria de los Estados"/>
+                <StringItem index="17" value="Auditoria de los Estudiantes"/>
+                <StringItem index="18" value="Auditoria de la relacion de Estudiante con Carrera"/>
+                <StringItem index="19" value="Auditoria de la relacion de Estudiante con Grupo"/>
+                <StringItem index="20" value="Auditoria de la relacion de Estudiante con Versiones de los cursos"/>
+                <StringItem index="21" value="Auditoria de los Grupos"/>
+                <StringItem index="22" value="Auditoria de los Jefes de carrera"/>
+                <StringItem index="23" value="Auditoria de los Municipios"/>
+                <StringItem index="24" value="Auditoria de los Origenes de las materias"/>
+                <StringItem index="25" value="Auditoria de los Docentes/Alumnos/Jefes de carrera (Personas)"/>
+                <StringItem index="26" value="Auditoria de los Semestres"/>
+                <StringItem index="27" value="Auditoria de los Subtemas"/>
+                <StringItem index="28" value="Auditoria de los Telefonos"/>
+                <StringItem index="29" value="Auditoria de los Tipos de asignatura"/>
+                <StringItem index="30" value="Auditoria de las Unidades"/>
+                <StringItem index="31" value="Auditoria de las Versiones de los cursos"/>
+                <StringItem index="32" value=" "/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="JlblConsultas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Seleccione una Auditoria"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="JbtnEnviar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Muestrame"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JbtnEnviarActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
