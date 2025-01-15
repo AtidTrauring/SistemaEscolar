@@ -46,13 +46,13 @@ public class JfAsignaCalificacion extends javax.swing.JFrame {
         if (valoresBusqueda != null) {
             try {
                 System.out.println(Arrays.toString(valoresBusqueda));
-                datosAlumnos = cb.buscaAlumnosGrupo(valoresBusqueda[2], valoresBusqueda[0], valoresBusqueda[1]);
+                datosAlumnos = cb.buscaAlumnosConCalificacion(valoresBusqueda[2], valoresBusqueda[0], valoresBusqueda[1]);
                 if (datosAlumnos.isEmpty()) {
                     CUtilitarios.msg("No se encontraron alumnos en el grupo indicado", "Asignar calificacion");
                 } else {
                     limpiarTabla();
                     for (String[] datosAlumno : datosAlumnos) {
-                        modelo.addRow(new Object[]{datosAlumno[0], datosAlumno[1]});
+                        modelo.addRow(new Object[]{datosAlumno[0], datosAlumno[1],datosAlumno[2]});
                     }
                     tr = new TableRowSorter<>(modelo);
                     JtableGrupo.setRowSorter(tr);

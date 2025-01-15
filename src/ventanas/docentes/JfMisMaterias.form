@@ -58,21 +58,21 @@
                               <Component id="JcmbxCiclo" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="JlblGrupo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JcmbxGrupo" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="JcmbxCarrera" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="JlblCarrera" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="JlblGrupo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxGrupo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="JlblAsignatura" min="-2" max="-2" attributes="0"/>
                               <Component id="JcmbxAsignatura" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="222" max="32767" attributes="0"/>
+                          <EmptySpace min="108" pref="222" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -90,17 +90,18 @@
                           <Component id="JcmbxCiclo" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="JlblGrupo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblAsignatura" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="JlblGrupo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Component id="JcmbxGrupo" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="JcmbxAsignatura" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="JcmbxCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxCarrera" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="JcmbxAsignatura" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="JlblCarrera" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="JlblAsignatura" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="38" pref="38" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>

@@ -75,30 +75,27 @@ public class CBusquedas {
 
     // --------------------- Busquedas JfMenuDocente ---------------------
     public ArrayList<String[]> buscaMateriasDocente(String idDocente) throws SQLException {
-        consulta = "SELECT c.ciclo, car.nombre_carrera, g.grupo, "
-                + "a.nombre_asignatura  FROM docente d "
-                + "JOIN docente_version dv ON d.clave_docente = dv.clave_docente "
+        consulta = "SELECT c.ciclo, g.grupo, ca.nombre_carrera, a.nombre_asignatura "
+                + "FROM docente d JOIN docente_version dv ON d.clave_docente = dv.clave_docente "
                 + "JOIN version v ON dv.clave_version = v.clave_version "
                 + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
-                + "JOIN carrera_asignatura ca ON a.clave_asignatura = ca.clave_asignatura "
-                + "JOIN carrera car ON ca.clave_carrera = car.clave_carrera "
                 + "JOIN grupo g ON v.clave_ciclo = g.clave_ciclo "
                 + "JOIN ciclo c ON v.clave_ciclo = c.clave_ciclo "
+                + "JOIN carrera ca ON g.clave_carrera = ca.clave_carrera "
                 + "WHERE d.clave_docente = " + idDocente + ";";
         return cnslt.buscarValores(consulta, 4);
     }
 
-    public ArrayList<String[]> buscaAlumnosGrupo(String grupo, String ciclo, String asignatura) throws SQLException {
-        consulta = "SELECT e.clave_estudiante, "
-                + "CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre) AS Nombre_Completo "
+    public ArrayList<String[]> buscaAlumnosConCalificacion(String grupo, String ciclo, String asignatura) throws SQLException {
+        consulta = "SELECT e.clave_estudiante, CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), ev.calificacion "
                 + "FROM estudiante_grupo eg JOIN grupo g ON eg.clave_grupo = g.clave_grupo "
-                + "JOIN ciclo c ON g.clave_ciclo = c.clave_ciclo "
-                + "JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
+                + "JOIN ciclo c ON g.clave_ciclo = c.clave_ciclo JOIN estudiante e ON eg.clave_estudiante = e.clave_estudiante "
                 + "JOIN persona p ON e.clave_persona = p.clave_persona "
                 + "JOIN estudiante_version ev ON e.clave_estudiante = ev.clave_estudiante "
                 + "JOIN version v ON ev.clave_version = v.clave_version "
-                + "JOIN carrera_asignatura ca ON v.clave_asignatura = ca.clave_asignatura "
-                + "JOIN asignatura a ON ca.clave_asignatura = a.clave_asignatura "
+                + "JOIN asignatura a ON v.clave_asignatura = a.clave_asignatura "
+                + "JOIN carrera_asignatura ca ON a.clave_asignatura = ca.clave_asignatura "
+                + "JOIN carrera cr ON ca.clave_carrera = cr.clave_carrera "
                 + "WHERE g.grupo = '" + grupo + "' AND c.ciclo = '" + ciclo + "' "
                 + "AND a.nombre_asignatura = '" + asignatura + "' "
                 + "ORDER BY p.ap_Paterno, p.ap_Materno, p.nombre;";
@@ -264,14 +261,23 @@ public class CBusquedas {
     }
 
     public ArrayList<String[]> buscaTemario() throws SQLException {
-        consulta = "SELECT ca.nombre_carrera, a.clave_asignatura, "
-                + "a.nombre_asignatura, u.unidad, s.subtema "
-                + "FROM carrera ca "
-                + "JOIN carrera_asignatura caa ON ca.clave_carrera = caa.clave_carrera "
-                + "JOIN asignatura a ON caa.clave_asignatura = a.clave_asignatura "
+//        consulta = "SELECT ca.nombre_carrera, a.clave_asignatura, "
+//                + "a.nombre_asignatura, u.unidad, s.subtema "
+//                + "FROM carrera ca "
+//                + "JOIN carrera_asignatura caa ON ca.clave_carrera = caa.clave_carrera "
+//                + "JOIN asignatura a ON caa.clave_asignatura = a.clave_asignatura "
+//                + "JOIN asignatura_unidad au ON a.clave_asignatura = au.clave_asignatura "
+//                + "JOIN unidad u ON au.clave_unidad = u.clave_unidad "
+//                + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
+        consulta = "SELECT c.nombre_carrera, s.clave_semestre, a.clave_asignatura, "
+                + "a.nombre_asignatura, u.unidad FROM carrera c "
+                + "JOIN carrera_asignatura ca ON c.clave_carrera = ca.clave_carrera "
+                + "JOIN asignatura a ON ca.clave_asignatura = a.clave_asignatura "
+                + "JOIN asignatura_semestre asg_sem ON a.clave_asignatura = asg_sem.clave_asignatura "
+                + "JOIN semestre s ON asg_sem.clave_semestre = s.clave_semestre "
                 + "JOIN asignatura_unidad au ON a.clave_asignatura = au.clave_asignatura "
                 + "JOIN unidad u ON au.clave_unidad = u.clave_unidad "
-                + "JOIN subtema s ON u.clave_unidad = s.clave_unidad;";
+                + "ORDER BY `Clave_Semestre` DESC";
         return cnslt.buscarValores(consulta, 5);
     }
 
