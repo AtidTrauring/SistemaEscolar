@@ -1,11 +1,16 @@
 package utilitarios;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class CUtilitarios {
+
+    private static Set<String> usuariosGenerados = new HashSet<>(); // Almacén de usuarios generados
 
     /*  Metodo que permite crear JFrame, recibiendo un objeto de tipo frame
         , el titulo que tendra y las medidas de este*/
@@ -48,9 +53,9 @@ public class CUtilitarios {
         }
     }
 
-    public static boolean validaComboBox(String campoTexto, JComboBox<String> comboBox, String mensajeVacio, String tituloMensaje) {
+    public static boolean validaComboBox(String campoTexto, JComboBox comboBox, String mensajeVacio, String tituloMensaje) {
         boolean valida = true;
-        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+        campoTexto = comboBox.getSelectedItem().toString(); // Obtener el texto seleccionado del JComboBox
         if (campoTexto.equals("Selecciona una opcion")) {
             CUtilitarios.msg_advertencia(mensajeVacio, tituloMensaje);
             valida = false;
@@ -132,4 +137,68 @@ public class CUtilitarios {
         return nuevoArreglo; // Retornar el nuevo arreglo con el elemento agregado
     }
 
+    // Método para generar una contraseña
+    public static String generarContrasena() {
+        int longitudMinima = 8;
+        int longitudMaxima = 15;
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        Random random = new Random();
+        int longitud = random.nextInt(longitudMaxima - longitudMinima + 1) + longitudMinima;
+        StringBuilder contrasena = new StringBuilder(longitud);
+
+        for (int i = 0; i < longitud; i++) {
+            contrasena.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+
+        return contrasena.toString();
+    }
+
+    // Método para generar un usuario único
+    public static String generarUsuario(String apellidoPaterno, String apellidoMaterno, String nombre) {
+        String baseUsuario = (apellidoPaterno + apellidoMaterno + nombre).replaceAll("\\s+", "").toLowerCase();
+
+        // Truncar a un máximo de 18 caracteres para dejar espacio a los dígitos
+        baseUsuario = baseUsuario.length() > 18 ? baseUsuario.substring(0, 18) : baseUsuario;
+
+        Random random = new Random();
+        String usuario;
+
+        // Asegurar que el usuario es único
+        do {
+            int digitos = random.nextInt(90) + 10; // Generar un número aleatorio de dos dígitos (10-99)
+            usuario = baseUsuario + digitos;
+
+            // Asegurar que cumpla con la longitud mínima de 5 caracteres
+            if (usuario.length() < 5) {
+                usuario = String.format("%s%02d", baseUsuario, random.nextInt(90) + 10);
+            }
+
+            // Truncar a un máximo de 20 caracteres
+            if (usuario.length() > 20) {
+                usuario = usuario.substring(0, 20);
+            }
+        } while (usuariosGenerados.contains(usuario)); // Repetir si ya existe
+
+        usuariosGenerados.add(usuario); // Agregar a la lista de usuarios generados
+        return usuario;
+    }
+
+    // Método para validar nombres completos
+    public static String[] validarNombreCompleto(String nombreCompleto) {
+        String[] partes = nombreCompleto.trim().split("\\s+");
+
+        if (partes.length < 3) {
+            CUtilitarios.msg_advertencia("El nombre completo debe incluir al menos un nombre y dos apellidos. \nEjemplo: Kevin Sanchez Ortiz", "Agrega Direccion");
+            return null;
+        }
+
+        String regex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$";
+        if (!nombreCompleto.matches(regex)) {
+            CUtilitarios.msg_advertencia("El nombre completo solo puede contener letras y espacios. \nEjemplo: Kevin Sanchez Ortiz", "Agrega Direccion");
+            return null;
+        }
+
+        return partes;
+    }
 }

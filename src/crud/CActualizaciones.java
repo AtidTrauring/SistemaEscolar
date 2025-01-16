@@ -7,8 +7,8 @@ public class CActualizaciones {
     private final CConsultas cnslt = new CConsultas();
     private String consulta;
 
-    public boolean actualizarAnio(int anio, String id) throws SQLException {
-        consulta = "UPDATE flecha_amarilla.anio SET `anio`='" + anio + "' WHERE Id_anio = '" + id + "';";
+    public boolean actualizarPersona(String clavePersona, String apellidoPaterno, String apellidoMaterno, String nombre, String usuario, String claveContrasenia, String claveDireccion) throws SQLException {
+        consulta = "CALL sp_actualizar_persona(" + clavePersona + ",'" + apellidoPaterno + "','" + apellidoMaterno + "','" + nombre + "','" + usuario + "'," + claveContrasenia + "," + claveDireccion + ");";
         return cnslt.actualiza(consulta);
     }
 

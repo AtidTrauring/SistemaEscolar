@@ -197,6 +197,11 @@ public class CBusquedas {
     }
 
     // --------------------- Busquedas JfADireccion ---------------------
+    public String buscaEstado(String estado) throws SQLException {
+        consulta = "SELECT estado.clave_estado FROM estado WHERE estado.estado = '" + estado + "';";
+        return cnslt.buscarValor(consulta);
+    }
+
     public String buscaMunicipio(String municipio) throws SQLException {
         consulta = "SELECT municipio.clave_mun FROM municipio WHERE municipio.municipio = '" + municipio + "'";
         return cnslt.buscarValor(consulta);
@@ -215,10 +220,10 @@ public class CBusquedas {
     public String buscaDireccion(String calle, String numeroI, String numeroE, String claveColonia, String claveCodigoPostal, String claveMunicipio) throws SQLException {
         consulta = "SELECT direccion.clave_dir FROM direccion "
                 + "WHERE direccion.calle = '" + calle + "' "
-                + "AND direccion.num_Inter = " + numeroI + ""
-                + "AND direccion.num_Exter = " + numeroE + ""
-                + "AND direccion.clave_colonia = " + claveColonia + ""
-                + "AND direccion.clave_cp = " + claveCodigoPostal + ""
+                + "AND direccion.num_Inter = " + numeroI + " "
+                + "AND direccion.num_Exter = " + numeroE + " "
+                + "AND direccion.clave_colonia = " + claveColonia + " "
+                + "AND direccion.clave_cp = " + claveCodigoPostal + " "
                 + "AND direccion.clave_mun = " + claveMunicipio + ";";
         return cnslt.buscarValor(consulta);
     }

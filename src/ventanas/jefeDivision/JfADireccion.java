@@ -1,38 +1,42 @@
 package ventanas.jefeDivision;
 
+import crud.CActualizaciones;
 import crud.CBusquedas;
 import crud.CCargaCombos;
 import crud.CInserciones;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import utilitarios.CUtilitarios;
-import javax.swing.JTextField;
 
-public class JfADireccion extends javax.swing.JFrame {
+public final class JfADireccion extends javax.swing.JFrame {
 
-    private final CBusquedas queryBusca1 = new CBusquedas();
-    private final CBusquedas queryBusca2 = new CBusquedas();
-    private final CInserciones queryInserta1 = new CInserciones();
+    private final CBusquedas cb = new CBusquedas();
+    private final CInserciones ci = new CInserciones();
+    private final CActualizaciones ca = new CActualizaciones();
     private final CCargaCombos queryCarga = new CCargaCombos();
 
     private static String[] datosJefe;
     private static String[] datosPersona;
+    private static String[] datosDireccion;
     private String calle, colonia, codigoPostal, num_Int, num_Ext, municipio, nombreEstado;
-    private String regexNombre = "^[a-zA-Z]{1,80}$";
-    private String regexCodigoPostal = "^[0-9]{5}$";
-    private String regexEstado = "^[a-zA-Z]{1,19}$";
-    private String regexMunicipio = "^[a-zA-Z]{1,80}$";
-    private String regexCalle = "^[a-zA-Z]{1,80}$";
-    private String regexNumero = "^[0-9]{1,5}$";
-    private String regexColonia = "^[a-zA-Z]{1,80}$";
+    private final String regexCodigoPostal = "^[0-9]{5}$";
+    private final String regexMunicipio = "^[a-zA-Z]{1,80}$";
+    private final String regexCalle = "^[a-zA-Z]{1,80}$";
+    private final String regexNumero = "^[0-9]{1,5}$";
+    private final String regexColonia = "^[a-zA-Z]{1,80}$";
     private DefaultComboBoxModel listas;
     private ArrayList<String> datosListas = new ArrayList<>();
-    private String titulos = this.getTitle();
+    private final String titulos;
 
     public JfADireccion(String[] datosJ, String[] datosP, String nombreBoton) {
+        this.titulos = this.getTitle();
         initComponents();
+        datosJefe = datosJ;
+        datosPersona = datosP;
         JbtnEnviar.setText(nombreBoton);
         cargaComboBox(JcmbxEstado);
     }
@@ -61,13 +65,96 @@ public class JfADireccion extends javax.swing.JFrame {
 
     }
 
-        private String obtenValorCombo() {
+    private String obtenValorCombo() {
         String estado = (String) JcmbxEstado.getSelectedItem();
         if (estado == null || estado.equals("Seleccione una opcion")) {
             CUtilitarios.msg_advertencia("Por favor, seleccione una ocupacion", "Advertencia");
             estado = null;
         }
         return estado;
+    }
+
+    private void procesoDireccion() {
+        if (validaCampos()) {
+            datosDireccion = new String[7];
+            datosDireccion[1] = JtxtCalle.getText();
+            datosDireccion[2] = JtxtNumeroInt.getText();
+            datosDireccion[3] = JtxtNumeroExt.getText();
+            try {
+                String idMunicipio = cb.buscaMunicipio(JtxtMunicipio.getText());
+                String idColonia = cb.buscaColonia(JtxtBarrio.getText());
+                String idCodigoPostal = cb.buscaCodigoPostal(JtxtCP.getText());
+                String idEstado = cb.buscaEstado(JcmbxEstado.getSelectedItem().toString());
+
+                // Municipio
+                if (idMunicipio != null) {
+                    datosDireccion[6] = idMunicipio;
+                } else {
+                    int idMunicipioInserta = Integer.parseInt(cb.buscaMaximoMunicipio()) + 1;
+                    if (ci.insertaMunicipio(String.valueOf(idMunicipioInserta), JtxtMunicipio.getText(), idEstado)) {
+                        datosDireccion[6] = String.valueOf(idMunicipioInserta);
+                    }
+                }
+
+                // Colonia
+                if (idColonia != null) {
+                    datosDireccion[4] = idColonia;
+                } else {
+                    int idColoniaInserta = Integer.parseInt(cb.buscaMaximoColonia()) + 1;
+                    if (ci.insertaColonia(String.valueOf(idColoniaInserta), JtxtBarrio.getText())) {
+                        datosDireccion[4] = String.valueOf(idColoniaInserta);
+                    }
+                }
+
+                // Codigo Postal
+                if (idCodigoPostal != null) {
+                    datosDireccion[5] = idCodigoPostal;
+                } else {
+                    int idCodigoPostalInserta = Integer.parseInt(cb.buscaMaximoCodigoPostal()) + 1;
+                    if (ci.insertaCodigoPostal(String.valueOf(idCodigoPostalInserta), JtxtCP.getText())) {
+                        datosDireccion[5] = String.valueOf(idCodigoPostalInserta);
+                    }
+                }
+
+                String idDireccion = cb.buscaDireccion(
+                        datosDireccion[1],
+                        datosDireccion[2],
+                        datosDireccion[3],
+                        datosDireccion[4],
+                        datosDireccion[5],
+                        datosDireccion[6]);
+
+                // Direccion
+                if (idDireccion != null) {
+                    datosDireccion[0] = idDireccion;
+                } else {
+                    int idDireccionInserta = Integer.parseInt(cb.buscaMaximoDireccion()) + 1;
+                    if (ci.insertaDireccion(
+                            String.valueOf(idDireccionInserta),
+                            datosDireccion[1],
+                            datosDireccion[2],
+                            datosDireccion[3],
+                            datosDireccion[4],
+                            datosDireccion[5],
+                            datosDireccion[6])) {
+                        CUtilitarios.msg("Se agrego al " + datosPersona[3], "Agrega direccion");
+                        datosDireccion[0] = String.valueOf(idDireccionInserta);
+                    }
+                }
+
+            } catch (Exception e) {
+            }
+
+            System.out.println("Datos direccion");
+            for (String string : datosDireccion) {
+                System.out.println(string);
+            }
+            System.out.println("Datos Persona");
+            for (String string : datosPersona) {
+                System.out.println(string);
+            }
+            this.hide();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -281,7 +368,6 @@ public class JfADireccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
-        // Enviar String[5]
         /*
         datosPersona
         [0] -> Nombre
@@ -291,8 +377,6 @@ public class JfADireccion extends javax.swing.JFrame {
         [4] -> idCarrera
         [5] -> telefono
         [6] -> correo
-         */
- /*
         datosDireccion
         [0] -> IdDireccion
         [1] -> Calle
@@ -302,28 +386,32 @@ public class JfADireccion extends javax.swing.JFrame {
         [5] -> Clave codigo postal
         [6] -> Clave municipio
          */
-        if (validaCampos()) {
-            String[] datosDireccion = new String[7];
-            try {
-//                datosDireccion[0] = ;
-                datosDireccion[1] = JtxtCalle.getText();
-                datosDireccion[2] = JtxtNumeroInt.getText();
-                datosDireccion[3] = JtxtNumeroExt.getText();
-//                datosDireccion[0] =;
-//                datosDireccion[0] =;
+        // Si el usuario ingresa a la persona
+        if (JtxtNombre.isEditable()) {
+            String[] nombrePartes = CUtilitarios.validarNombreCompleto(JtxtNombre.getText());
+            if (nombrePartes.length >= 3) {
+                String idPersona = null;
+                try {
+                    if (nombrePartes.length == 3) {
+                        idPersona = cb.buscaPersona(nombrePartes[0], nombrePartes[1], nombrePartes[2]);
+                    } else if (nombrePartes.length == 4) {
+                        idPersona = cb.buscaPersona(nombrePartes[0] + " " + nombrePartes[1], nombrePartes[2], nombrePartes[3]);
+                    }
 
-            } catch (Exception e) {
+                    if (idPersona != null) {
+                        procesoDireccion();
+//                        if (ca.actualizarPersona(idPersona, idPersona, regexNumero, calle, calle, idPersona, idPersona)) {
+//
+//                        }
+                    }
+                } catch (SQLException ex) {
+                }
             }
-            System.out.println("Datos direccion");
-            for (String string : datosDireccion) {
-                System.out.println(string);
-            }
-            System.out.println("Datos Persona");
-            for (String string : datosPersona) {
-                System.out.println(string);
-            }
-            this.hide();
+        } else {
+
         }
+
+
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
