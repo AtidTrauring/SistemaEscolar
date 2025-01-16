@@ -19,6 +19,7 @@ public class CInserciones {
 
     }
 // ---------------------------Inserciones Direccion-----------------------------------------
+
     public boolean insertaMunicipio(String claveMunicipio, String municipio, String claveEstado) throws SQLException {
         consulta = "CALL sp_agrega_municipio(" + claveMunicipio + ",'" + municipio + "'," + claveEstado + ");";
         return cnslt.inserta(consulta);
@@ -83,13 +84,19 @@ public class CInserciones {
 
     }
 
-//    public boolean insertaGrupo(int carrera, String clave, String ciclo, String grupo, int semestre) throws SQLException {
-//        String consulta = "CALL sp_agrega_grupo ('" + clave + "','" + grupo + "','" + ciclo + "'," + semestre + "," + carrera + ");";
-//        return cnslt.inserta(consulta);
-//
-//    }
     public boolean insertaGrupo(int clave, String grupo, String ciclo, int semestre, int carrera) throws SQLException {
         String consulta = "CALL sp_agrega_grupo (" + clave + ",'" + grupo + "','" + ciclo + "'," + semestre + "," + carrera + ");";
+        return cnslt.inserta(consulta);
+
+    }
+
+    public boolean insertaUnidad(int clave, String nombre) throws SQLException {
+        String consulta = "CALL sp_agrega_unidad ('" + clave + "','" + nombre + "');";
+        return cnslt.inserta(consulta);
+
+    }
+        public boolean insertaAsignatura_Unidad(String clave, int unidad) throws SQLException {
+        String consulta = "CALL sp_agrega_asignatura_unidad ('" + clave + "'," + unidad + ");";
         return cnslt.inserta(consulta);
 
     }

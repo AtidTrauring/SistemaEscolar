@@ -1,17 +1,155 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import crud.CInserciones;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import utilitarios.CUtilitarios;
 
 public class JfAUnidad extends javax.swing.JFrame {
 
     private static String[] datosJefe;
     private static String[] datosUnidad;
+    private String regexUnidad = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 \\-\\_\\(\\)\\[\\]\\+]+$";
+    private String unidad, asignatura, carrera;
+    private final CBusquedas queryBusca = new CBusquedas();
+    private final CInserciones queryInserta = new CInserciones();
+    private ArrayList<String> datosListas = new ArrayList<>();
+    DefaultComboBoxModel<String> listas;
+    private final CCargaCombos queryCarga = new CCargaCombos();
 
     public JfAUnidad(String[] datosJ, String[] datosU, String nombreBoton) {
         initComponents();
         datosJefe = datosJ;
         datosUnidad = datosU;
         JbtnEnviar.setText(nombreBoton);
+        cargaComboBox(JcmbxAsignatura, 1);
+        cargaComboBox(JcmbxCarrera, 2);
+    }
+
+    public void asignaValores() {
+        // Obtener los valores de los campos de texto
+        unidad = JtxtUnidad.getText().trim();
+        asignatura = (String) JcmbxAsignatura.getSelectedItem();
+        carrera = (String) JcmbxCarrera.getSelectedItem();
+    }
+
+    public void limpiaValores() {
+        // Obtener los valores de los campos de texto
+        unidad = null;
+        asignatura = null;
+        carrera = null;
+    }
+
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboAsignatura();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboCarrera();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public String devuelveCadena(JTextField campo, String regex) {
+        String cadena = null;
+        cadena = campo.getText();
+        if (cadena.isEmpty()) {
+            cadena = null;
+        } else if (cadena.matches("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 \\-\\_\\(\\)\\[\\]\\+]+$")) {
+            return cadena;
+        } else {
+            cadena = "NoValido";
+        }
+        return cadena;
+    }
+
+    public boolean validaCampoComb(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+        boolean valida = true;
+
+        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+
+        if (campoTexto == null || campoTexto.equals("Selecciona una opcion")) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Unidad");
+            valida = false;
+        }
+
+        return valida;
+    }
+
+    public boolean validaCampoUnidad(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
+        boolean valida = true;
+        campoTexto = devuelveCadena(campo, regex);
+        if (campoTexto == null) {
+            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Unidad");
+            valida = false;
+        } else if ("NoValido".equals(campoTexto)) {
+            CUtilitarios.msg_error(mensajeInvalido, "Registro Unidad");
+            valida = false;
+        }
+        return valida;
+    }
+
+    public boolean validaCampos() {
+        return validaCampoUnidad(unidad, JtxtUnidad, regexUnidad, "Ingrese el nombre de la unidad", "Valores invalidos para la unidad")
+                && validaCampoComb(asignatura, JcmbxAsignatura, "Seleccione una asignatura")
+                && validaCampoComb(carrera, JcmbxCarrera, "Selecciones una carrera");
+    }
+
+    public void enviarDatos() {
+        int clave_unidad, clave_carrera;
+        String nomUnidad, clave_asignatura;
+        if (validaCampos()) {
+            asignaValores();
+            try {
+                clave_unidad = queryBusca.obtenClaveUnidadFinal();
+                nomUnidad = JtxtUnidad.getText();
+                clave_asignatura = queryBusca.obtenClaveAsignatura(asignatura);
+                clave_carrera = queryBusca.obtenClaveCarreraSeleccionado(carrera);
+                int clave_carreras = queryBusca.obtenClaveCarreraSeleccionado(carrera);
+
+                // Imprimir valores para depuración
+                System.out.println("NombreUnidad:" + unidad + "\nNombreAsignatura:" + asignatura + "\nNombreCarrera: " + carrera);
+                System.out.println("CUnidad: " + clave_unidad + " CAsignatut:" + clave_asignatura + " CCarrera:" + clave_carrera);
+
+                // Llamar al método de inserción de asignatura
+                boolean insercionUnidad = queryInserta.insertaUnidad((clave_unidad + 1), unidad);
+
+                if (insercionUnidad) {
+                    // Insertar relación en carrera_asignatura
+                    boolean insercionAsignaturaUnidad = queryInserta.insertaAsignatura_Unidad(clave_asignatura, clave_unidad);
+
+                    if (insercionAsignaturaUnidad) {
+                        // Mostrar mensaje de éxito y limpiar valores
+                        CUtilitarios.msg("La unidad a sido resgitrada", "Registro Unidad");
+                        limpiaValores();
+                        this.dispose();
+                    } else {
+                        CUtilitarios.msg_error("Hubo un error al registrar la relación asignatura_unidad", "Error en el Registro");
+                    }
+                }
+            } catch (SQLException ex) {
+                CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
+            }
+        } else {
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -67,16 +205,19 @@ public class JfAUnidad extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(JlblCarrera)
-                    .addComponent(JcmbxCarrera, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JcmbxAsignatura, 0, 150, Short.MAX_VALUE)
                     .addComponent(JlblAsignatura)
                     .addComponent(JlblUnidad)
-                    .addComponent(JtxtUnidad))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(JtxtUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JcmbxAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JlblFondo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(JbtnEnviar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JlblFondo)
+                        .addGap(30, 30, 30))))
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +258,7 @@ public class JfAUnidad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
-
+        enviarDatos();
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
