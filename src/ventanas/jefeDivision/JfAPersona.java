@@ -1,11 +1,14 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
+import crud.CCargaCombos;
 import utilitarios.CUtilitarios;
 import crud.CInserciones;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import utilitarios.CUtilitarios;
 import javax.swing.JTextField;
 
@@ -13,10 +16,13 @@ public class JfAPersona extends javax.swing.JFrame {
 
     private CInserciones queryInserta = new CInserciones();
     private CBusquedas cb = new CBusquedas();
+    private CCargaCombos cc = new CCargaCombos();
+    private DefaultComboBoxModel comboCarreras;
+    private ArrayList<String> datosCarreras = new ArrayList<>();
     private String nombres, apPaterno, apMaterno;
     private static String[] datosJefe;
     private static String personaL;
-    private static String nombreBotonL;
+    private static String botonL;
     private String regexNombres = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$";
 
     public void asignaValores() {
@@ -69,21 +75,60 @@ public class JfAPersona extends javax.swing.JFrame {
         initComponents();
         datosJefe = datos;
         personaL = persona;
-        nombreBotonL = nombreBoton;
         JbtnEnviar.setText(nombreBoton);
         asignaItem(persona, JcmbxOcupacion);
+        cargaComboBox(JcmbxCarreras);
     }
 
     public void asignaItem(String persona, JComboBox combo) {
-        if (persona == null) {
+        if (null == persona) {
 
-        } else if (persona.equals("Docente")) {
-            combo.setSelectedIndex(1);
-            combo.setEnabled(false);
-        } else if (persona.equals("Alumno")) {
-            combo.setSelectedIndex(2);
-            combo.setEnabled(false);
+        } else {
+            switch (persona) {
+                case "Docente":
+                    combo.setSelectedIndex(1);
+                    combo.setEnabled(false);
+                    break;
+                case "Alumno":
+                    combo.setSelectedIndex(2);
+                    combo.setEnabled(false);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    public void asignaItemCarrera(String carrera) {
+        JcmbxOcupacion.addItem(nombres);
+    }
+
+    public void cargaComboBox(JComboBox combo) {
+        comboCarreras = (DefaultComboBoxModel) combo.getModel();
+        try {
+
+            datosCarreras = cc.cargaComboCarrera();
+            for (int i = 0; i < datosCarreras.size(); i++) {
+                comboCarreras.addElement(datosCarreras.get(i));
+            }
+
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudieron cargar las carreras", "Cargando lista de opciones");
+        }
+    }
+
+    private String[] obtenValoresCombos() {
+        String ocupacion = (String) JcmbxOcupacion.getSelectedItem();
+        String carrera = (String) JcmbxCarreras.getSelectedItem();
+        if (ocupacion == null || ocupacion.equals("Seleccione una opcion")) {
+            CUtilitarios.msg_advertencia("Por favor, seleccione una ocupacion", "Advertencia");
+            return null;
+        }
+        if (carrera == null || carrera.equals("Seleccione una opcion")) {
+            CUtilitarios.msg_advertencia("Por favor, seleccione una carrera.", "Advertencia");
+            return null;
+        }
+        return new String[]{ocupacion, carrera};
     }
 
     @SuppressWarnings("unchecked")
@@ -94,16 +139,18 @@ public class JfAPersona extends javax.swing.JFrame {
         JlblNombres = new javax.swing.JLabel();
         JlblApellidoPaterno = new javax.swing.JLabel();
         JlblApellidoMaterno = new javax.swing.JLabel();
+        JlblOcupacion = new javax.swing.JLabel();
+        JlblCcarreras = new javax.swing.JLabel();
         JtxtNombres = new javax.swing.JTextField();
         JtxtApPaterno = new javax.swing.JTextField();
         JtxtApMaterno = new javax.swing.JTextField();
         JsNombre = new javax.swing.JSeparator();
         JsApellidoPaterno = new javax.swing.JSeparator();
         JsApellidoMaterno = new javax.swing.JSeparator();
+        JcmbxCarreras = new javax.swing.JComboBox<>();
+        JcmbxOcupacion = new javax.swing.JComboBox<>();
         JbtnEnviar = new javax.swing.JButton();
         JlblFondo = new javax.swing.JLabel();
-        JcmbxOcupacion = new javax.swing.JComboBox<>();
-        JlblOcupacion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar persona");
@@ -111,6 +158,9 @@ public class JfAPersona extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -122,22 +172,32 @@ public class JfAPersona extends javax.swing.JFrame {
 
         JlblApellidoMaterno.setText("Apellido Materno");
 
+        JlblOcupacion.setText("Carrera");
+
+        JlblCcarreras.setText("Ocupacion");
+
         JtxtNombres.setBorder(null);
 
         JtxtApPaterno.setBorder(null);
 
         JtxtApMaterno.setBorder(null);
 
+        JcmbxCarreras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarreras.setToolTipText("");
+
+        JcmbxOcupacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "Docente", "Alumno" }));
+        JcmbxOcupacion.setToolTipText("");
+
         JbtnEnviar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnEnviar.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
         JbtnEnviar.setText("Enviar");
+        JbtnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JbtnEnviarActionPerformed(evt);
+            }
+        });
 
         JlblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoAPersona.png"))); // NOI18N
-
-        JcmbxOcupacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "Docente", "Estudiante" }));
-        JcmbxOcupacion.setToolTipText("");
-
-        JlblOcupacion.setText("Ocupacion");
 
         javax.swing.GroupLayout JPnlLienzoLayout = new javax.swing.GroupLayout(JPnlLienzo);
         JPnlLienzo.setLayout(JPnlLienzoLayout);
@@ -153,50 +213,70 @@ public class JfAPersona extends javax.swing.JFrame {
                         .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(68, 68, 68)
                 .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JlblOcupacion)
-                    .addComponent(JlblNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JlblApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JlblApellidoMaterno)
-                    .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(JcmbxOcupacion, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
-                        .addComponent(JsApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblCcarreras)
+                            .addComponent(JcmbxOcupacion, 0, 170, Short.MAX_VALUE)))
+                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JlblApellidoMaterno)
+                            .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JsApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JlblOcupacion)
+                            .addComponent(JcmbxCarreras, 0, 170, Short.MAX_VALUE))))
+                .addGap(41, 41, 41))
         );
         JPnlLienzoLayout.setVerticalGroup(
             JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(JlblNombres)
-                .addGap(12, 12, 12)
                 .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(JPnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JlblNombres)
+                        .addGap(12, 12, 12)
+                        .addComponent(JlblFondo))
+                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JlblCcarreras)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JcmbxOcupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(2, 2, 2)
                         .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addComponent(JlblApellidoPaterno)
-                        .addGap(12, 12, 12)
-                        .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JlblApellidoPaterno)
+                                .addGap(12, 12, 12)
+                                .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JlblOcupacion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JcmbxCarreras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(10, 10, 10)
-                        .addComponent(JlblApellidoMaterno))
-                    .addComponent(JlblFondo))
+                        .addComponent(JlblApellidoMaterno)))
                 .addGap(2, 2, 2)
                 .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(JsApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(JlblOcupacion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JbtnEnviar)
-                    .addComponent(JcmbxOcupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(JbtnEnviar)
                 .addContainerGap())
         );
 
@@ -219,6 +299,41 @@ public class JfAPersona extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowOpened
+
+    private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
+        // Enviar String[5]
+        /*
+        [0] -> Nombre
+        [1] -> Paterno
+        [2] -> Materno
+        [3] -> Ocupacion
+        [4] -> idCarrera
+         */
+        String[] datosCombos = obtenValoresCombos();
+        if (datosCombos != null) {
+            String[] datosPersonaInsertar = new String[5];
+            try {
+                int idCarrera = cb.obtenClaveCarreraSeleccionado(datosCombos[1]);
+                datosPersonaInsertar[0] = JtxtNombres.getText();
+                datosPersonaInsertar[1] = JtxtApPaterno.getText();
+                datosPersonaInsertar[2] = JtxtApMaterno.getText();
+                datosPersonaInsertar[3] = datosCombos[0];
+                datosPersonaInsertar[4] = datosCombos[1];
+            } catch (Exception e) {
+            }
+            CUtilitarios.msg("A continuacion ingresa el telefono!", "Agrega " + personaL);
+            JfATelefono at = new JfATelefono(datosJefe, datosPersonaInsertar, "Enviar");
+            System.out.println("Datos desde APersona");
+            System.out.println(Arrays.toString(datosPersonaInsertar));
+            CUtilitarios.creaFrame(at, "Agrega telefono");
+            this.hide();
+        }
+
+    }//GEN-LAST:event_JbtnEnviarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -244,7 +359,7 @@ public class JfAPersona extends javax.swing.JFrame {
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAPersona(datosJefe, personaL, nombreBotonL).setVisible(true);
+                new JfAPersona(datosJefe, personaL, botonL).setVisible(true);
             }
         });
     }
@@ -252,9 +367,11 @@ public class JfAPersona extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPnlLienzo;
     private javax.swing.JButton JbtnEnviar;
+    private javax.swing.JComboBox<String> JcmbxCarreras;
     private javax.swing.JComboBox<String> JcmbxOcupacion;
     private javax.swing.JLabel JlblApellidoMaterno;
     private javax.swing.JLabel JlblApellidoPaterno;
+    private javax.swing.JLabel JlblCcarreras;
     private javax.swing.JLabel JlblFondo;
     private javax.swing.JLabel JlblNombres;
     private javax.swing.JLabel JlblOcupacion;

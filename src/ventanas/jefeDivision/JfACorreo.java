@@ -1,6 +1,7 @@
 package ventanas.jefeDivision;
 
 import crud.CBusquedas;
+import java.util.Arrays;
 import utilitarios.CUtilitarios;
 
 public class JfACorreo extends javax.swing.JFrame {
@@ -37,6 +38,9 @@ public class JfACorreo extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         JpnlLienzo.setBackground(new java.awt.Color(255, 255, 255));
@@ -54,6 +58,11 @@ public class JfACorreo extends javax.swing.JFrame {
         JbtnEnviar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnEnviar.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
         JbtnEnviar.setText("Enviar");
+        JbtnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JbtnEnviarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -119,6 +128,37 @@ public class JfACorreo extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (datosPersona.length > 0) {
+            JtxtNombre.setText(datosPersona[0] + " " + datosPersona[1] + " " + datosPersona[2]);
+            JtxtNombre.setEditable(false);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
+        if (JtxtNombre.getText().isEmpty()) {
+            CUtilitarios.msg("Porfavor ingrese un nombre", "Agrega correo");
+        } else {
+            String correo = CUtilitarios.validarCorreo(JtxtCorreo.getText());
+            if (correo != null) {
+                // Ya cuento con datos desde otro Frame
+                if (datosPersona.length > 0) {
+                    String[] datosPersonaC = CUtilitarios.agregarElemento(datosPersona, correo);
+                    JfADireccion ad = new JfADireccion(datosJefe, datosPersonaC, "Enviar");
+                    System.out.println("Datos con Correo");
+                    System.out.println(Arrays.toString(datosPersonaC));
+                    CUtilitarios.creaFrame(ad, "Agrega direccion");
+                    this.hide();
+                } else {
+                    // No cuenta con ningun dato
+                    // Busca a la persona y obtiene su Id, para asignarle el correo
+                }
+            }
+
+        }
+
+    }//GEN-LAST:event_JbtnEnviarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

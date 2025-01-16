@@ -12,6 +12,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -61,21 +62,40 @@
                   </Group>
                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="JlblOcupacion" min="-2" max="-2" attributes="0"/>
-                      <Component id="JlblNombres" min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="JtxtNombres" min="-2" pref="172" max="-2" attributes="0"/>
-                      <Component id="JsNombre" min="-2" pref="170" max="-2" attributes="0"/>
-                      <Component id="JlblApellidoPaterno" min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="JtxtApPaterno" min="-2" pref="172" max="-2" attributes="0"/>
-                      <Component id="JsApellidoPaterno" min="-2" pref="170" max="-2" attributes="0"/>
-                      <Component id="JlblApellidoMaterno" min="-2" max="-2" attributes="0"/>
-                      <Component id="JtxtApMaterno" min="-2" pref="172" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="JcmbxOcupacion" alignment="0" pref="170" max="32767" attributes="0"/>
-                          <Component id="JsApellidoMaterno" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JlblNombres" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="JtxtNombres" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JlblCcarreras" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxOcupacion" alignment="0" pref="170" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JsNombre" min="-2" pref="170" max="-2" attributes="0"/>
+                              <Component id="JlblApellidoMaterno" min="-2" max="-2" attributes="0"/>
+                              <Component id="JtxtApMaterno" min="-2" pref="172" max="-2" attributes="0"/>
+                              <Component id="JsApellidoMaterno" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JlblApellidoPaterno" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="JtxtApPaterno" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
+                              <Component id="JsApellidoPaterno" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="JlblOcupacion" min="-2" max="-2" attributes="0"/>
+                              <Component id="JcmbxCarreras" alignment="0" pref="170" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -83,35 +103,48 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="JlblNombres" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="JtxtNombres" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JlblNombres" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="JtxtNombres" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="JlblCcarreras" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="JcmbxOcupacion" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                           <Component id="JsNombre" min="-2" pref="10" max="-2" attributes="0"/>
-                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                          <Component id="JlblApellidoPaterno" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                          <Component id="JtxtApPaterno" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                          <Component id="JsApellidoPaterno" min="-2" pref="10" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="JlblApellidoPaterno" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                                  <Component id="JtxtApPaterno" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="JsApellidoPaterno" min="-2" pref="10" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="JlblOcupacion" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="JcmbxCarreras" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                           <Component id="JlblApellidoMaterno" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                   <Component id="JtxtApMaterno" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                   <Component id="JsApellidoMaterno" min="-2" pref="10" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="JlblOcupacion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="JbtnEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="JcmbxOcupacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                  <Component id="JbtnEnviar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -131,6 +164,16 @@
         <Component class="javax.swing.JLabel" name="JlblApellidoMaterno">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apellido Materno"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="JlblOcupacion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Carrera"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="JlblCcarreras">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ocupacion"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="JtxtNombres">
@@ -160,6 +203,34 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="JsApellidoMaterno">
         </Component>
+        <Component class="javax.swing.JComboBox" name="JcmbxCarreras">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="1">
+                <StringItem index="0" value="Seleccione una opcion"/>
+              </StringArray>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="JcmbxOcupacion">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Seleccione una opcion"/>
+                <StringItem index="1" value="Docente"/>
+                <StringItem index="2" value="Alumno"/>
+              </StringArray>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
         <Component class="javax.swing.JButton" name="JbtnEnviar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -170,32 +241,15 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Enviar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JbtnEnviarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="JlblFondo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/fondoAPersona.png"/>
             </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="JcmbxOcupacion">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Seleccione una opcion"/>
-                <StringItem index="1" value="Docente"/>
-                <StringItem index="2" value="Estudiante"/>
-              </StringArray>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JLabel" name="JlblOcupacion">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ocupacion"/>
           </Properties>
         </Component>
       </SubComponents>

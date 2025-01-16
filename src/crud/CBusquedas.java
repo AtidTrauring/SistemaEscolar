@@ -342,8 +342,9 @@ public class CBusquedas {
 //                + "WHERE nombre_carrera = '" + carrera + "';";
 //        return cnslt.buscarValor(consulta);
 //    }
+    // Usare esta consulta para APersona
     public int obtenClaveCarreraSeleccionado(String carrera) throws SQLException {
-    String consulta = "SELECT clave_carrera " +
+    consulta = "SELECT clave_carrera " +
                       "FROM carrera " +
                       "WHERE nombre_carrera = '" + carrera + "';";
     String resultado = cnslt.buscarValor(consulta); // Suponiendo que buscarValor devuelve un String

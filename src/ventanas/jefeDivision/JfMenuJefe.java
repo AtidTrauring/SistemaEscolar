@@ -422,7 +422,7 @@ public class JfMenuJefe extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiAgregaCorreoActionPerformed
 
     private void JmiAgregaPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaPersonaActionPerformed
-        JfAPersona ap = new JfAPersona(datosJefe, null, "Enivar");
+        JfAPersona ap = new JfAPersona(datosJefe, null, "Enviar");
         CUtilitarios.creaFrame(ap, "Agregar persona");
         this.hide();
     }//GEN-LAST:event_JmiAgregaPersonaActionPerformed

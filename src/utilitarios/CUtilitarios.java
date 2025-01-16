@@ -86,4 +86,67 @@ public class CUtilitarios {
         return valida;
     }
 
+    // Método para validar nombres
+    public static String validarNombre(String texto) {
+        if (texto == null || texto.trim().isEmpty()) {
+            CUtilitarios.msg_error("Error", "El nombre no puede estar vacío.");
+            return null;
+        }
+
+        // Expresión regular para nombres (letras con o sin acentos, permite apellidos simples como 'Juan' o compuestos como 'Montaño')
+        String regex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(?: [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$";
+        if (!texto.matches(regex)) {
+            CUtilitarios.msg_error("Error", "El nombre contiene caracteres inválidos.");
+            return null;
+        }
+
+        return texto.trim(); // Retorna el valor validado sin espacios adicionales
+    }
+
+    // Método para validar números de teléfono
+    public static String validarTelefono(String texto) {
+        if (texto == null || texto.trim().isEmpty()) {
+            CUtilitarios.msg_error("Error", "El número de teléfono no puede estar vacío.");
+            return null;
+        }
+
+        // Expresión regular para números de teléfono de exactamente 10 dígitos
+        String regex = "^\\d{10}$";
+        if (!texto.matches(regex)) {
+            CUtilitarios.msg_error("Error", "El número de teléfono debe contener exactamente 10 dígitos.");
+            return null;
+        }
+
+        return texto.trim(); // Retorna el valor validado sin espacios adicionales
+    }
+
+    public static String validarCorreo(String texto) {
+        if (texto == null || texto.trim().isEmpty()) {
+            CUtilitarios.msg_error("Error", "El correo electrónico no puede estar vacío.");
+            return null;
+        }
+
+        // Expresión regular para validar correos electrónicos
+        String regex = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        if (!texto.matches(regex)) {
+            CUtilitarios.msg_error("Error", "El correo electrónico no es válido.");
+            return null;
+        }
+
+        return texto.trim(); // Retorna el valor validado sin espacios adicionales
+    }
+
+    public static String[] agregarElemento(String[] arreglo, String nuevoElemento) {
+        // Crear un nuevo arreglo con un tamaño mayor en 1
+        String[] nuevoArreglo = new String[arreglo.length + 1];
+
+        // Copiar los elementos existentes al nuevo arreglo
+        System.arraycopy(arreglo, 0, nuevoArreglo, 0, arreglo.length);
+
+        // Agregar el nuevo elemento al final del nuevo arreglo
+        nuevoArreglo[nuevoArreglo.length - 1] = nuevoElemento;
+
+        return nuevoArreglo; // Retornar el nuevo arreglo con el elemento agregado
+    }
+
 }
