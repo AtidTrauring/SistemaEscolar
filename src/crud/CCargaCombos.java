@@ -69,4 +69,9 @@ public class CCargaCombos {
         return cnslt.buscarValoresCombos(consulta);
     }
 
+    public ArrayList<String> cargaComboSemestre() throws SQLException {
+        consulta = "SELECT semestre.semestre FROM semestre;";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
 }

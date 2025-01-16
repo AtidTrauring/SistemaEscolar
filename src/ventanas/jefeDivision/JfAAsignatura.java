@@ -250,18 +250,6 @@ public class JfAAsignatura extends javax.swing.JFrame {
         }
         return valida;
     }
-//
-//    public boolean validaCampoTA(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
-//        boolean valida = true;
-//
-//        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
-//
-//        if (campoTexto.equals("Selecciona una opcion")) {
-//            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
-//            valida = false;
-//        }
-//        return valida;
-//    }
 
     public boolean validaCampoTA(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
         boolean valida = true;
@@ -277,17 +265,6 @@ public class JfAAsignatura extends javax.swing.JFrame {
         return valida;
     }
 
-//    public boolean validaCampoCarrera(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
-//        boolean valida = true;
-//
-//        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
-//
-//        if (campoTexto.equals("Selecciona una opcion")) {
-//            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
-//            valida = false;
-//        }
-//        return valida;
-//    }
     public boolean validaCampoCarrera(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
         boolean valida = true;
         try {

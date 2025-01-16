@@ -344,17 +344,39 @@ public class CBusquedas {
 //    }
     // Usare esta consulta para APersona
     public int obtenClaveCarreraSeleccionado(String carrera) throws SQLException {
-    consulta = "SELECT clave_carrera " +
-                      "FROM carrera " +
-                      "WHERE nombre_carrera = '" + carrera + "';";
-    String resultado = cnslt.buscarValor(consulta); // Suponiendo que buscarValor devuelve un String
-    
-    if (resultado != null && !resultado.isEmpty()) {
-        return Integer.parseInt(resultado); // Convertir a int si el resultado no es nulo
-    } else {
-        throw new SQLException("No se encontró la clave para la carrera seleccionada: " + carrera);
-    }
-}
+        consulta = "SELECT clave_carrera "
+                + "FROM carrera "
+                + "WHERE nombre_carrera = '" + carrera + "';";
+        String resultado = cnslt.buscarValor(consulta); // Suponiendo que buscarValor devuelve un String
 
+        if (resultado != null && !resultado.isEmpty()) {
+            return Integer.parseInt(resultado); // Convertir a int si el resultado no es nulo
+        } else {
+            throw new SQLException("No se encontró la clave para la carrera seleccionada: " + carrera);
+        }
+    }
+
+    public int obtenIdFinalGrupo() throws SQLException {
+        consulta = "SELECT MAX(clave_grupo) FROM grupo;";
+        return Integer.parseInt(cnslt.buscarValor(consulta));
+    }
+
+    public int obtenClaveSemestreSeleccionada(String semestre) throws SQLException {
+        consulta = "SELECT clave_semestre FROM semestre WHERE semestre = '" + semestre + "';";
+        String resultado = cnslt.buscarValor(consulta); // Aquí podría ser nulo
+
+        if (resultado == null || resultado.isEmpty()) {
+            throw new SQLException("El semestre proporcionado no tiene un valor válido en la base de datos.");
+        }
+
+        return Integer.parseInt(resultado);
+    }
+
+    public String obtenClaveCicloSeleccionado(String ciclo) throws SQLException {
+        consulta = "SELECT clave_ciclo "
+                + "FROM ciclo "
+                + "WHERE ciclo = '" + ciclo + "';";
+        return cnslt.buscarValor(consulta);
+    }
 
 }

@@ -25,9 +25,19 @@ public class CInserciones {
 
     }
 
-
     public boolean insertaCarrera_asignatura(int carrera, String clave) throws SQLException {
         String consulta = "CALL sp_agrega_carrera_asignatura ('" + clave + "'," + carrera + ");";
+        return cnslt.inserta(consulta);
+
+    }
+
+//    public boolean insertaGrupo(int carrera, String clave, String ciclo, String grupo, int semestre) throws SQLException {
+//        String consulta = "CALL sp_agrega_grupo ('" + clave + "','" + grupo + "','" + ciclo + "'," + semestre + "," + carrera + ");";
+//        return cnslt.inserta(consulta);
+//
+//    }
+    public boolean insertaGrupo(int clave, String grupo, String ciclo, int semestre, int carrera) throws SQLException {
+        String consulta = "CALL sp_agrega_grupo (" + clave + ",'" + grupo + "','" + ciclo + "'," + semestre + "," + carrera + ");";
         return cnslt.inserta(consulta);
 
     }
