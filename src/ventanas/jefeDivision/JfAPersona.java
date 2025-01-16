@@ -2,73 +2,31 @@ package ventanas.jefeDivision;
 
 import crud.CBusquedas;
 import crud.CCargaCombos;
-import utilitarios.CUtilitarios;
 import crud.CInserciones;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import utilitarios.CUtilitarios;
-import javax.swing.JTextField;
 
-public class JfAPersona extends javax.swing.JFrame {
+public final class JfAPersona extends javax.swing.JFrame {
 
-    private CInserciones queryInserta = new CInserciones();
-    private CBusquedas cb = new CBusquedas();
-    private CCargaCombos cc = new CCargaCombos();
+    private final CInserciones queryInserta = new CInserciones();
+    private final CBusquedas cb = new CBusquedas();
+    private final CCargaCombos cc = new CCargaCombos();
     private DefaultComboBoxModel comboCarreras;
     private ArrayList<String> datosCarreras = new ArrayList<>();
     private String nombres, apPaterno, apMaterno;
     private static String[] datosJefe;
     private static String personaL;
     private static String botonL;
-    private String regexNombres = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$";
-
-    public void asignaValores() {
-        nombres = JtxtNombres.getText();
-        apPaterno = JtxtApPaterno.getText();
-        apMaterno = JtxtApMaterno.getText();
-    }
-
-    public void limpiaValores() {
-        nombres = null;
-        apPaterno = null;
-        apMaterno = null;
-    }
-
-    public String devuelveCadena(JTextField campo, String regex) {
-        String cadena = null;
-        cadena = campo.getText();
-        if (cadena.isEmpty()) {
-            cadena = null;
-        } else if (cadena.matches("^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$")) {
-            return cadena;
-        } else {
-            cadena = "NoValido";
-        }
-        return cadena;
-    }
-
-    public boolean validaCampo(String campoTexto, JTextField campo, String regex, String mensajeVacio, String mensajeInvalido) {
-        boolean valida = true;
-        campoTexto = devuelveCadena(campo, regex);
-        if (campoTexto == null) {
-            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Usuarios");
-            valida = false;
-        } else if (campoTexto.equals("NoValido")) {
-            CUtilitarios.msg_error(mensajeInvalido, "Registro Usuarios");
-            valida = false;
-        } else {
-            valida = true;
-        }
-        return valida;
-    }
+    private final String regexNombres = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$";
+    private final String titulos = this.getTitle();
 
     public boolean validaCampos() {
-        return (validaCampo(nombres, JtxtNombres, regexNombres, "Ingrese nombre(s)", "Valores invalidos para nombre(s)"))
-                && (validaCampo(apPaterno, JtxtApPaterno, regexNombres, "Ingrerse un apellido paterno.", "Valores invalidos para apellido paterno"))
-                && (validaCampo(apMaterno, JtxtApMaterno, regexNombres, "Ingrese un apellido materno.", "Valores invalidos para apellido materno"));
+        return (CUtilitarios.validaCampo(nombres, JtxtNombres, regexNombres, "Ingrese nombre(s)", "Valores invalidos para nombre(s)", titulos))
+                && (CUtilitarios.validaCampo(apPaterno, JtxtApPaterno, regexNombres, "Ingrerse un apellido paterno.", "Valores invalidos para apellido paterno", titulos))
+                && (CUtilitarios.validaCampo(apMaterno, JtxtApMaterno, regexNombres, "Ingrese un apellido materno.", "Valores invalidos para apellido materno", titulos));
     }
 
     public JfAPersona(String[] datos, String persona, String nombreBoton) {
@@ -204,40 +162,44 @@ public class JfAPersona extends javax.swing.JFrame {
         JPnlLienzoLayout.setHorizontalGroup(
             JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPnlLienzoLayout.createSequentialGroup()
-                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(JlblFondo))
-                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(43, 43, 43)
+                .addComponent(JlblFondo)
                 .addGap(68, 68, 68)
                 .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JPnlLienzoLayout.createSequentialGroup()
                         .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JlblNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JlblCcarreras)
-                            .addComponent(JcmbxOcupacion, 0, 170, Short.MAX_VALUE)))
-                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JlblApellidoMaterno)
-                            .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JsApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(JPnlLienzoLayout.createSequentialGroup()
                         .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JlblApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JlblOcupacion)
-                            .addComponent(JcmbxCarreras, 0, 170, Short.MAX_VALUE))))
-                .addGap(41, 41, 41))
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JlblApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JtxtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JsApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                        .addComponent(JlblOcupacion)
+                                        .addGap(0, 168, Short.MAX_VALUE))
+                                    .addComponent(JcmbxCarreras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JlblNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JtxtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                        .addComponent(JlblCcarreras)
+                                        .addGap(0, 148, Short.MAX_VALUE))
+                                    .addComponent(JcmbxOcupacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(JPnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(JbtnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         JPnlLienzoLayout.setVerticalGroup(
             JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,12 +234,12 @@ public class JfAPersona extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(JlblApellidoMaterno)))
                 .addGap(2, 2, 2)
-                .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(JPnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JtxtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbtnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addComponent(JsApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(JbtnEnviar)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -314,7 +276,7 @@ public class JfAPersona extends javax.swing.JFrame {
         [4] -> idCarrera
          */
         String[] datosCombos = obtenValoresCombos();
-        if (datosCombos != null) {
+        if (datosCombos != null && validaCampos()) {
             String[] datosPersonaInsertar = new String[5];
             try {
                 int idCarrera = cb.obtenClaveCarreraSeleccionado(datosCombos[1]);
@@ -322,13 +284,15 @@ public class JfAPersona extends javax.swing.JFrame {
                 datosPersonaInsertar[1] = JtxtApPaterno.getText();
                 datosPersonaInsertar[2] = JtxtApMaterno.getText();
                 datosPersonaInsertar[3] = datosCombos[0];
-                datosPersonaInsertar[4] = datosCombos[1];
+                datosPersonaInsertar[4] = String.valueOf(idCarrera);
             } catch (Exception e) {
             }
             CUtilitarios.msg("A continuacion ingresa el telefono!", "Agrega " + personaL);
             JfATelefono at = new JfATelefono(datosJefe, datosPersonaInsertar, "Enviar");
             System.out.println("Datos desde APersona");
-            System.out.println(Arrays.toString(datosPersonaInsertar));
+            for (String string : datosPersonaInsertar) {
+                System.out.println(string);
+            }
             CUtilitarios.creaFrame(at, "Agrega telefono");
             this.hide();
         }

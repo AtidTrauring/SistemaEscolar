@@ -196,28 +196,104 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 8);
     }
 
-    public String buscarIdCodigoPostal(String codigoPostal) throws SQLException {
-        String claveDireccion = cnslt.buscarValor("SELECT\n"
-                + "codigo_postal.clave_cp\n"
-                + "FROM\n"
-                + "codigo_postal\n"
-                + "WHERE\n"
-                + "codigo_postal.cp = '" + codigoPostal + "';");
-        return claveDireccion;
+    // --------------------- Busquedas JfADireccion ---------------------
+    public String buscaMunicipio(String municipio) throws SQLException {
+        consulta = "SELECT municipio.clave_mun FROM municipio WHERE municipio.municipio = '" + municipio + "'";
+        return cnslt.buscarValor(consulta);
     }
 
-    public String buscarIdColonia(String colonia) throws SQLException {
-        String claveDireccion = cnslt.buscarValor("SELECT\n"
-                + "colonia.clave_colonia\n"
-                + "FROM\n"
-                + "colonia\n"
-                + "WHERE\n"
-                + "colonia.colonia = '" + colonia + "';");
-        return claveDireccion;
+    public String buscaColonia(String colonia) throws SQLException {
+        consulta = "SELECT colonia.clave_coloniacolonia.colonia FROM colonia WHERE colonia.colonia = '" + colonia + "';";
+        return cnslt.buscarValor(consulta);
     }
 
-    public String obtenIdFinalColoniaa() throws SQLException {
-        consulta = "SELECT MAX(clave_colonia) FROM carreras_teschi.colonia;";
+    public String buscaCodigoPostal(String codigoPostal) throws SQLException {
+        consulta = "SELECT codigo_postal.clave_cp FROM codigo_postal WHERE codigo_postal.cp = " + codigoPostal + ";";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaDireccion() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaContrasenia() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaPersona() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaCorreo() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaTelefono() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaRol() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaRolCarrera() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoMunicipio() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoColonia() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoCodigoPostal() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoDireccion() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoContrasenia() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoPersona() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoCorreo() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoTelefono() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoRol() throws SQLException {
+        consulta = "";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoRolCarrera() throws SQLException {
+        consulta = "";
         return cnslt.buscarValor(consulta);
     }
 

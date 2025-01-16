@@ -130,7 +130,7 @@ public class JfACorreo extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (datosPersona.length > 0) {
+        if (datosPersona != null && datosPersona.length > 0) {
             JtxtNombre.setText(datosPersona[0] + " " + datosPersona[1] + " " + datosPersona[2]);
             JtxtNombre.setEditable(false);
         }
@@ -147,7 +147,9 @@ public class JfACorreo extends javax.swing.JFrame {
                     String[] datosPersonaC = CUtilitarios.agregarElemento(datosPersona, correo);
                     JfADireccion ad = new JfADireccion(datosJefe, datosPersonaC, "Enviar");
                     System.out.println("Datos con Correo");
-                    System.out.println(Arrays.toString(datosPersonaC));
+                    for (String string : datosPersonaC) {
+                        System.out.println(string);
+                    }
                     CUtilitarios.creaFrame(ad, "Agrega direccion");
                     this.hide();
                 } else {

@@ -12,6 +12,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -51,47 +52,48 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="JtxtCalle" pref="120" max="32767" attributes="0"/>
+                          <Component id="JspCalle" max="32767" attributes="0"/>
+                          <Component id="JlblCalle" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="JlblBarrio" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="JtxtBarrio" alignment="0" max="32767" attributes="0"/>
+                          <Component id="JspBarrio" alignment="0" max="32767" attributes="0"/>
+                          <Component id="JlblCP" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="JtxtCP" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="JlblNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="JtxtNombre" alignment="0" min="-2" pref="172" max="-2" attributes="0"/>
+                      <Component id="JspCP" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="JlblEstado" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="JcmbxEstado" alignment="0" pref="170" max="32767" attributes="0"/>
+                          <Component id="JsNombre" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="JlblNumeroExt" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JtxtNumeroExt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
                               <Component id="JspNumeroInt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
                               <Component id="JlblNumeroInt" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JtxtNumeroInt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="JtxtCP" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="JspCP" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="79" max="32767" attributes="0"/>
-                          <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="JspNumerpExt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="JtxtCalle" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                              <Component id="JspCalle" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                              <Component id="JlblCalle" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblBarrio" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JlblCP" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="JtxtBarrio" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="JspBarrio" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="JlblMunicipio" min="-2" max="-2" attributes="0"/>
                               <Component id="JtxtMunicipio" min="-2" pref="110" max="-2" attributes="0"/>
                               <Component id="JspMunicipio" min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="JlblEstado" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="JtxtNumeroExt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                              <Component id="JspNumerpExt" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="JtxtNumeroInt" min="-2" pref="110" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="JbtnEnviar" min="-2" pref="86" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="JcmbxEstado" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="JbtnEnviar" min="-2" pref="70" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -100,53 +102,61 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="JlblCalle" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JtxtCalle" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JspCalle" min="-2" pref="10" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="JlblBarrio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JtxtBarrio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JspBarrio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="JlblCP" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="JtxtCP" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JlblNombre" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="JtxtNombre" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JsNombre" min="-2" pref="10" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="JlblEstado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="JcmbxEstado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="JlblCalle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JtxtCalle" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JspCalle" min="-2" pref="10" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="JlblBarrio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JtxtBarrio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JspBarrio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="JlblCP" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JtxtCP" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Component id="JspCP" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="JlblNumeroInt" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                          <Component id="JtxtNumeroInt" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="JtxtNumeroInt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="JbtnEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                           <Component id="JspNumeroInt" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                           <Component id="JlblNumeroExt" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="JtxtNumeroExt" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="JspNumerpExt" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="JlblMunicipio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JtxtMunicipio" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                          <Component id="JspMunicipio" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="JspNumerpExt" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="JlblMunicipio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JtxtMunicipio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  <Component id="JspMunicipio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="JlblEstado" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="JcmbxEstado" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="JbtnEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -229,6 +239,21 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="JspNumerpExt">
         </Component>
+        <Component class="javax.swing.JLabel" name="JlblMunicipio">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Municipio"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="JtxtMunicipio">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Ingrese la ciudad usando puras letras mayusculas o minusculas"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSeparator" name="JspMunicipio">
+        </Component>
         <Component class="javax.swing.JLabel" name="JlblEstado">
           <Properties>
             <Property name="text" type="java.lang.String" value="Estado"/>
@@ -246,12 +271,19 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="JlblFondo">
+        <Component class="javax.swing.JLabel" name="JlblNombre">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/fondoADireccoin.png"/>
+            <Property name="text" type="java.lang.String" value="Ingresa nombre de la persona"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="JtxtNombre">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JSeparator" name="JsNombre">
         </Component>
         <Component class="javax.swing.JButton" name="JbtnEnviar">
           <Properties>
@@ -264,23 +296,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JbtnEnviarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="JlblMunicipio">
+        <Component class="javax.swing.JLabel" name="JlblFondo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Municipio"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="JtxtMunicipio">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Ingrese la ciudad usando puras letras mayusculas o minusculas"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/fondoADireccoin.png"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JtxtMunicipioActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JSeparator" name="JspMunicipio">
         </Component>
       </SubComponents>
     </Container>

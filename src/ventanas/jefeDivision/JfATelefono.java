@@ -82,7 +82,7 @@ public class JfATelefono extends javax.swing.JFrame {
                             .addComponent(JtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(JlblFondo)
                         .addGap(22, 22, 22))))
         );
@@ -113,11 +113,11 @@ public class JfATelefono extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JpnlLienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JpnlLienzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JpnlLienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JpnlLienzo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -140,7 +140,9 @@ public class JfATelefono extends javax.swing.JFrame {
                     String[] datosPersonaT = CUtilitarios.agregarElemento(datosPersona, telefono);
                     JfACorreo ac = new JfACorreo(datosJefe, datosPersonaT, "Enviar");
                     System.out.println("Datos con Telefono");
-                    System.out.println(Arrays.toString(datosPersonaT));
+                    for (String string : datosPersonaT) {
+                        System.out.println(string);
+                    }
                     CUtilitarios.creaFrame(ac, "Agrega correo");
                     this.hide();
                 } else {
@@ -153,7 +155,7 @@ public class JfATelefono extends javax.swing.JFrame {
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (datosPersona.length > 0) {
+        if (datosPersona != null && datosPersona.length > 0) {
             JtxtNombre.setText(datosPersona[0] + " " + datosPersona[1] + " " + datosPersona[2]);
             JtxtNombre.setEditable(false);
         }

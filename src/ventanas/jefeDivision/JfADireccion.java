@@ -19,7 +19,7 @@ public class JfADireccion extends javax.swing.JFrame {
 
     private static String[] datosJefe;
     private static String[] datosPersona;
-    private String calle, colonia, codigoPostal, num_Int, num_Ext, municipio, estado;
+    private String calle, colonia, codigoPostal, num_Int, num_Ext, municipio, nombreEstado;
     private String regexNombre = "^[a-zA-Z]{1,80}$";
     private String regexCodigoPostal = "^[0-9]{5}$";
     private String regexEstado = "^[a-zA-Z]{1,19}$";
@@ -29,80 +29,45 @@ public class JfADireccion extends javax.swing.JFrame {
     private String regexColonia = "^[a-zA-Z]{1,80}$";
     private DefaultComboBoxModel listas;
     private ArrayList<String> datosListas = new ArrayList<>();
-    private String nombreEstado;
+    private String titulos = this.getTitle();
 
     public JfADireccion(String[] datosJ, String[] datosP, String nombreBoton) {
         initComponents();
         JbtnEnviar.setText(nombreBoton);
+        cargaComboBox(JcmbxEstado);
     }
 
-    public JfADireccion() {
-        initComponents();
-        cargaComboBox(JcmbxEstado, 1);
-    }
-
-    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+    public void cargaComboBox(JComboBox combo) {
         listas = (DefaultComboBoxModel) combo.getModel();
         try {
-            switch (metodoCarga) {
-                case 1:
-                    datosListas = queryCarga.cargaComboEstados();
-                    for (int i = 1; i < datosListas.size(); i++) {
-                        listas.addElement(datosListas.get(i));
-                    }
-                    datosListas.clear();
-                    break;
+            datosListas = queryCarga.cargaComboEstados();
+            for (int i = 1; i < datosListas.size(); i++) {
+                listas.addElement(datosListas.get(i));
             }
+            datosListas.clear();
         } catch (SQLException e) {
+            CUtilitarios.msg_advertencia("No se pudieron cargar los estados", "Agrega direccion");
         }
-    }
-
-    public void asignaValores() {
-        calle = JtxtCalle.getText();
-        colonia = JtxtBarrio.getText();
-        codigoPostal = JtxtCP.getText();
-        num_Int = JtxtNumeroInt.getText();
-        num_Ext = JtxtNumeroExt.getText();
-        municipio = JtxtMunicipio.getText();
-        estado = (String) JcmbxEstado.getSelectedItem();
-    }
-
-    public void limpiaValores() {
-        calle = null;
-        colonia = null;
-        codigoPostal = null;
-        num_Int = null;
-        num_Ext = null;
-        municipio = null;
-        estado = null;
     }
 
     public boolean validaCampos() {
-        return CUtilitarios.validaCampo(calle, JtxtCalle, regexCalle, "Ingrese la calle", "Calle invalida")
-                && CUtilitarios.validaCampo(colonia, JtxtBarrio, regexColonia, "Ingrese la colonia", "Colonia invalida")
-                && CUtilitarios.validaCampo(codigoPostal, JtxtCP, regexCodigoPostal, "Ingrese el Codigo postal", "Codigo postal invalido")
-                && CUtilitarios.validaCampo(num_Int, JtxtNumeroInt, regexNumero, "Ingrese el numero", "Numero Interior invalido")
-                && CUtilitarios.validaCampo(num_Ext, JtxtNumeroExt, regexNumero, "Ingrese el numero", "Numero Exterior invalido")
-                && CUtilitarios.validaCampo(municipio, JtxtMunicipio, regexMunicipio, "Ingrese el municipio", "Municipio invalido")
-                && CUtilitarios.validaComboBox(nombreEstado, JcmbxEstado, "Seleccione un estado");
+        return CUtilitarios.validaCampo(calle, JtxtCalle, regexCalle, "Ingrese la calle", "Calle invalida", titulos)
+                && CUtilitarios.validaCampo(colonia, JtxtBarrio, regexColonia, "Ingrese la colonia", "Colonia invalida", titulos)
+                && CUtilitarios.validaCampo(codigoPostal, JtxtCP, regexCodigoPostal, "Ingrese el Codigo postal", "Codigo postal invalido", titulos)
+                && CUtilitarios.validaCampo(num_Int, JtxtNumeroInt, regexNumero, "Ingrese el numero", "Numero Interior invalido", titulos)
+                && CUtilitarios.validaCampo(num_Ext, JtxtNumeroExt, regexNumero, "Ingrese el numero", "Numero Exterior invalido", titulos)
+                && CUtilitarios.validaCampo(municipio, JtxtMunicipio, regexMunicipio, "Ingrese el municipio", "Municipio invalido", titulos)
+                && CUtilitarios.validaComboBox(nombreEstado, JcmbxEstado, "Seleccione un estado", titulos);
 
     }
 
-    public void BuscaCamposColonia(String colonia) throws SQLException {
-        try {
-            String resultado = queryBusca1.buscarIdColonia(colonia);
-            String IdCol = queryBusca2.obtenIdFinalColoniaa();
-            int clave_colonia = Integer.parseInt(IdCol);
-            if (resultado == null) {
-                queryInserta1.insertaColonia(clave_colonia + 1, colonia);
-                System.out.println("Se inserto colonia:" + colonia);
-            } else {
-                CUtilitarios.msg_advertencia("La colonia ya esta registrada", "Registro colonia");
-                System.out.println("Encontrado");
-            }
-
-        } catch (Exception e) {
+        private String obtenValorCombo() {
+        String estado = (String) JcmbxEstado.getSelectedItem();
+        if (estado == null || estado.equals("Seleccione una opcion")) {
+            CUtilitarios.msg_advertencia("Por favor, seleccione una ocupacion", "Advertencia");
+            estado = null;
         }
+        return estado;
     }
 
     @SuppressWarnings("unchecked")
@@ -125,13 +90,16 @@ public class JfADireccion extends javax.swing.JFrame {
         JlblNumeroExt = new javax.swing.JLabel();
         JtxtNumeroExt = new javax.swing.JTextField();
         JspNumerpExt = new javax.swing.JSeparator();
-        JlblEstado = new javax.swing.JLabel();
-        JcmbxEstado = new javax.swing.JComboBox<>();
-        JlblFondo = new javax.swing.JLabel();
-        JbtnEnviar = new javax.swing.JButton();
         JlblMunicipio = new javax.swing.JLabel();
         JtxtMunicipio = new javax.swing.JTextField();
         JspMunicipio = new javax.swing.JSeparator();
+        JlblEstado = new javax.swing.JLabel();
+        JcmbxEstado = new javax.swing.JComboBox<>();
+        JlblNombre = new javax.swing.JLabel();
+        JtxtNombre = new javax.swing.JTextField();
+        JsNombre = new javax.swing.JSeparator();
+        JbtnEnviar = new javax.swing.JButton();
+        JlblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agrega direccion");
@@ -139,6 +107,9 @@ public class JfADireccion extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -169,11 +140,18 @@ public class JfADireccion extends javax.swing.JFrame {
         JtxtNumeroExt.setToolTipText("Ingrese el numero habitacional usando puros numeros que puede ir del 1 a 5 como maximo");
         JtxtNumeroExt.setBorder(null);
 
+        JlblMunicipio.setText("Municipio");
+
+        JtxtMunicipio.setToolTipText("Ingrese la ciudad usando puras letras mayusculas o minusculas");
+        JtxtMunicipio.setBorder(null);
+
         JlblEstado.setText("Estado");
 
         JcmbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
 
-        JlblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoADireccoin.png"))); // NOI18N
+        JlblNombre.setText("Ingresa nombre de la persona");
+
+        JtxtNombre.setBorder(null);
 
         JbtnEnviar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnEnviar.setText("Enviar");
@@ -183,15 +161,7 @@ public class JfADireccion extends javax.swing.JFrame {
             }
         });
 
-        JlblMunicipio.setText("Municipio");
-
-        JtxtMunicipio.setToolTipText("Ingrese la ciudad usando puras letras mayusculas o minusculas");
-        JtxtMunicipio.setBorder(null);
-        JtxtMunicipio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JtxtMunicipioActionPerformed(evt);
-            }
-        });
+        JlblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondoADireccoin.png"))); // NOI18N
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -200,90 +170,98 @@ public class JfADireccion extends javax.swing.JFrame {
             .addGroup(JpnlLienzoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                    .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(JtxtCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                        .addComponent(JspCalle)
+                        .addComponent(JlblCalle)
+                        .addComponent(JlblBarrio)
+                        .addComponent(JtxtBarrio)
+                        .addComponent(JspBarrio)
+                        .addComponent(JlblCP)
+                        .addComponent(JtxtCP))
+                    .addComponent(JlblNombre)
+                    .addComponent(JtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JspCP, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JlblEstado)
+                    .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(JcmbxEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
+                        .addComponent(JsNombre, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
                         .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblNumeroExt)
-                            .addComponent(JtxtNumeroExt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JspNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JlblNumeroInt)
-                            .addComponent(JtxtNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtCP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JspCP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                        .addComponent(JlblFondo)
-                        .addGap(47, 47, 47))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JspNumerpExt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtxtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JspCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblCalle)
-                            .addComponent(JlblBarrio)
-                            .addComponent(JlblCP)
-                            .addComponent(JtxtBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JspBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(JlblMunicipio)
                             .addComponent(JtxtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(JspMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JlblEstado))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                        .addComponent(JcmbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))))
+                            .addComponent(JtxtNumeroExt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JspNumerpExt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                                .addComponent(JtxtNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(JbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JlblFondo)
+                        .addGap(44, 44, 44))))
         );
         JpnlLienzoLayout.setVerticalGroup(
             JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpnlLienzoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(JlblCalle)
-                .addGap(2, 2, 2)
-                .addComponent(JtxtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(JspCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(JlblBarrio)
-                .addGap(2, 2, 2)
-                .addComponent(JtxtBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(JspBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(JlblCP)
-                .addGap(2, 2, 2)
-                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(15, 15, 15)
+                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JlblNombre)
+                        .addGap(12, 12, 12)
+                        .addComponent(JtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(JsNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JlblEstado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JcmbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(JlblCalle)
+                        .addGap(2, 2, 2)
+                        .addComponent(JtxtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(JspCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JlblBarrio)
+                        .addGap(2, 2, 2)
+                        .addComponent(JtxtBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(JspBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(JlblCP)
+                        .addGap(2, 2, 2)
                         .addComponent(JtxtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
-                        .addComponent(JspCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(JspCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JpnlLienzoLayout.createSequentialGroup()
+                        .addComponent(JlblFondo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(JlblNumeroInt)
                         .addGap(2, 2, 2)
-                        .addComponent(JtxtNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JtxtNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JbtnEnviar))
                         .addGap(2, 2, 2)
                         .addComponent(JspNumeroInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
                         .addComponent(JlblNumeroExt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JtxtNumeroExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JspNumerpExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JlblMunicipio)
                         .addGap(2, 2, 2)
-                        .addComponent(JtxtNumeroExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(JlblFondo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JspNumerpExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(JlblMunicipio)
-                .addGap(2, 2, 2)
-                .addComponent(JtxtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(JspMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JlblEstado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(JpnlLienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JcmbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JbtnEnviar))
+                        .addComponent(JtxtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(JspMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -303,18 +281,62 @@ public class JfADireccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnEnviarActionPerformed
-        JfAPersona rb = new JfAPersona(datosJefe, "Datos de la persona", "Actualizar");
-        CUtilitarios.creaFrame(rb, "Actualiza direccion");
-    }//GEN-LAST:event_JbtnEnviarActionPerformed
+        // Enviar String[5]
+        /*
+        datosPersona
+        [0] -> Nombre
+        [1] -> Paterno
+        [2] -> Materno
+        [3] -> Ocupacion
+        [4] -> idCarrera
+        [5] -> telefono
+        [6] -> correo
+         */
+ /*
+        datosDireccion
+        [0] -> IdDireccion
+        [1] -> Calle
+        [2] -> Numero Interior
+        [3] -> Numero Exterior
+        [4] -> Clave colonia
+        [5] -> Clave codigo postal
+        [6] -> Clave municipio
+         */
+        if (validaCampos()) {
+            String[] datosDireccion = new String[7];
+            try {
+//                datosDireccion[0] = ;
+                datosDireccion[1] = JtxtCalle.getText();
+                datosDireccion[2] = JtxtNumeroInt.getText();
+                datosDireccion[3] = JtxtNumeroExt.getText();
+//                datosDireccion[0] =;
+//                datosDireccion[0] =;
 
-    private void JtxtMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtxtMunicipioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JtxtMunicipioActionPerformed
+            } catch (Exception e) {
+            }
+            System.out.println("Datos direccion");
+            for (String string : datosDireccion) {
+                System.out.println(string);
+            }
+            System.out.println("Datos Persona");
+            for (String string : datosPersona) {
+                System.out.println(string);
+            }
+            this.hide();
+        }
+    }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (datosPersona != null && datosPersona.length > 0) {
+            JtxtNombre.setText(datosPersona[0] + " " + datosPersona[1] + " " + datosPersona[2]);
+            JtxtNombre.setEditable(false);
+        }
+    }//GEN-LAST:event_formWindowOpened
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -354,9 +376,11 @@ public class JfADireccion extends javax.swing.JFrame {
     private javax.swing.JLabel JlblEstado;
     private javax.swing.JLabel JlblFondo;
     private javax.swing.JLabel JlblMunicipio;
+    private javax.swing.JLabel JlblNombre;
     private javax.swing.JLabel JlblNumeroExt;
     private javax.swing.JLabel JlblNumeroInt;
     private javax.swing.JPanel JpnlLienzo;
+    private javax.swing.JSeparator JsNombre;
     private javax.swing.JSeparator JspBarrio;
     private javax.swing.JSeparator JspCP;
     private javax.swing.JSeparator JspCalle;
@@ -367,6 +391,7 @@ public class JfADireccion extends javax.swing.JFrame {
     private javax.swing.JTextField JtxtCP;
     private javax.swing.JTextField JtxtCalle;
     private javax.swing.JTextField JtxtMunicipio;
+    private javax.swing.JTextField JtxtNombre;
     private javax.swing.JTextField JtxtNumeroExt;
     private javax.swing.JTextField JtxtNumeroInt;
     // End of variables declaration//GEN-END:variables
