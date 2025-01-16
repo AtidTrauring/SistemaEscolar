@@ -203,7 +203,7 @@ public class CBusquedas {
     }
 
     public String buscaColonia(String colonia) throws SQLException {
-        consulta = "SELECT colonia.clave_coloniacolonia.colonia FROM colonia WHERE colonia.colonia = '" + colonia + "';";
+        consulta = "SELECT colonia.clave_colonia FROM colonia WHERE colonia.colonia = '" + colonia + "';";
         return cnslt.buscarValor(consulta);
     }
 
@@ -212,88 +212,105 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaDireccion() throws SQLException {
-        consulta = "";
+    public String buscaDireccion(String calle, String numeroI, String numeroE, String claveColonia, String claveCodigoPostal, String claveMunicipio) throws SQLException {
+        consulta = "SELECT direccion.clave_dir FROM direccion "
+                + "WHERE direccion.calle = '" + calle + "' "
+                + "AND direccion.num_Inter = " + numeroI + ""
+                + "AND direccion.num_Exter = " + numeroE + ""
+                + "AND direccion.clave_colonia = " + claveColonia + ""
+                + "AND direccion.clave_cp = " + claveCodigoPostal + ""
+                + "AND direccion.clave_mun = " + claveMunicipio + ";";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaContrasenia() throws SQLException {
-        consulta = "";
+    public String buscaContrasenia(String contrasenia) throws SQLException {
+        consulta = "SELECT contrasenia.clave_contrasenia FROM contrasenia WHERE contrasenia.contrasenia = '" + contrasenia + "';";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaPersona() throws SQLException {
-        consulta = "";
+    public String buscaPersona(String nombre, String apellidoPaterno, String apellidoMaterno) throws SQLException {
+        consulta = "SELECT persona.clave_persona FROM persona WHERE persona.nombre = '" + nombre + "' "
+                + "AND persona.ap_Paterno = '" + apellidoPaterno + "' AND persona.ap_Materno = '" + apellidoMaterno + "';";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaCorreo() throws SQLException {
-        consulta = "";
+    public String buscaCorreo(String correo, String clavePersona) throws SQLException {
+        consulta = "SELECT correo.clave_correo FROM correo "
+                + "WHERE correo.correo = '" + correo + "' "
+                + "AND correo.clave_persona = " + clavePersona + ";";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaTelefono() throws SQLException {
-        consulta = "";
+    public String buscaTelefono(String telefono, String clavePersona) throws SQLException {
+        consulta = "SELECT telefono.clave_telefono FROM telefono "
+                + "WHERE telefono.telefono = '" + telefono + "' AND telefono.clave_persona = " + clavePersona + ";";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaRol() throws SQLException {
-        consulta = "";
+    public String buscaRol(String rol, String clavePersona) throws SQLException {
+        if (rol.equals("Docente")) {
+            consulta = "SELECT docente.clave_docente FROM docente WHERE docente.clave_persona = " + clavePersona + ";";
+        } else if (rol.equals("Alumno")) {
+            consulta = "SELECT estudiante.clave_estudiante FROM estudiante WHERE estudiante.clave_persona = " + clavePersona + ";";
+        }
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaRolCarrera() throws SQLException {
-        consulta = "";
+    public String buscaRolCarrera(String rol, String claveRol, String claveCarrera) throws SQLException {
+        if (rol.equals("Docente")) {
+            consulta = "SELECT docente_carrera.clave_carrera, docente_carrera.clave_docente "
+                    + "FROM docente_carrera WHERE docente_carrera.clave_docente = " + claveRol + " "
+                    + "AND docente_carrera.clave_carrera = " + claveCarrera + ";";
+        } else if (rol.equals("Alumno")) {
+            consulta = "SELECT estudiante_carrera.clave_carrera, estudiante_carrera.clave_estudiante "
+                    + "FROM docente_carrera WHERE estudiante_carrera.clave_estudiante = " + claveRol + ""
+                    + "AND estudiante_carrera.clave_carrera = " + claveCarrera + ";";
+        }
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoMunicipio() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(municipio.clave_mun) FROM municipio;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoColonia() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(colonia.clave_colonia) FROM colonia;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoCodigoPostal() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(codigo_postal.clave_cp) FROM codigo_postal;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoDireccion() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(direccion.clave_dir) FROM direccion;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoContrasenia() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(contrasenia.clave_contrasenia) FROM contrasenia;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoPersona() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(persona.clave_persona) FROM persona;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoCorreo() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(correo.clave_correo) FROM correo;";
         return cnslt.buscarValor(consulta);
     }
 
     public String buscaMaximoTelefono() throws SQLException {
-        consulta = "";
+        consulta = "SELECT MAX(telefono.clave_telefono) FROM telefono;";
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaMaximoRol() throws SQLException {
-        consulta = "";
-        return cnslt.buscarValor(consulta);
-    }
-
-    public String buscaMaximoRolCarrera() throws SQLException {
-        consulta = "";
+    public String buscaMaximoDocente(String rol) throws SQLException {
+        consulta = "SELECT MAX(docente.clave_docente) FROM docente;";
         return cnslt.buscarValor(consulta);
     }
 
