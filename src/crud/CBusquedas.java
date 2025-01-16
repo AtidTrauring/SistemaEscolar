@@ -419,6 +419,12 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
+    public String obtenClaveAsignatura(String nombreAsignatura) throws SQLException {
+    // Consulta que busca la clave primaria (clave_asignatura) basado en el nombre de la asignatura
+    consulta = "SELECT clave_asignatura FROM asignatura WHERE nombre_asignatura = '" + nombreAsignatura + "'";
+    return cnslt.buscarValor(consulta);
+}
+
     public String obtenClaveTASeleccionado(String TA) throws SQLException {
 //        consulta = "SELECT COUNT(*)"
 //                + "FROM tipo_asignatura "
@@ -470,6 +476,11 @@ public class CBusquedas {
                 + "FROM ciclo "
                 + "WHERE ciclo = '" + ciclo + "';";
         return cnslt.buscarValor(consulta);
+    }
+
+    public int obtenClaveUnidadFinal() throws SQLException {
+        consulta = "SELECT MAX(clave_unidad) FROM unidad;";
+        return Integer.parseInt(cnslt.buscarValor(consulta));
     }
 
 }

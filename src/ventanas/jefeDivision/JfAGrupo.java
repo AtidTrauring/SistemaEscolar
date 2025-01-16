@@ -133,16 +133,16 @@ public class JfAGrupo extends javax.swing.JFrame {
                 System.out.println("NombreGrupo:" + grupo + "\nCiclo:" + ciclo + "\nSemestre:" + semestre + "\nCarrera:" + carrera);
                 System.out.println("CGrupo:" + grupoFi + "\nCCiclo:" + clave_ciclo + "\nCSemestre:" + clave_semestre + "\nCCarrera:" + clave_carrera);
                 queryInserta.insertaGrupo((clave_final + 1), grupoFi, clave_ciclo, clave_semestre, clave_carrera);
-//
-//                double insercionGrupo = queryInserta.insertaGrupo(clave_final, grupo, clave_ciclo, 
-//                        clave_semestre, clave_carrera);
-//                boolean inserta = queryInserta.insertaGrupo(clave_final, grupo, clave_ciclo, clave_semestre, clave_carrera);
-                CUtilitarios.msg("Usuario Registrado", "Registro Usuarios");
+
+                CUtilitarios.msg("Grupo registrado exitosamente", "Registro Grupos");
             } catch (SQLException ex) {
+                CUtilitarios.msg_advertencia("Seleccione las opciones: ", "Error en combobox");
             } finally {
                 limpiaValores();
             }
-            this.dispose();
+        } else {
+            // No cerrar la ventana si los campos no son válidos
+            CUtilitarios.msg_advertencia("Por favor, completa todos los campos correctamente.", "Registro Grupos");
         }
     }
 

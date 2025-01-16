@@ -52,18 +52,23 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="JlblCarrera" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="JcmbxCarrera" alignment="0" max="32767" attributes="0"/>
-                      <Component id="JcmbxAsignatura" alignment="0" pref="150" max="32767" attributes="0"/>
                       <Component id="JlblAsignatura" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="JlblUnidad" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="JtxtUnidad" alignment="0" max="32767" attributes="0"/>
+                      <Component id="JtxtUnidad" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
+                      <Component id="JcmbxCarrera" min="-2" pref="230" max="-2" attributes="0"/>
+                      <Component id="JcmbxAsignatura" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace pref="93" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="JlblFondo" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="JbtnEnviar" alignment="1" min="-2" pref="70" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JbtnEnviar" min="-2" pref="70" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="JlblFondo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

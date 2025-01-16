@@ -321,7 +321,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
                     if (insercionCarreraAsignatura) {
                         // Mostrar mensaje de éxito y limpiar valores
-                        CUtilitarios.msg("Asignatura y relación con carrera registradas correctamente", "Registro Asignatura");
+                        CUtilitarios.msg("La Asignatura se registro correctamente", "Registro Asignatura");
                         limpiaValores();
                         this.dispose();
                     } else {
