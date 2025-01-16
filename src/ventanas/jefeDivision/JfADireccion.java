@@ -65,15 +65,6 @@ public final class JfADireccion extends javax.swing.JFrame {
 
     }
 
-    private String obtenValorCombo() {
-        String estado = (String) JcmbxEstado.getSelectedItem();
-        if (estado == null || estado.equals("Seleccione una opcion")) {
-            CUtilitarios.msg_advertencia("Por favor, seleccione una ocupacion", "Advertencia");
-            estado = null;
-        }
-        return estado;
-    }
-
     private void procesoDireccion() {
         if (validaCampos()) {
             datosDireccion = new String[7];
@@ -153,7 +144,6 @@ public final class JfADireccion extends javax.swing.JFrame {
             for (String string : datosPersona) {
                 System.out.println(string);
             }
-            this.hide();
         }
     }
 
@@ -459,7 +449,7 @@ public final class JfADireccion extends javax.swing.JFrame {
                 }
 
                 String[] rolCarrera = cb.buscaRolCarrera(datosPersona[3], datosPersona[9], datosPersona[4]);
-                if (rolCarrera[0].equals(datosPersona[4]) && rolCarrera[1].equals(datosPersona[9])) {
+                if (rolCarrera != null) {
                     // Ya no inserto porque ya esta la relacion
                 } else {
                     if (ci.insertaRolCarrera(datosPersona[3], datosPersona[9], datosPersona[4])) {
@@ -501,14 +491,17 @@ public final class JfADireccion extends javax.swing.JFrame {
 
             } catch (SQLException ex) {
             }
+
         }
-
-
+        JfMenuJefe mj = new JfMenuJefe(datosJefe);
+        CUtilitarios.creaFrame(mj, datosJefe[2]);
+        this.hide();
     }//GEN-LAST:event_JbtnEnviarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
+        this.hide();
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

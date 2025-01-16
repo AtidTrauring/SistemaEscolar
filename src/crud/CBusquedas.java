@@ -274,7 +274,7 @@ public class CBusquedas {
                     + "AND docente_carrera.clave_carrera = " + claveCarrera + ";";
         } else if (rol.equals("Alumno")) {
             consulta = "SELECT estudiante_carrera.clave_carrera, estudiante_carrera.clave_estudiante "
-                    + "FROM docente_carrera WHERE estudiante_carrera.clave_estudiante = " + claveRol + ""
+                    + "FROM estudiante_carrera WHERE estudiante_carrera.clave_estudiante = " + claveRol + ""
                     + "AND estudiante_carrera.clave_carrera = " + claveCarrera + ";";
         }
         return cnslt.buscarValoresLista(consulta, 2);
