@@ -1,5 +1,8 @@
 package ventanas.jefeDivision;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utilitarios.CUtilitarios;
 import ventanas.JfInicionSesion;
 
@@ -434,9 +437,14 @@ public class JfMenuJefe extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiAgregaAsignaturaActionPerformed
 
     private void JmiAgregaUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaUnidadActionPerformed
-        JfAUnidad au = new JfAUnidad(datosJefe, null, "Enviar");
-        CUtilitarios.creaFrame(au, "Agregar unidad");
-        this.hide();
+        JfAUnidad au;
+        try {
+            au = new JfAUnidad(datosJefe, null, "Enviar");
+            CUtilitarios.creaFrame(au, "Agregar unidad");
+            this.hide();
+        } catch (SQLException ex) {
+            Logger.getLogger(JfMenuJefe.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_JmiAgregaUnidadActionPerformed
 
     private void JmiAgregaSubtemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiAgregaSubtemaActionPerformed

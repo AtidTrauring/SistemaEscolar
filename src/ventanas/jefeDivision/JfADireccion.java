@@ -400,9 +400,16 @@ public final class JfADireccion extends javax.swing.JFrame {
 
                     if (idPersona != null) {
                         procesoDireccion();
-//                        if (ca.actualizarPersona(idPersona, idPersona, regexNumero, calle, calle, idPersona, idPersona)) {
-//
-//                        }
+                        String[] datos = new String[7];
+                        if (nombrePartes.length == 3) {
+                            datos = cb.buscaPersonaXNombre(nombrePartes[0], nombrePartes[1], nombrePartes[2]);
+
+                        } else if (nombrePartes.length == 4) {
+                            datos = cb.buscaPersonaXNombre(nombrePartes[0], nombrePartes[1], nombrePartes[2]);
+                        }
+                        for (String dato : datos) {
+                            System.out.println(dato);
+                        }
                     }
                 } catch (SQLException ex) {
                 }

@@ -325,6 +325,13 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
+    public String[] buscaPersonaXNombre(String nombre, String apellidoPaterno, String apellidoMaterno) throws SQLException {
+        consulta = "SELECT * FROM `persona` WHERE persona.nombre = '" + nombre + "' "
+                + "AND persona.ap_Paterno = '" + apellidoPaterno + "' "
+                + "AND persona.ap_Materno = '" + apellidoMaterno + "';";
+        return cnslt.buscarValoresLista(consulta, 7);
+    }
+
     public ArrayList<String[]> buscaPromedioAlumnos() throws SQLException {
         consulta = "SELECT DISTINCT c.ciclo, g_cursado.grupo, "
                 + "CONCAT(p.ap_Paterno, ' ', p.ap_Materno, ' ', p.nombre), "
