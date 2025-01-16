@@ -267,7 +267,7 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaRolCarrera(String rol, String claveRol, String claveCarrera) throws SQLException {
+    public String[] buscaRolCarrera(String rol, String claveRol, String claveCarrera) throws SQLException {
         if (rol.equals("Docente")) {
             consulta = "SELECT docente_carrera.clave_carrera, docente_carrera.clave_docente "
                     + "FROM docente_carrera WHERE docente_carrera.clave_docente = " + claveRol + " "
@@ -277,7 +277,7 @@ public class CBusquedas {
                     + "FROM docente_carrera WHERE estudiante_carrera.clave_estudiante = " + claveRol + ""
                     + "AND estudiante_carrera.clave_carrera = " + claveCarrera + ";";
         }
-        return cnslt.buscarValor(consulta);
+        return cnslt.buscarValoresLista(consulta, 2);
     }
 
     public String buscaMaximoMunicipio() throws SQLException {
@@ -320,8 +320,13 @@ public class CBusquedas {
         return cnslt.buscarValor(consulta);
     }
 
-    public String buscaMaximoDocente(String rol) throws SQLException {
+    public String buscaMaximoDocente() throws SQLException {
         consulta = "SELECT MAX(docente.clave_docente) FROM docente;";
+        return cnslt.buscarValor(consulta);
+    }
+
+    public String buscaMaximoEstudiante() throws SQLException {
+        consulta = "SELECT MAX(estudiante.clave_estudiante) FROM estudiante;";
         return cnslt.buscarValor(consulta);
     }
 

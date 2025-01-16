@@ -410,12 +410,97 @@ public final class JfADireccion extends javax.swing.JFrame {
                         for (String dato : datos) {
                             System.out.println(dato);
                         }
+                    } else {
+                        CUtilitarios.msg("La persona no esta registrada, registrela por favor!", "Agrega direccion");
                     }
                 } catch (SQLException ex) {
                 }
             }
         } else {
+            procesoDireccion();
+            try {
+                String contrasenia = CUtilitarios.generarContrasena();
+                String idContrasenia = cb.buscaContrasenia(contrasenia);
+                if (idContrasenia != null) {
+                    datosPersona = CUtilitarios.agregarElemento(datosPersona, idContrasenia);
+                } else {
+                    int idContraseniaInserta = Integer.parseInt(cb.buscaMaximoContrasenia()) + 1;
+                    if (ci.insertaContrasenia(String.valueOf(idContraseniaInserta), contrasenia)) {
+                        datosPersona = CUtilitarios.agregarElemento(datosPersona, String.valueOf(idContraseniaInserta));
+                    }
+                }
+                String idPersona = cb.buscaPersona(datosPersona[0], datosPersona[1], datosPersona[2]);
+                if (idPersona != null) {
+                    datosPersona = CUtilitarios.agregarElemento(datosPersona, idPersona);
+                } else {
+                    String usuario = CUtilitarios.generarUsuario(datosPersona[1], datosPersona[2], datosPersona[0]);
+                    int idPersonaInserta = Integer.parseInt(cb.buscaMaximoPersona()) + 1;
+                    if (ci.insertaPersona(String.valueOf(idPersonaInserta), datosPersona[1], datosPersona[2], datosPersona[0], usuario, datosPersona[7], datosDireccion[0])) {
+                        datosPersona = CUtilitarios.agregarElemento(datosPersona, String.valueOf(idPersonaInserta));
+                    }
+                }
 
+                String idRol = cb.buscaRol(datosPersona[3], datosPersona[8]);
+                if (idRol != null) {
+                    datosPersona = CUtilitarios.agregarElemento(datosPersona, idRol);
+                } else {
+                    if (datosPersona[3].equals("Docente")) {
+                        int idDocenteInserta = Integer.parseInt(cb.buscaMaximoDocente()) + 1;
+                        if (ci.insertaRol(datosPersona[3], String.valueOf(idDocenteInserta), datosPersona[8])) {
+                            datosPersona = CUtilitarios.agregarElemento(datosPersona, String.valueOf(idDocenteInserta));
+                        }
+
+                    } else if (datosPersona[3].equals("Alumno")) {
+                        int idEstudianteInserta = Integer.parseInt(cb.buscaMaximoEstudiante()) + 1;
+                        if (ci.insertaRol(datosPersona[3], String.valueOf(idEstudianteInserta), datosPersona[8])) {
+                            datosPersona = CUtilitarios.agregarElemento(datosPersona, String.valueOf(idEstudianteInserta));
+                        }
+                    }
+                }
+
+                String[] rolCarrera = cb.buscaRolCarrera(datosPersona[3], datosPersona[9], datosPersona[4]);
+                if (rolCarrera[0].equals(datosPersona[4]) && rolCarrera[1].equals(datosPersona[9])) {
+                    // Ya no inserto porque ya esta la relacion
+                } else {
+                    if (ci.insertaRolCarrera(datosPersona[3], datosPersona[9], datosPersona[4])) {
+
+                    }
+                }
+                /*
+        datosPersona
+        [0] -> Nombre
+        [1] -> Paterno
+        [2] -> Materno
+        [3] -> Ocupacion
+        [4] -> idCarrera
+        [5] -> telefono
+        [6] -> correo
+        [7] -> contrasenia
+        [8] -> idPersona
+        [9] -> idRol
+                 */
+                String idTelefono = cb.buscaTelefono(datosPersona[5], datosPersona[8]);
+                if (idTelefono != null) {
+                    datosPersona = CUtilitarios.agregarElemento(datosPersona, idTelefono);
+                } else {
+                    int idTelefonoInserta = Integer.parseInt(cb.buscaMaximoTelefono()) + 1;
+                    if (ci.insertaTelefono(String.valueOf(idTelefonoInserta), datosPersona[5], datosPersona[8])) {
+
+                    }
+                }
+
+                String idCorreo = cb.buscaCorreo(datosPersona[6], datosPersona[8]);
+                if (idCorreo != null) {
+                    datosPersona = CUtilitarios.agregarElemento(datosPersona, idCorreo);
+                } else {
+                    int idCorreoInserta = Integer.parseInt(cb.buscaMaximoCorreo()) + 1;
+                    if (ci.insertaCorreo(String.valueOf(idCorreoInserta), datosPersona[6], datosPersona[8])) {
+
+                    }
+                }
+
+            } catch (SQLException ex) {
+            }
         }
 
 

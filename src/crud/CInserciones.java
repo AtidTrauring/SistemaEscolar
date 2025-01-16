@@ -45,22 +45,22 @@ public class CInserciones {
         return cnslt.inserta(consulta);
     }
 
-    public boolean buscaPersona(String clavePersona, String apellidoPaterno, String apellidoMaterno, String nombre, String usuario, String claveContrasenia, String claveDireccion) throws SQLException {
+    public boolean insertaPersona(String clavePersona, String apellidoPaterno, String apellidoMaterno, String nombre, String usuario, String claveContrasenia, String claveDireccion) throws SQLException {
         consulta = "CALL sp_agrega_persona(" + clavePersona + ",'" + apellidoPaterno + "','" + apellidoMaterno + "','" + nombre + "','" + usuario + "'," + claveContrasenia + "," + claveDireccion + ");";
         return cnslt.inserta(consulta);
     }
 
-    public boolean buscaCorreo(String claveCorreo, String correo, String clavePersona) throws SQLException {
+    public boolean insertaCorreo(String claveCorreo, String correo, String clavePersona) throws SQLException {
         consulta = "CALL sp_agrega_correo(" + claveCorreo + ",'" + correo + "'," + clavePersona + ");";
         return cnslt.inserta(consulta);
     }
 
-    public boolean buscaTelefono(String claveTelefono, String telefono, String clavePersona) throws SQLException {
+    public boolean insertaTelefono(String claveTelefono, String telefono, String clavePersona) throws SQLException {
         consulta = "CALL sp_agrega_telefono(" + claveTelefono + ",'" + telefono + "'," + clavePersona + ");";
         return cnslt.inserta(consulta);
     }
 
-    public boolean buscaRol(String rol, String claveRol, String clavePersona) throws SQLException {
+    public boolean insertaRol(String rol, String claveRol, String clavePersona) throws SQLException {
         if (rol.equals("Docente")) {
             consulta = "CALL sp_agrega_docente(" + claveRol + "," + clavePersona + ");";
         } else if (rol.equals("Alumno")) {
@@ -69,7 +69,7 @@ public class CInserciones {
         return cnslt.inserta(consulta);
     }
 
-    public boolean buscaRolCarrera(String rol, String claveRol, String claveCarrera) throws SQLException {
+    public boolean insertaRolCarrera(String rol, String claveRol, String claveCarrera) throws SQLException {
         if (rol.equals("Docente")) {
             consulta = "CALL sp_agrega_docente(" + claveCarrera + "," + claveRol + ");";
         } else if (rol.equals("Alumno")) {
@@ -95,7 +95,8 @@ public class CInserciones {
         return cnslt.inserta(consulta);
 
     }
-        public boolean insertaAsignatura_Unidad(String clave, int unidad) throws SQLException {
+
+    public boolean insertaAsignatura_Unidad(String clave, int unidad) throws SQLException {
         String consulta = "CALL sp_agrega_asignatura_unidad ('" + clave + "'," + unidad + ");";
         return cnslt.inserta(consulta);
 
