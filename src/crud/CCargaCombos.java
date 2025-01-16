@@ -74,4 +74,11 @@ public class CCargaCombos {
         return cnslt.buscarValoresCombos(consulta);
     }
 
+    public ArrayList<String> cargaComboAsignaturaXSemestre(String claveCarrera) throws SQLException {
+        consulta = "SELECT a.nombre_asignatura FROM carrera_asignatura ca "
+                + "JOIN asignatura a ON ca.clave_asignatura = a.clave_asignatura "
+                + "WHERE ca.clave_carrera = " + claveCarrera + ";";
+        return cnslt.buscarValoresCombos(consulta);
+    }
+
 }

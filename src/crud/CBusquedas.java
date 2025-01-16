@@ -196,6 +196,12 @@ public class CBusquedas {
         return cnslt.buscarValores(consulta, 8);
     }
 
+    public String buscaClaveCarrera(String carrera) throws SQLException {
+        consulta = "SELECT carrera.clave_carrera "
+                + "FROM carrera WHERE carrera.nombre_carrera = '" + carrera + "';";
+        return cnslt.buscarValor(consulta);
+    }
+
     // --------------------- Busquedas JfADireccion ---------------------
     public String buscaEstado(String estado) throws SQLException {
         consulta = "SELECT estado.clave_estado FROM estado WHERE estado.estado = '" + estado + "';";
@@ -425,10 +431,10 @@ public class CBusquedas {
     }
 
     public String obtenClaveAsignatura(String nombreAsignatura) throws SQLException {
-    // Consulta que busca la clave primaria (clave_asignatura) basado en el nombre de la asignatura
-    consulta = "SELECT clave_asignatura FROM asignatura WHERE nombre_asignatura = '" + nombreAsignatura + "'";
-    return cnslt.buscarValor(consulta);
-}
+        // Consulta que busca la clave primaria (clave_asignatura) basado en el nombre de la asignatura
+        consulta = "SELECT clave_asignatura FROM asignatura WHERE nombre_asignatura = '" + nombreAsignatura + "'";
+        return cnslt.buscarValor(consulta);
+    }
 
     public String obtenClaveTASeleccionado(String TA) throws SQLException {
 //        consulta = "SELECT COUNT(*)"

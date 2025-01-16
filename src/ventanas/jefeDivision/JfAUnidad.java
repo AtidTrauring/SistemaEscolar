@@ -5,6 +5,8 @@ import crud.CCargaCombos;
 import crud.CInserciones;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -22,13 +24,12 @@ public class JfAUnidad extends javax.swing.JFrame {
     DefaultComboBoxModel<String> listas;
     private final CCargaCombos queryCarga = new CCargaCombos();
 
-    public JfAUnidad(String[] datosJ, String[] datosU, String nombreBoton) {
+    public JfAUnidad(String[] datosJ, String[] datosU, String nombreBoton) throws SQLException {
         initComponents();
         datosJefe = datosJ;
         datosUnidad = datosU;
         JbtnEnviar.setText(nombreBoton);
-        cargaComboBox(JcmbxAsignatura, 1);
-        cargaComboBox(JcmbxCarrera, 2);
+        cargaComboBoxCarrera(JcmbxCarrera);
     }
 
     public void asignaValores() {
@@ -45,26 +46,25 @@ public class JfAUnidad extends javax.swing.JFrame {
         carrera = null;
     }
 
-    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+    public void cargaComboBoxCarrera(JComboBox combo) throws SQLException {
         listas = (DefaultComboBoxModel) combo.getModel();
         try {
-            switch (metodoCarga) {
-                case 1:
-                    datosListas = queryCarga.cargaComboAsignatura();
-                    for (int i = 0; i < datosListas.size(); i++) {
-                        listas.addElement(datosListas.get(i));
-                    }
-                    datosListas.clear();
-                    break;
-                case 2:
-                    datosListas = queryCarga.cargaComboCarrera();
-                    for (int i = 0; i < datosListas.size(); i++) {
-                        listas.addElement(datosListas.get(i));
-                    }
-                    datosListas.clear();
-                    break;
+            datosListas = queryCarga.cargaComboCarrera();
+            for (int i = 0; i < datosListas.size(); i++) {
+                listas.addElement(datosListas.get(i));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
+        }
+    }
+
+    public void cargaComboBoxAsignatura(JComboBox combo, String claveCarrera) throws SQLException {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            datosListas = queryCarga.cargaComboAsignaturaXSemestre(claveCarrera);
+            for (int i = 0; i < datosListas.size(); i++) {
+                listas.addElement(datosListas.get(i));
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -180,6 +180,11 @@ public class JfAUnidad extends javax.swing.JFrame {
         JlblCarrera.setText("Carrera");
 
         JcmbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
+        JcmbxCarrera.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JcmbxCarreraItemStateChanged(evt);
+            }
+        });
 
         JlblAsignatura.setText("Asignatura");
 
@@ -265,6 +270,25 @@ public class JfAUnidad extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JcmbxCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JcmbxCarreraItemStateChanged
+        if (JcmbxCarrera.getSelectedIndex() != 0) {
+            // Si la carrera, seleccionada es cualquier valor que no sea 
+            // 'Seleccione una opcion'
+            String idCarrera;
+            try {
+                idCarrera = queryBusca.buscaClaveCarrera(JcmbxCarrera.getSelectedItem().toString());
+                cargaComboBoxAsignatura(JcmbxAsignatura, idCarrera);
+            } catch (SQLException ex) {
+                Logger.getLogger(JfAUnidad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (JcmbxCarrera.getSelectedIndex() == 0) {
+            // Remover todos los elementos menos el primero
+            for (int i = JcmbxAsignatura.getItemCount() - 1; i > 0; i--) {
+                JcmbxAsignatura.removeItemAt(i);
+            }
+        }
+    }//GEN-LAST:event_JcmbxCarreraItemStateChanged
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -276,21 +300,33 @@ public class JfAUnidad extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JfAUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JfAUnidad.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JfAUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JfAUnidad.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JfAUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JfAUnidad.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JfAUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JfAUnidad.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JfAUnidad(datosJefe, datosUnidad, new String()).setVisible(true);
+                try {
+                    new JfAUnidad(datosJefe, datosUnidad, new String()).setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(JfAUnidad.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
