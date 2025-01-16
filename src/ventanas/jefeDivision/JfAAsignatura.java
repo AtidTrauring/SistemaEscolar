@@ -101,26 +101,38 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     public String devuelveCadenaHP(JTextField campo, String regex) {
         String cadena = null;
-        cadena = campo.getText();
-        if (cadena.isEmpty()) {
+        try {
+            cadena = campo.getText();
+            if (cadena.isEmpty()) {
+                cadena = null;
+            } else if (cadena.matches(regexHP)) {
+                return cadena;
+            } else {
+                cadena = "NoValido";
+                throw new IllegalArgumentException("No se permiten letras, solo números.");
+            }
+        } catch (IllegalArgumentException e) {
+            CUtilitarios.msg_advertencia(e.getMessage(), "Advertencia");
             cadena = null;
-        } else if (cadena.matches(regexHP)) {
-            return cadena;
-        } else {
-            cadena = "NoValido";
         }
         return cadena;
     }
 
     public String devuelveCadenaHT(JTextField campo, String regex) {
         String cadena = null;
-        cadena = campo.getText();
-        if (cadena.isEmpty()) {
+        try {
+            cadena = campo.getText();
+            if (cadena.isEmpty()) {
+                cadena = null;
+            } else if (cadena.matches(regexHT)) {
+                return cadena;
+            } else {
+                cadena = "NoValido";
+                throw new IllegalArgumentException("No se permiten letras, solo números.");
+            }
+        } catch (IllegalArgumentException e) {
+            CUtilitarios.msg_advertencia(e.getMessage(), "Advertencia");
             cadena = null;
-        } else if (cadena.matches(regexHT)) {
-            return cadena;
-        } else {
-            cadena = "NoValido";
         }
         return cadena;
     }
@@ -238,26 +250,53 @@ public class JfAAsignatura extends javax.swing.JFrame {
         }
         return valida;
     }
+//
+//    public boolean validaCampoTA(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+//        boolean valida = true;
+//
+//        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+//
+//        if (campoTexto.equals("Selecciona una opcion")) {
+//            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+//            valida = false;
+//        }
+//        return valida;
+//    }
 
     public boolean validaCampoTA(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
         boolean valida = true;
-
-        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
-
-        if (campoTexto.equals("Selecciona una opcion")) {
-            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+        try {
+            campoTexto = (String) comboBox.getSelectedItem();
+            if (campoTexto.equals("Selecciona una opcion")) {
+                throw new IllegalArgumentException(mensajeVacio);
+            }
+        } catch (IllegalArgumentException e) {
+            CUtilitarios.msg_advertencia(e.getMessage(), "Advertencia");
             valida = false;
         }
         return valida;
     }
 
+//    public boolean validaCampoCarrera(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
+//        boolean valida = true;
+//
+//        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
+//
+//        if (campoTexto.equals("Selecciona una opcion")) {
+//            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+//            valida = false;
+//        }
+//        return valida;
+//    }
     public boolean validaCampoCarrera(String campoTexto, JComboBox<String> comboBox, String mensajeVacio) {
         boolean valida = true;
-
-        campoTexto = (String) comboBox.getSelectedItem(); // Obtener el texto seleccionado del JComboBox
-
-        if (campoTexto.equals("Selecciona una opcion")) {
-            CUtilitarios.msg_advertencia(mensajeVacio, "Registro Asignatura");
+        try {
+            campoTexto = (String) comboBox.getSelectedItem();
+            if (campoTexto.equals("Selecciona una opcion")) {
+                throw new IllegalArgumentException(mensajeVacio);
+            }
+        } catch (IllegalArgumentException e) {
+            CUtilitarios.msg_advertencia(e.getMessage(), "Advertencia");
             valida = false;
         }
         return valida;
@@ -276,14 +315,14 @@ public class JfAAsignatura extends javax.swing.JFrame {
 
     public void enviarDatos() {
         String clave_asignatura, clave_tipo_asignatura;
-        if (validaCampos()) { 
+        if (validaCampos()) {
             asignaValores();
             try {
                 clave_asignatura = JtxtClave.getText();
                 clave_tipo_asignatura = queryBusca.obtenClaveTASeleccionado(tipoAsig);
                 if (carrera == null || carrera.isEmpty()) {
                     CUtilitarios.msg_error("Debe seleccionar una carrera antes de continuar.", "Falta Información");
-                    return; 
+                    return;
                 }
 
                 int clave_carrera = queryBusca.obtenClaveCarreraSeleccionado(carrera);
@@ -307,7 +346,7 @@ public class JfAAsignatura extends javax.swing.JFrame {
                         // Mostrar mensaje de éxito y limpiar valores
                         CUtilitarios.msg("Asignatura y relación con carrera registradas correctamente", "Registro Asignatura");
                         limpiaValores();
-                        this.dispose(); 
+                        this.dispose();
                     } else {
                         CUtilitarios.msg_error("Hubo un error al registrar la relación carrera-asignatura.", "Error en el Registro");
                     }
@@ -319,7 +358,6 @@ public class JfAAsignatura extends javax.swing.JFrame {
                 CUtilitarios.msg_error("Error en la base de datos: " + ex.getMessage(), "Error de SQL");
             }
         } else {
-            CUtilitarios.msg_error("Por favor, complete todos los campos correctamente antes de continuar.", "Falta Información");
         }
     }
 
