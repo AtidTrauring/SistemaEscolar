@@ -2,12 +2,16 @@ package ventanas.jefeDivision;
 
 import crud.CBusquedas;
 import crud.CCargaCombos;
+import crud.CInserciones;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 import utilitarios.CUtilitarios;
+import ventanas.docentes.JfAsignaCalificacion;
 
 public class JfAsignaAlumno extends javax.swing.JFrame {
 
@@ -18,6 +22,7 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
     private ArrayList<String> datosGrupos = new ArrayList<>();
     private final CCargaCombos cc = new CCargaCombos();
     private CBusquedas cb = new CBusquedas();
+    private final CInserciones ci = new CInserciones();
 
     public JfAsignaAlumno(String[] datos) {
         initComponents();
@@ -78,7 +83,7 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         }
         try {
             String datosAlumno = cb.buscaAlumnoPorNombre(nombre);
-            if (datosAlumno == null || datosAlumno.isEmpty()) { 
+            if (datosAlumno == null || datosAlumno.isEmpty()) {
                 CUtilitarios.msg_advertencia("No se encontraron datos del alumno.", "Sin datos");
             } else {
                 JlblDatosAlumno.setText(datosAlumno);
@@ -133,6 +138,11 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         JbtnAsignar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnAsignar.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
         JbtnAsignar.setText("Asignar");
+        JbtnAsignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JbtnAsignarActionPerformed(evt);
+            }
+        });
 
         JbtnBuscar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnBuscar.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
@@ -234,6 +244,17 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         String nombre = JtxtNombre.getText().trim();
         buscaAlumno(nombre);
     }//GEN-LAST:event_JbtnBuscarActionPerformed
+
+    private void JbtnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnAsignarActionPerformed
+        if (JtxtNombre.getText().isEmpty()) {
+            CUtilitarios.msg_error("Ingrese un alumno por favor!", "Datos ");
+        } else {
+            if (ci.insertaAlumnoGrupo(idEstudiante, idGrupo)){
+                CUtilitarios.msg("Se agrego el alumno al grupo", "Asignar alumno");
+                JtxtNombre.setText("");
+            }
+        }
+    }//GEN-LAST:event_JbtnAsignarActionPerformed
 
     /**
      * @param args the command line arguments

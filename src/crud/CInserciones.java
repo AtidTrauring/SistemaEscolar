@@ -101,4 +101,10 @@ public class CInserciones {
         return cnslt.inserta(consulta);
 
     }
+    
+    public boolean insertaAlumnoGrupo(String idEstudiante, String idGrupo) throws SQLException {
+        String consulta = "CALL sp_agrega_estudiante_grupo (" + idEstudiante + ", '" + idGrupo + ");";
+        System.out.println(consulta);
+        return cnslt.inserta(consulta);
+    }
 }
