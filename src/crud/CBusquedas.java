@@ -506,4 +506,15 @@ public class CBusquedas {
         return Integer.parseInt(cnslt.buscarValor(consulta));
     }
 
+    //------------------------------------------------------------------------
+    public String buscaAlumnoPorNombre(String nombre) throws SQLException {
+        consulta = "SELECT persona.nombre, persona.ap_Paterno, persona.ap_Materno, grupo.grupo, ciclo.ciclo " 
+                + "FROM ciclo " 
+                + "INNER JOIN grupo ON ciclo.clave_ciclo = grupo.clave_ciclo "
+                + "INNER JOIN estudiante_grupo ON grupo.clave_grupo = estudiante_grupo.clave_grupo "
+                + "INNER JOIN estudiante ON estudiante_grupo.clave_estudiante = estudiante.clave_estudiante "
+                + "INNER JOIN persona ON persona.clave_persona = estudiante.clave_persona;" ;
+        return cnslt.buscarValor(consulta);
+    }
+
 }

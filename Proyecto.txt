@@ -1,0 +1,3 @@
+baseUsuario = baseUsuario.length() > 18 ? baseUsuario.substring(0, 18) : baseUsuario;
+
+setReorderingAllowed(false);

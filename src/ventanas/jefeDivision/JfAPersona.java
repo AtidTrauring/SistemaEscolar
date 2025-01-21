@@ -142,6 +142,11 @@ public final class JfAPersona extends javax.swing.JFrame {
 
         JcmbxCarreras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion" }));
         JcmbxCarreras.setToolTipText("");
+        JcmbxCarreras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JcmbxCarrerasActionPerformed(evt);
+            }
+        });
 
         JcmbxOcupacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "Docente", "Alumno" }));
         JcmbxOcupacion.setToolTipText("");
@@ -298,6 +303,10 @@ public final class JfAPersona extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_JbtnEnviarActionPerformed
+
+    private void JcmbxCarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JcmbxCarrerasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JcmbxCarrerasActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

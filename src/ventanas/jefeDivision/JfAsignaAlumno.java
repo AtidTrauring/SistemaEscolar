@@ -1,14 +1,91 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
 import utilitarios.CUtilitarios;
 
 public class JfAsignaAlumno extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private DefaultComboBoxModel comboCiclos;
+    private DefaultComboBoxModel comboGrupos;
+    private ArrayList<String> datosCiclos = new ArrayList<>();
+    private ArrayList<String> datosGrupos = new ArrayList<>();
+    private final CCargaCombos cc = new CCargaCombos();
+    private CBusquedas cb = new CBusquedas();
 
     public JfAsignaAlumno(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargaComboBoxCiclo(JcmbxCiclo);
+        cargaComboBoxGrupo(JcmbxGrupo);
+    }
+
+    public void cargaComboBoxCiclo(JComboBox combo) {
+        comboCiclos = (DefaultComboBoxModel) combo.getModel();
+        try {
+
+            datosCiclos = cc.cargaComboCiclo();
+            for (int i = 0; i < datosCiclos.size(); i++) {
+                comboCiclos.addElement(datosCiclos.get(i));
+            }
+
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudieron cargar los ciclos", "Cargando lista de opciones");
+        }
+    }
+
+    public void cargaComboBoxGrupo(JComboBox combo) {
+        comboGrupos = (DefaultComboBoxModel) combo.getModel();
+        try {
+
+            datosGrupos = cc.cargaComboGrupo();
+            for (int i = 0; i < datosGrupos.size(); i++) {
+                comboGrupos.addElement(datosGrupos.get(i));
+            }
+
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("No se pudieron cargar los grupos", "Cargando lista de opciones");
+        }
+    }
+
+    private String[] obtenValoresCombos(JComboBox jcmbxCiclo, JComboBox jcmbxGrupo) {
+        String ciclo = (String) JcmbxCiclo.getSelectedItem();
+        String grupo = (String) JcmbxGrupo.getSelectedItem();
+
+        // Verificar si los combobox están vacíos o sin seleccionar una opción válida
+        if (ciclo == null || ciclo.equals("Seleccione una opcion")) {
+            CUtilitarios.msg_advertencia("Por favor, seleccione un ciclo", "Advertencia");
+            return null;
+        }
+        if (grupo == null || grupo.equals("Seleccione una opcion")) {
+            CUtilitarios.msg_advertencia("Por favor, seleccione un grupo", "Advertencia");
+            return null;
+        }
+
+        return new String[]{ciclo, grupo};
+    }
+
+    private void buscaAlumno(String nombre) {
+        if (nombre.isEmpty()) {
+            CUtilitarios.msg_advertencia("Por favor, ingresa un nombre para buscar.", "Advertencia");
+            return;
+        }
+        try {
+            String datosAlumno = cb.buscaAlumnoPorNombre(nombre);
+            if (datosAlumno == null || datosAlumno.isEmpty()) { 
+                CUtilitarios.msg_advertencia("No se encontraron datos del alumno.", "Sin datos");
+            } else {
+                JlblDatosAlumno.setText(datosAlumno);
+            }
+        } catch (SQLException e) {
+            CUtilitarios.msg_error("Ocurrió un error al buscar el alumno: " + e.getMessage(), "Error de base de datos");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -60,6 +137,11 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         JbtnBuscar.setBackground(new java.awt.Color(153, 204, 255));
         JbtnBuscar.setFont(new java.awt.Font("Arial Narrow", 1, 14)); // NOI18N
         JbtnBuscar.setText("Buscar");
+        JbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JbtnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JpnlLienzoLayout = new javax.swing.GroupLayout(JpnlLienzo);
         JpnlLienzo.setLayout(JpnlLienzoLayout);
@@ -147,6 +229,11 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         JfMenuJefe mj = new JfMenuJefe(datosJefe);
         CUtilitarios.creaFrame(mj, datosJefe[2]);
     }//GEN-LAST:event_formWindowClosed
+
+    private void JbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtnBuscarActionPerformed
+        String nombre = JtxtNombre.getText().trim();
+        buscaAlumno(nombre);
+    }//GEN-LAST:event_JbtnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
