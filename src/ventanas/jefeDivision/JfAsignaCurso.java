@@ -1,14 +1,49 @@
 package ventanas.jefeDivision;
 
+import crud.CBusquedas;
+import crud.CCargaCombos;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import utilitarios.CUtilitarios;
 
 public class JfAsignaCurso extends javax.swing.JFrame {
 
     private static String[] datosJefe;
+    private final CBusquedas cb = new CBusquedas();
+    private ArrayList<String[]> datosGrupo = new ArrayList<>();
+    private final CCargaCombos queryCarga = new CCargaCombos();
+    private DefaultComboBoxModel listas;
+    private ArrayList<String> datosListas = new ArrayList<>();
 
     public JfAsignaCurso(String[] datos) {
         initComponents();
         datosJefe = datos;
+        cargaComboBox(JcmbxCiclo, 1);
+        cargaComboBox(JcmbxGrupo, 2);
+    }
+    public void cargaComboBox(JComboBox combo, int metodoCarga) {
+        listas = (DefaultComboBoxModel) combo.getModel();
+        try {
+            switch (metodoCarga) {
+                case 1:
+                    datosListas = queryCarga.cargaComboCiclo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+                case 2:
+                    datosListas = queryCarga.cargaComboGrupo();
+                    for (int i = 0; i < datosListas.size(); i++) {
+                        listas.addElement(datosListas.get(i));
+                    }
+                    datosListas.clear();
+                    break;
+            }
+        } catch (SQLException e) {
+        }
     }
 
     @SuppressWarnings("unchecked")

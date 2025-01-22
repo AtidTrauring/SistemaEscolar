@@ -249,10 +249,11 @@ public class JfAsignaAlumno extends javax.swing.JFrame {
         if (JtxtNombre.getText().isEmpty()) {
             CUtilitarios.msg_error("Ingrese un alumno por favor!", "Datos ");
         } else {
-            if (ci.insertaAlumnoGrupo(idEstudiante, idGrupo)){
-                CUtilitarios.msg("Se agrego el alumno al grupo", "Asignar alumno");
-                JtxtNombre.setText("");
-            }
+//            if (ci.insertaAlumnoGrupo(idEstudiante, idGrupo)){
+//                CUtilitarios.msg("Se agrego el alumno al grupo", "Asignar alumno");
+//                JtxtNombre.setText("");
+//            }
+// Insercion
         }
     }//GEN-LAST:event_JbtnAsignarActionPerformed
 
